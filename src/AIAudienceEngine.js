@@ -322,12 +322,13 @@ const AIAudienceEngine = () => {
         width: "100%",
         display: "flex",
         justifyContent: "center",
-        margin: "0 auto 10px auto"
+        margin: "0 auto 20px auto" // 增加底部邊距，讓按鈕不會太靠近
       }}>
         <div style={{
           padding: "10px 15px",
-          maxWidth: "800px",
-          textAlign: "center"
+          maxWidth: "1000px", // 增加最大寬度，讓文字有更多空間
+          textAlign: "center",
+          lineHeight: "1.6" // 增加行高，優化閱讀體驗
         }}>
           {description}
         </div>
