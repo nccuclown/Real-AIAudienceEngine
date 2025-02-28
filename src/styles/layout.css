@@ -8,6 +8,7 @@
   flex: 1;
   z-index: 20;
   overflow: visible;
+  max-height: calc(100% - 110px);
 }
 
 .animation-boundary {

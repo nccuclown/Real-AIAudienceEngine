@@ -303,7 +303,7 @@ const AIAudienceEngine = () => {
     return particles;
   };
 
-  // 避免使用 React.memo 來防止內部錯誤
+  // 將組件定義在父組件外部以避免每次重新渲染
   const TechLabel = ({ label }) => {
     if (!label) return null;
     return (
@@ -316,7 +316,7 @@ const AIAudienceEngine = () => {
   const StageDescription = ({ description }) => {
     if (!description) return null;
     return (
-      <div className="stage-description-bottom fade-in">{description}</div>
+      <div className="stage-description-bottom">{description}</div>
     );
   };
 

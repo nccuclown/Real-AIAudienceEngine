@@ -8,7 +8,6 @@
   align-items: center;
   overflow: visible;
   transform-origin: center;
-  border: 1px solid red; /* 調試用，測試後移除 */
 }
 
 .sphere-glow {
