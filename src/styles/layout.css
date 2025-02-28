@@ -1,22 +1,48 @@
 /* layout.css */
+/* Three-section layout */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.top-section {
+  padding: 15px;
+  z-index: 30;
+}
+
+.middle-section {
+  flex: 1;
+  position: relative;
+  overflow: visible;
+  min-height: 60vh;
+  z-index: 20;
+}
+
+.bottom-section {
+  padding: 15px;
+  z-index: 30;
+  border-top: 1px solid rgba(255, 187, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
 .visualization-container {
   position: relative;
   display: grid;
   grid-template-columns: 30% 40% 30%;
   grid-template-rows: 100%;
   height: 100%;
-  flex: 1;
+  width: 100%;
   z-index: 20;
   overflow: visible;
-  max-height: calc(100% - 110px);
 }
 
 .animation-boundary {
   position: relative;
   overflow: visible;
-  height: calc(100% - 110px);
+  height: 100%;
   min-height: 300px;
-  margin-bottom: 10px;
 }
 
 .left-zone,

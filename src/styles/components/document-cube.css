@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Three-Section Layout</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.top-section {
+  background-color: #f0f0f0;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.middle-section {
+  flex: 1; /* Takes up available space */
+  padding: 20px;
+  overflow-y: auto; /* Add scrollbar if content exceeds height */
+  background-color: white;
+}
+
+.bottom-section {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Progress Bar Styling (example) */
+.progress-bar {
+  width: 300px;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #4CAF50;
+  width: 50%; /* Adjust as needed */
+}
+
+
+</style>
+</head>
+<body>
+  <div class="top-section">
+    <h1>Visualization Title</h1>
+    <div class="progress-bar">
+      <div class="progress-bar-fill"></div>
+    </div>
+  </div>
+
+  <div class="middle-section">
+    <!-- Place your visualization content here -->
+    <p>This is where the main visualization content will go.  Add your charts, graphs, or other visual elements here.</p>
+  </div>
+
+  <div class="bottom-section">
+    <p>A brief description of the visualization.</p>
+    <button>Replay</button>
+  </div>
+</body>
+</html>

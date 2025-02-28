@@ -331,42 +331,53 @@ const AIAudienceEngine = () => {
           <path d="M0,200 C100,150 200,220 300,150 S450,180 500,170" stroke={config.colors.blue} strokeWidth="1" fill="none" className="wave" style={{ animationDelay: "1s" }} />
         </svg>
       </div>
-      <div className="engine-content">
-        <div className="header-container">
-          <h1 className="main-title">AI Audience 智能受眾引擎</h1>
-          <div className="progress-container">
-            <div className="progress-bar-container">
-              <div className="progress-bar" style={{ width: `${progress}%` }} />
+      <div className="app-layout">
+        {/* 上部分：標題與進度條 */}
+        <div className="top-section">
+          <div className="header-container">
+            <h1 className="main-title">AI Audience 智能受眾引擎</h1>
+            <div className="progress-container">
+              <div className="progress-bar-container">
+                <div className="progress-bar" style={{ width: `${progress}%` }} />
+              </div>
+              <div className="stage-indicator">{config.stages[stage]}</div>
             </div>
-            <div className="stage-indicator">{config.stages[stage]}</div>
           </div>
         </div>
-        <div className="visualization-container animation-boundary">
-          <div className="left-zone">
-            <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
-          </div>
-          <div className="center-zone">
-            <div className="sphere-layer" style={{ position: "absolute", inset: 0, zIndex: showSphere ? 50 : 10, height: "100%" }}>
-              <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
+
+        {/* 中間部分：視覺展演內容 */}
+        <div className="middle-section">
+          <div className="visualization-container animation-boundary">
+            <div className="left-zone">
+              <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
             </div>
-            <div className="cube-layer" style={{ position: "absolute", inset: 0, zIndex: showCube ? 25 : 10, height: "100%" }}>
-              <DocumentCube showCube={showCube} documentParticles={documentParticles} progress={progress} cubeRotation={cubeRotation} />
+            <div className="center-zone">
+              <div className="sphere-layer" style={{ position: "absolute", inset: 0, zIndex: showSphere ? 50 : 10, height: "100%" }}>
+                <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
+              </div>
+              <div className="cube-layer" style={{ position: "absolute", inset: 0, zIndex: showCube ? 25 : 10, height: "100%" }}>
+                <DocumentCube showCube={showCube} documentParticles={documentParticles} progress={progress} cubeRotation={cubeRotation} />
+              </div>
             </div>
+            <div className="right-zone">
+              <ProductMatching showMatching={showMatching} progress={progress} />
+            </div>
+            <AnalysisReport showReport={showReport} progress={progress} />
+            <TechLabel label={techLabel} />
           </div>
-          <div className="right-zone">
-            <ProductMatching showMatching={showMatching} progress={progress} />
-          </div>
-          <AnalysisReport showReport={showReport} progress={progress} />
-          <TechLabel label={techLabel} />
         </div>
-        <StageDescription description={stageDescription} />
-        <div className="controls-container">
-          <button onClick={togglePause} className={`control-button ${isPaused ? "pause-button" : "play-button"}`}>
-            {isPaused ? "繼續" : "暫停"}
-          </button>
-          <button onClick={handleReset} className="control-button reset-button">
-            重新播放
-          </button>
+
+        {/* 下部分：說明文字與控制按鈕 */}
+        <div className="bottom-section">
+          <StageDescription description={stageDescription} />
+          <div className="controls-container">
+            <button onClick={togglePause} className={`control-button ${isPaused ? "pause-button" : "play-button"}`}>
+              {isPaused ? "繼續" : "暫停"}
+            </button>
+            <button onClick={handleReset} className="control-button reset-button">
+              重新播放
+            </button>
+          </div>
         </div>
       </div>
     </div>
