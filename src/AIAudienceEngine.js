@@ -304,18 +304,22 @@ const AIAudienceEngine = () => {
     return particles;
   };
 
-  const renderTechLabel = () => {
+  // Changed to normal functions instead of arrow functions
+  function renderTechLabel() {
     if (!techLabel) return null;
     return (
       <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
         {techLabel}
       </div>
     );
-  };
+  }
 
-  const renderStageDescription = () => (!stageDescription ? null : (
-    <div className="stage-description-bottom fade-in">{stageDescription}</div>
-  ));
+  function renderStageDescription() {
+    if (!stageDescription) return null;
+    return (
+      <div className="stage-description-bottom fade-in">{stageDescription}</div>
+    );
+  }
 
   return (
     <div className="engine-container">
