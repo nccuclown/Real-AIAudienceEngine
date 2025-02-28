@@ -1,0 +1,351 @@
+/* animations.css - 所有動畫效果 */
+
+/* ---------- 特效動畫樣式 ---------- */
+.floating-panel {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* 脈動點動畫 */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* 脈動卡片動畫 */
+.pulse-card {
+  animation: pulse-card 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-card {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(255, 184, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 184, 0, 0.7);
+  }
+}
+
+/* 脈動線條動畫 */
+.pulse-line {
+  animation: pulse-line 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-line {
+  0%,
+  100% {
+    opacity: 0.5;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 1;
+    stroke-dashoffset: 8;
+  }
+}
+
+/* 旋轉動畫 */
+.spin {
+  animation: spin linear infinite;
+}
+
+.spin-reverse {
+  animation: spin-reverse linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg) scale(1.2);
+  }
+  to {
+    transform: rotate(0deg) scale(1.2);
+  }
+}
+
+/* 淡入動畫 */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 淡出動畫 */
+.fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* 滑入動畫 */
+.slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 數據收集動畫 */
+.data-collection-line {
+  animation: dataLineFlow 1.5s ease-in-out infinite;
+}
+
+@keyframes dataLineFlow {
+  0% {
+    opacity: 0.2;
+    transform: translateY(-50%) scaleX(0.8);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 184, 0, 0.2) 0%,
+      rgba(255, 184, 0, 0) 100%
+    );
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-50%) scaleX(1);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 184, 0, 0.7) 0%,
+      rgba(255, 184, 0, 0) 100%
+    );
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateY(-50%) scaleX(0.8);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 184, 0, 0.2) 0%,
+      rgba(255, 184, 0, 0) 100%
+    );
+  }
+}
+
+/* 色彩流動動畫 */
+.color-flow {
+  animation: colorFlow 4s ease-in-out infinite;
+}
+
+@keyframes colorFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 流線動畫 */
+.flow-line {
+  animation: flowLine 2s ease-in-out infinite;
+}
+
+@keyframes flowLine {
+  0% {
+    stroke-dashoffset: 20;
+    opacity: 0.8;
+  }
+  100% {
+    stroke-dashoffset: -20;
+    opacity: 0.1;
+  }
+}
+
+/* 發光效果動畫 */
+.glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 184, 0, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(255, 184, 0, 0.8));
+  }
+}
+
+/* 波浪動畫 */
+.wave {
+  animation: wave 8s linear infinite;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(5px) translateY(-5px);
+  }
+  50% {
+    transform: translateX(0) translateY(-10px);
+  }
+  75% {
+    transform: translateX(-5px) translateY(-5px);
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* 數字跳動動畫 */
+.number-tick {
+  animation: numberTick 0.5s ease-out;
+}
+
+@keyframes numberTick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 波紋動畫 */
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* 文件飛行動畫 */
+@keyframes fly {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+/* 報告飛出動畫 */
+@keyframes flyOutPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes flowPath {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 14;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-document {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}

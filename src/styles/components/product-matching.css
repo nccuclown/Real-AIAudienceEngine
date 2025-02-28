@@ -1,0 +1,132 @@
+/* product-matching.css - 產品匹配相關樣式 */
+
+/* 產品匹配相關樣式 */
+.product-card {
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  width: 220px;
+  background-color: rgba(10, 10, 16, 0.9);
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.5);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  z-index: 200;
+}
+
+.product-title {
+  margin: 0 0 10px 0;
+  color: #ffbb00;
+  font-size: 1.1rem;
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.5);
+}
+
+.product-name {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.feature-section,
+.audience-section {
+  margin-bottom: 12px;
+}
+
+.section-label {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 5px;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.feature-tag {
+  background-color: rgba(255, 184, 0, 0.15);
+  color: #ffbb00;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+}
+
+.audience-tag {
+  background-color: rgba(38, 198, 218, 0.15);
+  color: #26c6da;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(38, 198, 218, 0.3);
+}
+
+.match-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border: 1px solid rgba(255, 184, 0, 0.5);
+  border-radius: 50%;
+  opacity: 0.5;
+  z-index: 60;
+  animation: ripple 2s infinite;
+}
+
+.match-result {
+  position: absolute;
+  top: 65%;
+  left: 35%;
+  padding: 12px 18px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
+  color: white;
+  z-index: 200;
+  max-width: 280px;
+}
+
+.match-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffbb00;
+  margin-bottom: 8px;
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.5);
+}
+
+.match-size {
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin-bottom: 5px;
+}
+
+.match-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.trait-tag {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #d1d5db;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.match-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 70;
+  pointer-events: none;
+}

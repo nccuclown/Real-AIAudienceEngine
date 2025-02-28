@@ -1,0 +1,300 @@
+/* document-cube.css - 文檔立方體樣式 */
+
+/* 立方體容器樣式 */
+.cube-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+}
+
+/* 立方體相關樣式 */
+.cube-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: 25%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 184, 0, 0.5) 0%,
+    rgba(255, 184, 0, 0) 70%
+  );
+  border-radius: 50%;
+  opacity: 0.8;
+  filter: blur(10px);
+  z-index: 90;
+}
+
+.database-label {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(10, 10, 16, 0.85);
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
+  z-index: 200;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffbb00;
+  text-shadow: 0 0 15px rgba(255, 184, 0, 0.7);
+}
+
+/* 文檔粒子特殊樣式 */
+.document-particle {
+  position: absolute;
+  border-radius: 2px;
+  transition: all 100ms;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* 選中的文檔效果 */
+.selected-document {
+  animation: pulse-document 1.5s ease-in-out infinite;
+}
+
+/* 文檔預覽樣式 */
+.document-preview {
+  position: absolute;
+  width: 180px;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 6px;
+  border: 1px solid;
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
+  pointer-events: none;
+  animation: fadeIn 0.3s forwards, float 3s ease-in-out infinite;
+  transform: translateX(-50%);
+  z-index: 200;
+}
+
+.document-preview-title {
+  padding: 5px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+}
+
+.document-preview-content {
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  color: white;
+  text-align: center;
+}
+
+/* 飛行中文檔的內容標籤 */
+.flying-content-label {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 101;
+  border: 1px solid;
+  opacity: 0.9;
+  animation: fadeInOut 1.5s ease-in-out infinite;
+}
+
+/* RAG連接線效果 */
+.rag-connections-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 95;
+  pointer-events: none;
+}
+
+.rag-connection {
+  filter: url(#ragGlow);
+  animation: flowPath 2s ease-in-out infinite;
+}
+
+/* RAG內容抽取效果 */
+.rag-extraction {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  z-index: 120;
+  width: 220px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.3);
+}
+
+.rag-extraction-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  animation: slideInRight 0.5s forwards;
+}
+
+.rag-extraction-icon {
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 184, 0, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  color: #ffbb00;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.rag-extraction-text {
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+/* 知識庫視覺化效果 */
+.knowledge-base {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  z-index: 90;
+}
+
+.knowledge-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.outer-ring {
+  width: 100%;
+  height: 100%;
+  border-color: rgba(255, 184, 0, 0.3);
+  animation: rotate 20s linear infinite;
+}
+
+.middle-ring {
+  width: 75%;
+  height: 75%;
+  border-color: rgba(255, 184, 0, 0.5);
+  animation: rotate 15s linear infinite reverse;
+}
+
+.inner-ring {
+  width: 50%;
+  height: 50%;
+  border-color: rgba(255, 184, 0, 0.7);
+  animation: rotate 10s linear infinite;
+}
+
+.knowledge-core {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  background-color: rgba(255, 184, 0, 0.8);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.5);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.knowledge-core span {
+  font-size: 0.6rem;
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* RAG技術標籤 */
+.rag-tech-badge {
+  position: absolute;
+  top: 15%;
+  right: 10%;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  border-radius: 30px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  z-index: 150;
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.3);
+}
+
+.rag-tech-pulse {
+  width: 10px;
+  height: 10px;
+  background-color: #ffbb00;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.rag-tech-badge span {
+  font-size: 0.8rem;
+  color: #ffbb00;
+  font-weight: 500;
+}
+
+/* RAG處理步驟說明 */
+.rag-steps {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 150;
+}
+
+.rag-step {
+  display: flex;
+  align-items: center;
+  opacity: 0.5;
+  transition: opacity 0.5s;
+}
+
+.rag-step.active {
+  opacity: 1;
+}
+
+.rag-step-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(255, 184, 0, 0.2);
+  color: #ffbb00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 8px;
+  border: 1px solid rgba(255, 184, 0, 0.4);
+}
+
+.rag-step-text {
+  font-size: 0.8rem;
+  color: #ffbb00;
+}

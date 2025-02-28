@@ -1,0 +1,202 @@
+/* analysis-report.css - 分析報告相關樣式 */
+
+/* 報告相關樣式 */
+.report-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: rgba(10, 10, 16, 0.95);
+  border-radius: 12px;
+  padding: 18px;
+  color: white;
+  box-shadow: 0 0 25px rgba(255, 184, 0, 0.6);
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  z-index: 300;
+  transition: all 500ms;
+}
+
+.report-title {
+  margin: 0 0 12px 0;
+  color: #ffbb00;
+  font-size: 1.3rem;
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.5);
+  text-align: center;
+}
+
+.report-subtitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: white;
+  text-align: center;
+}
+
+.report-content {
+  transition: opacity 0.5s;
+}
+
+.report-section {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffbb00;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 184, 0, 0.3);
+  padding-bottom: 5px;
+}
+
+.gender-chart,
+.age-chart {
+  margin-bottom: 15px;
+}
+
+.chart-label {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+
+.gender-bar {
+  display: flex;
+  height: 18px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.male-bar,
+.female-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: white;
+  font-weight: bold;
+  transition: width 1s;
+}
+
+.male-bar {
+  background-color: #26c6da;
+}
+
+.female-bar {
+  background-color: #ff5500;
+}
+
+.gender-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-top: 5px;
+}
+
+.age-bars {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  height: 80px;
+  align-items: flex-end;
+}
+
+.age-bar-container {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.age-bar {
+  background-color: #ffbb00;
+  border-radius: 3px 3px 0 0;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 20px;
+  transition: height 1s;
+}
+
+.age-label {
+  font-size: 0.8rem;
+  color: #d1d5db;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.behavior-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding: 5px;
+}
+
+.behavior-item {
+  margin-bottom: 8px;
+}
+
+.behavior-label {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.behavior-value {
+  font-size: 1.1rem;
+  color: white;
+  font-weight: bold;
+}
+
+.interest-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.interest-tag {
+  background-color: rgba(255, 184, 0, 0.15);
+  color: #ffbb00;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+}
+
+.analysis-box {
+  padding: 12px;
+  background-color: rgba(255, 184, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #d1d5db;
+  border: 1px solid rgba(255, 184, 0, 0.2);
+}
+
+.analysis-title {
+  color: #ffbb00;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.analysis-content {
+  font-size: 0.9rem;
+}
+
+.report-glow {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 40px;
+  height: 40px;
+  background-color: #ffbb00;
+  border-radius: 50%;
+  animation: flyOutPulse 1.5s infinite;
+  z-index: 301;
+}

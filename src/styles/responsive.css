@@ -1,0 +1,159 @@
+/* responsive.css - 響應式設計樣式 */
+
+/* ---------- 響應式設計 ---------- */
+@media (max-width: 1000px) {
+  .app-container {
+    padding: 10px;
+  }
+
+  .visualization-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .left-zone,
+  .center-zone,
+  .right-zone {
+    height: 33vh;
+  }
+
+  .stage-description-bottom {
+    max-width: 90%;
+    font-size: 0.9rem;
+    bottom: 70px;
+  }
+
+  .tech-label {
+    font-size: 0.8rem;
+  }
+
+  .main-title {
+    font-size: 1.8rem;
+  }
+
+  .controls-container {
+    bottom: 12px;
+  }
+
+  .control-button {
+    padding: 8px 20px;
+    font-size: 0.8rem;
+  }
+
+  .product-card {
+    top: 5%;
+    right: 5%;
+    width: 200px;
+    font-size: 0.9rem;
+  }
+
+  .report-container {
+    width: 280px !important;
+    padding: 12px;
+  }
+
+  .report-title {
+    font-size: 1.1rem;
+  }
+
+  .behavior-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gender-chart,
+  .age-chart {
+    margin-bottom: 10px;
+  }
+
+  .age-bars {
+    height: 60px;
+  }
+
+  .interest-tags {
+    gap: 5px;
+  }
+
+  .interest-tag {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+
+  .analysis-box {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+
+  .rag-extraction {
+    width: 180px;
+  }
+
+  .rag-steps {
+    flex-direction: column;
+    bottom: 5%;
+    left: 5%;
+    transform: none;
+    gap: 8px;
+  }
+
+  .rag-step-text {
+    font-size: 0.7rem;
+  }
+
+  .rag-step-number {
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+  }
+
+  .knowledge-base {
+    width: 80px;
+    height: 80px;
+  }
+
+  .database-counter {
+    padding: 10px 15px;
+  }
+
+  .counter-value {
+    font-size: 2rem;
+  }
+
+  .counter-label {
+    font-size: 1rem;
+  }
+
+  .database-label {
+    font-size: 1.2rem;
+    padding: 8px 12px;
+  }
+
+  .client-data-box {
+    width: 90%;
+  }
+
+  .tnl-tag {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+
+  .match-result {
+    top: 60%;
+    left: 30%;
+    max-width: 220px;
+    padding: 10px 15px;
+  }
+
+  .match-title {
+    font-size: 1rem;
+  }
+
+  .particle-label {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+
+  .flying-content-label {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+}

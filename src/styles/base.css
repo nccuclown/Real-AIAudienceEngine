@@ -1,0 +1,151 @@
+/* base.css - 基礎樣式，包含容器、背景等 */
+
+.app-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* ---------- 主容器樣式 ---------- */
+.engine-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #0a0a10;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.engine-background {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 50%,
+    #1a1a2080 0%,
+    #0a0a1080 70%,
+    #05050880 100%
+  );
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.engine-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  z-index: 10;
+}
+
+/* 背景粒子 */
+.background-particle {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 流線區域 */
+.flow-lines {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 90%;
+  height: 80%;
+  opacity: 0.15;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* 技術標籤和階段描述 */
+.tech-label {
+  position: absolute;
+  bottom: 30%;
+  right: 3%;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 6px;
+  color: #ffbb00;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.5);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.3);
+  z-index: 400;
+}
+
+/* 原始階段描述樣式（不再使用） */
+.stage-description {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 70%;
+  padding: 12px 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 400;
+}
+
+/* 新的底部階段描述樣式 */
+.stage-description-bottom {
+  position: absolute;
+  bottom: 80px; /* 放在控制按鈕上方 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  padding: 12px 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.3);
+  z-index: 390;
+}
+
+/* 粒子相關樣式 */
+.particle-wrapper {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.particle,
+.document-particle,
+.data-particle {
+  position: absolute;
+  border-radius: 50%;
+  transition: all 100ms;
+  pointer-events: none;
+}
+
+.document-particle {
+  border-radius: 2px;
+}
+
+.particle-label {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: inherit;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 101;
+  border: 1px solid currentColor;
+}

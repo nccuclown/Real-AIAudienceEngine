@@ -1,0 +1,50 @@
+/* controls.css - 控制按鈕相關樣式 */
+
+/* ---------- 底部控制區域樣式 ---------- */
+.controls-container {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  z-index: 500;
+}
+
+.control-button {
+  padding: 10px 25px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.play-button {
+  background: linear-gradient(135deg, #ffbb00, #ff8a00);
+}
+
+.pause-button {
+  background: linear-gradient(135deg, #26c6da, #00bcd4);
+  box-shadow: 0 0 15px rgba(38, 198, 218, 0.5);
+}
+
+.reset-button {
+  background: linear-gradient(135deg, #ff5500, #ff8a00);
+  box-shadow: 0 0 15px rgba(255, 85, 0, 0.5);
+}
+
+.control-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.7);
+}
+
+.control-button:active {
+  transform: translateY(1px);
+}

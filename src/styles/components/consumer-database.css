@@ -1,0 +1,28 @@
+/* consumer-database.css - 消費者資料庫球體樣式 */
+
+/* 數據庫計數器 */
+.database-counter {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  z-index: 200;
+}
+
+.counter-value {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffbb00;
+  text-shadow: 0 0 15px rgba(255, 184, 0, 0.7);
+  margin-bottom: 8px;
+}
+
+.counter-label {
+  font-size: 1.2rem;
+  color: white;
+}

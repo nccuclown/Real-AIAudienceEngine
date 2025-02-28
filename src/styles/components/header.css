@@ -1,0 +1,55 @@
+/* header.css - 頭部區域樣式 */
+
+/* ---------- 頭部區域樣式 ---------- */
+.header-container {
+  text-align: center;
+  margin-bottom: 25px;
+  z-index: 20;
+}
+
+.main-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: white;
+  margin: 0 0 15px 0;
+  text-shadow: 0 0 15px rgba(255, 184, 0, 0.7);
+}
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.progress-bar-container {
+  width: 66.666667%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, #ffbb00, #ff5500);
+  border-radius: 9999px;
+  transition: width 300ms;
+  background-size: 200% 200%;
+  animation: colorFlow 2s ease infinite;
+}
+
+.stage-indicator {
+  margin-left: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffbb00;
+  min-width: 180px;
+  text-align: left;
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.5);
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 184, 0, 0.2);
+}

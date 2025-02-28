@@ -1,0 +1,31 @@
+/* layout.css - 佈局相關，包含網格、定位等 */
+
+/* ---------- 視覺化區域樣式 ---------- */
+.visualization-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  grid-template-rows: 100%;
+  height: 100%;
+  flex: 1;
+  z-index: 20;
+}
+
+.left-zone,
+.center-zone,
+.right-zone {
+  position: relative;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.sphere-container,
+.cube-container,
+.data-fusion-container,
+.matching-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+}

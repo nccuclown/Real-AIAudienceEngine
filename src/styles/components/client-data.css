@@ -1,0 +1,61 @@
+/* client-data.css - 客戶數據融合相關樣式 */
+
+/* 數據融合相關樣式 */
+.client-data-box {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 80%;
+  height: 40%;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.2);
+  z-index: 80;
+}
+
+.data-box-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 184, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.6);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.data-box-title {
+  color: #ffbb00;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.5);
+}
+
+.tnl-tag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 15px;
+  background-color: rgba(255, 184, 0, 0.2);
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  border-radius: 8px;
+  color: #ffbb00;
+  font-weight: bold;
+  font-size: 1.3rem;
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.5);
+  z-index: 90;
+}
+
+.fusion-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 70;
+  pointer-events: none;
+}
