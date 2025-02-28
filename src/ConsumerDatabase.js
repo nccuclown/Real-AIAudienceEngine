@@ -29,46 +29,36 @@ export const ConsumerDatabase = ({
   const [displayCount, setDisplayCount] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [internalProgress, setInternalProgress] = useState(0);
-  const [traitsOpacity, setTraitsOpacity] = useState(0);
   const [traits] = useState([
-    // 廣告點擊行為標籤 - 完全移到周圍四個角落
-    { name: "搜尋廣告點擊", color: "#ffbb00", value: "22%", category: "ad", position: { top: "8%", left: "20%" } },
-    { name: "影片廣告完整觀看", color: "#ffbb00", value: "36%", category: "ad", position: { top: "10%", left: "80%" } },
-    { name: "社群廣告互動", color: "#ffbb00", value: "41%", category: "ad", position: { top: "8%", left: "35%" } },
+    // 廣告點擊行為標籤
+    { name: "搜尋廣告點擊", color: "#ffbb00", value: "22%", category: "ad" },
+    { name: "影片廣告完整觀看", color: "#ffbb00", value: "36%", category: "ad" },
+    { name: "社群廣告互動", color: "#ffbb00", value: "41%", category: "ad" },
+    { name: "購物車廣告", color: "#ffbb00", value: "18%", category: "ad" },
+    { name: "周末促銷活動", color: "#ffbb00", value: "25%", category: "ad" },
 
-    // 閱覽興趣標籤 - 完全避開計數器中心
-    { name: "科技新聞閱讀", color: "#ff8a00", value: "57%", category: "interest", position: { top: "15%", left: "90%" } },
-    { name: "旅遊資訊搜尋", color: "#ff8a00", value: "46%", category: "interest", position: { top: "80%", left: "25%" } },
-    { name: "美食探索內容", color: "#ff8a00", value: "38%", category: "interest", position: { top: "85%", left: "75%" } },
-    { name: "理財相關文章", color: "#ff8a00", value: "33%", category: "interest", position: { top: "20%", left: "10%" } },
+    // 閱覽興趣標籤
+    { name: "科技新聞閱讀", color: "#ff8a00", value: "57%", category: "interest" },
+    { name: "旅遊資訊搜尋", color: "#ff8a00", value: "46%", category: "interest" },
+    { name: "美食探索內容", color: "#ff8a00", value: "38%", category: "interest" },
+    { name: "理財相關文章", color: "#ff8a00", value: "33%", category: "interest" },
+    { name: "運動賽事關注", color: "#ff8a00", value: "29%", category: "interest" },
+    { name: "時尚流行趨勢", color: "#ff8a00", value: "42%", category: "interest" },
 
-    // 零售消費行為標籤 - 完全避開計數器
-    { name: "線上購物頻率", color: "#26c6da", value: "52%", category: "retail", position: { top: "92%", left: "45%" } },
-    { name: "高單價商品購買", color: "#26c6da", value: "29%", category: "retail", position: { top: "25%", left: "3%" } },
-    { name: "季節性消費模式", color: "#26c6da", value: "44%", category: "retail", position: { top: "90%", left: "10%" } },
+    // 零售消費行為標籤
+    { name: "線上購物頻率", color: "#26c6da", value: "52%", category: "retail" },
+    { name: "高單價商品購買", color: "#26c6da", value: "29%", category: "retail" },
+    { name: "季節性消費模式", color: "#26c6da", value: "44%", category: "retail" },
+    { name: "促銷活動響應", color: "#26c6da", value: "37%", category: "retail" },
+    { name: "品牌忠誠度", color: "#26c6da", value: "33%", category: "retail" },
 
-    // 用戶特性標籤 - 分散到四周更遠的角落
-    { name: "行動裝置使用者", color: "#ff5500", value: "68%", category: "user", position: { top: "3%", left: "8%" } },
-    { name: "高消費力族群", color: "#ff5500", value: "46%", category: "user", position: { top: "85%", left: "92%" } },
-    { name: "科技產品愛好者", color: "#ff5500", value: "57%", category: "user", position: { top: "75%", left: "3%" } },
-    { name: "社群媒體活躍用戶", color: "#ff5500", value: "72%", category: "user", position: { top: "3%", left: "85%" } },
-    { name: "旅遊相關興趣", color: "#00bcd4", value: "41%", category: "user", position: { top: "95%", left: "95%" } }
+    // 用戶特性標籤
+    { name: "行動裝置使用者", color: "#ff5500", value: "68%", category: "user" },
+    { name: "高消費力族群", color: "#ff5500", value: "46%", category: "user" },
+    { name: "科技產品愛好者", color: "#ff5500", value: "57%", category: "user" },
+    { name: "社群媒體活躍用戶", color: "#ff5500", value: "72%", category: "user" },
+    { name: "旅遊相關興趣", color: "#00bcd4", value: "41%", category: "user" }
   ]);
-
-  // 根據計數進度更新標籤透明度
-  useEffect(() => {
-    if (showSphere && internalProgress > 30) {
-      const fadeInTimer = setInterval(() => {
-        setTraitsOpacity(prev => {
-          const target = internalProgress > 60 ? 1 : (internalProgress - 30) / 30;
-          return Math.min(prev + 0.05, target);
-        });
-      }, 100);
-      return () => clearInterval(fadeInTimer);
-    } else {
-      setTraitsOpacity(0);
-    }
-  }, [showSphere, internalProgress]);
 
   useEffect(() => {
     if (!showSphere) {
@@ -122,21 +112,40 @@ export const ConsumerDatabase = ({
   const showCategoryC = internalProgress > 60;
   const fadeOut = internalProgress > 85;
 
-  return (
-    <div className="sphere-container">
-      {/* 移除了所有球體粒子的渲染 */}
+  // 根據類別過濾標籤
+  const getVisibleTraits = (category) => {
+    if ((category === 'ad' && !showCategoryA) || 
+        (category === 'interest' && !showCategoryB) || 
+        (category === 'retail' && !showCategoryC)) {
+      return [];
+    }
+    return traits.filter(t => t.category === category);
+  };
 
+  // 獲取所有可見標籤
+  const visibleAdTraits = getVisibleTraits('ad');
+  const visibleInterestTraits = getVisibleTraits('interest');
+  const visibleRetailTraits = getVisibleTraits('retail');
+  const visibleUserTraits = getVisibleTraits('user'); // 用戶特性標籤與零售消費同時顯示
+
+  return (
+    <div className="sphere-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* 左側計數器 */}
       <div
         className="database-counter fade-in"
         style={{
           zIndex: 200,
-          top: "50%", // 調整到中央
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          position: 'relative',
+          left: '5%',
           animation: fadeOut ? "fadeOut 1s forwards" : "none",
           padding: "15px 25px",
           backdropFilter: "blur(5px)",
           boxShadow: "0 0 20px rgba(255, 187, 0, 0.5)",
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
+          borderRadius: "8px",
+          border: "1px solid rgba(255, 187, 0, 0.3)",
+          width: "35%",
+          maxWidth: "300px"
         }}
       >
         <div className="counter-value">{formatNumber(displayCount)}</div>
@@ -163,61 +172,147 @@ export const ConsumerDatabase = ({
         </div>
       </div>
 
-      {/* 特性標籤動畫 - 現在直接整合到startSphere階段 */}
-      {showSphere && (
-        <div className="traits-container" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none" }}>
-          {traits.map((trait, index) => {
-            // 定義計數器中心區域，確保標籤不會重疊
-            const counterCenter = { x: 50, y: 50 }; // 計數器在中央
-            const counterExclusionRadius = 35; // 增加排除區域半徑（百分比）來確保不會重疊到計數器
-
-            // 解析位置為數字
-            const top = parseFloat(trait.position.top);
-            const left = parseFloat(trait.position.left);
-
-            // 計算到中心的距離
-            const distanceToCenter = Math.sqrt(
-              Math.pow(left - counterCenter.x, 2) + 
-              Math.pow(top - counterCenter.y, 2)
-            );
-
-            // 如果標籤太靠近中央區域（在排除區域內），強制移動到邊緣
-            if (distanceToCenter < counterExclusionRadius) {
-              return null; // 直接跳過會與中央重疊的標籤
-            }
-
-            return (
-              <div
-                key={`trait-${index}`}
-                className="trait-tag-animated"
-                style={{
-                  position: "absolute",
-                  top: trait.position.top,
-                  left: trait.position.left,
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
-                  color: trait.color,
-                  borderRadius: "4px",
-                  padding: "5px 10px",
-                  fontSize: "0.85rem",
-                  border: `1px solid ${trait.color}`,
-                  opacity: Math.min(traitsOpacity * (1 + (index % 3) * 0.1), 1), // 不同標籤有不同的淡入時間
-                  transition: "opacity 0.8s, transform 0.5s",
-                  transform: `scale(${0.8 + traitsOpacity * 0.2}) translateY(${(1 - traitsOpacity) * 15}px)`,
-                  boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
-                  zIndex: 100, // 降低z-index，確保不會蓋住計數器
-                  animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
-                  animationDelay: `${index * 0.1}s`,
-                  // 添加連接線
-                  '--line-color': trait.color
-                }}
-              >
-                <span style={{ fontWeight: "bold" }}>{trait.name}</span>
-                <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
-              </div>
-            );
-          })}
+      {/* 右側標籤容器 */}
+      <div 
+        className="traits-block-container"
+        style={{
+          position: 'relative',
+          right: '5%',
+          width: '50%',
+          maxWidth: '450px',
+          height: '400px',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          borderRadius: '8px',
+          border: '1px solid rgba(255, 187, 0, 0.3)',
+          padding: '15px',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          boxShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+          transition: 'all 0.5s ease',
+          opacity: showCategoryA || showCategoryB || showCategoryC ? 1 : 0,
+          transform: `scale(${showCategoryA || showCategoryB || showCategoryC ? 1 : 0.9})`,
+          zIndex: 100
+        }}
+      >
+        <div className="traits-header" style={{ marginBottom: '10px', textAlign: 'center' }}>
+          <h3 style={{ margin: 0, color: '#ffbb00', fontSize: '1.2rem' }}>消費者特性標籤</h3>
+          <div style={{ fontSize: '0.8rem', color: '#ffffff', marginTop: '5px' }}>
+            即時收集的用戶行為與偏好數據
+          </div>
         </div>
-      )}
+        
+        <div className="traits-content" style={{ 
+          flex: 1, 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          gap: '10px',
+          overflow: 'hidden',
+          alignContent: 'flex-start',
+          justifyContent: 'center'
+        }}>
+          {/* 廣告點擊行為標籤 */}
+          {visibleAdTraits.map((trait, index) => (
+            <div
+              key={`ad-trait-${index}`}
+              className="trait-tag-animated"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                color: trait.color,
+                borderRadius: "4px",
+                padding: "5px 10px",
+                fontSize: "0.85rem",
+                border: `1px solid ${trait.color}`,
+                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
+                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                animationDelay: `${index * 0.1}s`,
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
+              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
+            </div>
+          ))}
+          
+          {/* 閱覽興趣標籤 */}
+          {visibleInterestTraits.map((trait, index) => (
+            <div
+              key={`interest-trait-${index}`}
+              className="trait-tag-animated"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                color: trait.color,
+                borderRadius: "4px",
+                padding: "5px 10px",
+                fontSize: "0.85rem",
+                border: `1px solid ${trait.color}`,
+                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
+                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                animationDelay: `${index * 0.1}s`,
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
+              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
+            </div>
+          ))}
+          
+          {/* 零售消費行為標籤 */}
+          {visibleRetailTraits.map((trait, index) => (
+            <div
+              key={`retail-trait-${index}`}
+              className="trait-tag-animated"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                color: trait.color,
+                borderRadius: "4px",
+                padding: "5px 10px",
+                fontSize: "0.85rem",
+                border: `1px solid ${trait.color}`,
+                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
+                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                animationDelay: `${index * 0.1}s`,
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
+              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
+            </div>
+          ))}
+          
+          {/* 用戶特性標籤 - 與零售消費同步出現 */}
+          {visibleUserTraits.map((trait, index) => (
+            <div
+              key={`user-trait-${index}`}
+              className="trait-tag-animated"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                color: trait.color,
+                borderRadius: "4px",
+                padding: "5px 10px",
+                fontSize: "0.85rem",
+                border: `1px solid ${trait.color}`,
+                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
+                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                animationDelay: `${index * 0.1}s`,
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
+              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
+            </div>
+          ))}
+        </div>
+        
+        {/* 視覺連接線 */}
+        <div className="connection-line" style={{
+          position: 'absolute',
+          left: '-50px',
+          top: '50%',
+          width: '50px',
+          height: '2px',
+          backgroundColor: '#ffbb00',
+          transform: 'translateY(-50%)',
+          opacity: showCategoryA || showCategoryB || showCategoryC ? 1 : 0,
+          transition: 'opacity 0.5s ease'
+        }}></div>
+      </div>
     </div>
   );
 };
