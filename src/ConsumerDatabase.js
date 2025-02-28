@@ -30,12 +30,46 @@ export const ConsumerDatabase = ({
   const [displayCount, setDisplayCount] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [internalProgress, setInternalProgress] = useState(0);
+  const [showTraits, setShowTraits] = useState(false);
+  const [traitsOpacity, setTraitsOpacity] = useState(0);
+  const [traits, setTraits] = useState([
+    { name: "行動裝置使用者", color: "#ffbb00", value: "68%" },
+    { name: "高消費力族群", color: "#ff8a00", value: "46%" },
+    { name: "科技產品愛好者", color: "#26c6da", value: "57%" },
+    { name: "社群媒體活躍用戶", color: "#ff5500", value: "72%" },
+    { name: "旅遊相關興趣", color: "#00bcd4", value: "41%" }
+  ]);
+
+  // 更新特性狀態的效果
+  useEffect(() => {
+    if (showTraits) {
+      const fadeInTimer = setInterval(() => {
+        setTraitsOpacity(prev => Math.min(prev + 0.1, 1));
+      }, 100);
+      return () => clearInterval(fadeInTimer);
+    } else {
+      setTraitsOpacity(0);
+    }
+  }, [showTraits]);
+
+  // 監聽來自父組件的階段變化
+  useEffect(() => {
+    const handleStageChange = (e) => {
+      if (e.detail && e.detail.action === "showSphereTraits") {
+        console.log("接收到顯示特性標籤事件");
+        setShowTraits(true);
+      }
+    };
+    window.addEventListener('stageChange', handleStageChange);
+    return () => window.removeEventListener('stageChange', handleStageChange);
+  }, []);
 
   useEffect(() => {
     if (!showSphere) {
       setDisplayCount(0);
       setAnimationComplete(false);
       setInternalProgress(0);
+      setShowTraits(false);
       return;
     }
 
@@ -123,6 +157,38 @@ export const ConsumerDatabase = ({
           {animationComplete && <span style={{ color: "#26c6da" }}> (完成)</span>}
         </div>
       </div>
+
+      {/* 特性標籤動畫 */}
+      {showTraits && (
+        <div className="traits-container" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none" }}>
+          {traits.map((trait, index) => (
+            <div
+              key={`trait-${index}`}
+              className="trait-tag-animated"
+              style={{
+                position: "absolute",
+                top: `${20 + (index * 15)}%`,
+                left: `${30 + Math.sin(index * 0.5) * 30}%`,
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                color: trait.color,
+                borderRadius: "4px",
+                padding: "5px 10px",
+                fontSize: "0.9rem",
+                border: `1px solid ${trait.color}`,
+                opacity: traitsOpacity,
+                transition: "opacity 0.5s, transform 0.5s",
+                transform: `scale(${0.8 + traitsOpacity * 0.2}) translateY(${(1 - traitsOpacity) * 20}px)`,
+                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
+                zIndex: 300,
+                animation: "pulse 2s infinite ease-in-out"
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
+              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

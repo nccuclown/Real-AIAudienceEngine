@@ -7,6 +7,25 @@
   align-items: center;
   justify-content: center;
   padding: 4px 10px;
+
+/* 特性標籤動畫 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.trait-tag-animated {
+  animation: pulse 2s infinite ease-in-out;
+  will-change: transform;
+}
+
   background-color: rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(255, 187, 0, 0.4);
   border-radius: 4px;

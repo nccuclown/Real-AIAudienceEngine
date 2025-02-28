@@ -213,6 +213,12 @@ const AIAudienceEngine = () => {
         console.log("啟動球體階段，更新後粒子數:", newParticles.length);
         break;
       case "showSphereTraits":
+        // 發送事件通知ConsumerDatabase組件顯示特性標籤
+        console.log("發出顯示特性標籤事件");
+        window.dispatchEvent(new CustomEvent('stageChange', { 
+          detail: { action: "showSphereTraits" } 
+        }));
+        // 同時更新現有粒子（如果有的話）
         setAudienceParticles((prev) =>
           prev.map((p) => ({
             ...p,
