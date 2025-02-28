@@ -1,0 +1,56 @@
+Uncaught Error: Module build failed (from ./node_modules/.pnpm/postcss-loader@6.2.1_postcss@8.5.3_webpack@5.98.0/node_modules/postcss-loader/dist/cjs.js):
+SyntaxError (at controls.css:59:1)
+
+(122:1) /home/runner/workspace/src/styles/components/document-cube.css Unexpected }
+
+ [90m 120 | [39m  border-radius[33m:[39m 3px[33m;[39m
+ [90m 121 | [39m[33m}[39mer-events[33m:[39m none[33m;[39m
+[1m[31m>[39m[22m[90m 122 | [39m[33m}[39m
+ [90m     | [39m[1m[31m^[39m[22m
+ [90m 123 | [39m
+ [90m 124 | [39m[90m/* 知識庫核心樣式 */[39m
+
+    at ./node_modules/.pnpm/css-loader@6.11.0_webpack@5.98.0/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[1]!./node_modules/.pnpm/postcss-loader@6.2.1_postcss@8.5.3_webpack@5.98.0/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[2]!./src/styles/components/document-cube.css (controls.css:59:1)
+    at options.factory (react refresh:6:1)
+    at __webpack_require__ (bootstrap:22:1)
+    at fn (hot module replacement:61:1)
+    at ./node_modules/.pnpm/css-loader@6.11.0_webpack@5.98.0/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[1]!./node_modules/.pnpm/postcss-loader@6.2.1_postcss@8.5.3_webpack@5.98.0/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[2]!./node_modules/.pnpm/source-map-loader@3.0.2_webpack@5.98.0/node_modules/source-map-loader/dist/cjs.js!./src/styles/main.css (global-this.js:4:1)
+    at options.factory (react refresh:6:1)
+    at __webpack_require__ (bootstrap:22:1)
+    at fn (hot module replacement:61:1)
+    at ./src/styles/main.css (document-cube.css:78:1)
+    at options.factory (react refresh:6:1)
+./node_modules/.pnpm/css-loader@6.11.0_webpack@5.98.0/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[1]!./node_modules/.pnpm/postcss-loader@6.2.1_postcss@8.5.3_webpack@5.98.0/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[2]!./src/styles/components/document-cube.css @ controls.css:59
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:22
+fn @ hot module replacement:61
+./node_modules/.pnpm/css-loader@6.11.0_webpack@5.98.0/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[1]!./node_modules/.pnpm/postcss-loader@6.2.1_postcss@8.5.3_webpack@5.98.0/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[2]!./node_modules/.pnpm/source-map-loader@3.0.2_webpack@5.98.0/node_modules/source-map-loader/dist/cjs.js!./src/styles/main.css @ global-this.js:4
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:22
+fn @ hot module replacement:61
+./src/styles/main.css @ document-cube.css:78
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:22
+fn @ hot module replacement:61
+./src/AIAudienceEngine.js @ log.js:78
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:22
+fn @ hot module replacement:61
+./src/index.js @ config.js:157
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:22
+(anonymous) @ startup:7
+(anonymous) @ startup:7Understand this errorAI
+react refresh:6 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+./node_modules/.pnpm/webpack-dev-server@4.15.2_webpack@5.98.0/node_modules/webpack-dev-server/client/index.js?protocol=ws%3A&hostname=0.0.0.0&port=3000&pathname=%2Fws&logging=none&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%7D&reconnect=10&hot=true&live-reload=true @ index.js:320
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:22
+(anonymous) @ startup:5
+(anonymous) @ startup:7Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd3
