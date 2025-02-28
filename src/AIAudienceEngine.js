@@ -303,23 +303,22 @@ const AIAudienceEngine = () => {
     return particles;
   };
 
-  // Use proper conditional rendering instead of functions
-  // 使用React.memo来避免不必要的重新渲染
-  const TechLabel = React.memo(({ label }) => {
+  // 避免使用 React.memo 來防止內部錯誤
+  const TechLabel = ({ label }) => {
     if (!label) return null;
     return (
       <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
         {label}
       </div>
     );
-  });
+  };
 
-  const StageDescription = React.memo(({ description }) => {
+  const StageDescription = ({ description }) => {
     if (!description) return null;
     return (
       <div className="stage-description-bottom fade-in">{description}</div>
     );
-  });
+  };
 
   return (
     <div className="engine-container">

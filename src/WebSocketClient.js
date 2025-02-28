@@ -2,18 +2,33 @@
 // WebSocketClient.js
 export default class WebSocketClient {
   constructor(url = null) {
-    // 使用相对路径，避免跨域问题
-    this.url = url || `/ws`;
+    // 使用窗口位置來構建 WebSocket URL
+    this.url = url || this.getWebSocketUrl();
     this.socket = null;
     this.listeners = [];
     this.reconnectAttempts = 0;
-    this.maxReconnectAttempts = 3; // 减少重连次数
+    this.maxReconnectAttempts = 3; // 減少重連次數
     this.isConnecting = false;
-    this.connect();
+    this.enabled = true; // 控制是否啟用 WebSocket
+    
+    // 只有在啟用狀態才連接
+    if (this.enabled) {
+      this.connect();
+    } else {
+      console.log('WebSocket is disabled');
+      this.notifyListeners('unavailable', null);
+    }
+  }
+
+  // 從當前窗口位置構建 WebSocket URL
+  getWebSocketUrl() {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const host = window.location.host;
+    return `${protocol}//${host}/ws`;
   }
 
   connect() {
-    if (this.isConnecting) return;
+    if (this.isConnecting || !this.enabled) return;
     
     this.isConnecting = true;
     try {
@@ -48,6 +63,8 @@ export default class WebSocketClient {
         console.error('WebSocket error:', error);
         this.notifyListeners('error', error);
         this.isConnecting = false;
+        // 出錯時嘗試重連
+        this.attemptReconnect();
       };
     } catch (error) {
       console.error('Error creating WebSocket:', error);
@@ -57,6 +74,8 @@ export default class WebSocketClient {
   }
 
   attemptReconnect() {
+    if (!this.enabled) return;
+    
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnectAttempts++;
       const delay = Math.min(2000 * this.reconnectAttempts, 5000);
@@ -95,6 +114,20 @@ export default class WebSocketClient {
   close() {
     if (this.socket) {
       this.socket.close();
+    }
+  }
+  
+  // 禁用 WebSocket
+  disable() {
+    this.enabled = false;
+    this.close();
+  }
+  
+  // 啟用 WebSocket
+  enable() {
+    if (!this.enabled) {
+      this.enabled = true;
+      this.connect();
     }
   }
 }

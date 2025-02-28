@@ -55,10 +55,21 @@ const server = http.createServer((req, res) => {
 const wss = new WebSocket.Server({ 
   server,
   path: '/ws',  // Specify the path explicitly
-  clientTracking: true,
-  // 增加ping-pong保持连接活跃
-  pingInterval: 30000,
-  pingTimeout: 5000
+  clientTracking: true
+});
+
+// 手動實現 ping-pong 機制
+const pingInterval = setInterval(() => {
+  wss.clients.forEach((client) => {
+    if (client.isAlive === false) return client.terminate();
+    
+    client.isAlive = false;
+    client.ping(() => {});
+  });
+}, 30000);
+
+wss.on('close', () => {
+  clearInterval(pingInterval);
 });
 
 // Store connected clients
@@ -67,6 +78,12 @@ const clients = new Set();
 wss.on('connection', (ws, req) => {
   const clientIp = req.socket.remoteAddress;
   console.log(`Client connected from ${clientIp}`);
+  
+  ws.isAlive = true;
+  ws.on('pong', () => {
+    ws.isAlive = true;
+  });
+  
   clients.add(ws);
   
   // Send initial connection confirmation
