@@ -304,6 +304,15 @@ const AIAudienceEngine = () => {
   };
 
   // 將組件定義在父組件外部以避免每次重新渲染
+  const MainTitle = () => {
+    return <h1 className="main-title">AI Audience 智能受眾引擎</h1>;
+  };
+
+  const StageIndicator = ({ currentStage }) => {
+    if (!currentStage) return null;
+    return <div className="stage-indicator">{currentStage}</div>;
+  };
+
   const TechLabel = ({ label }) => {
     if (!label || typeof label !== 'string') return null;
     return (
@@ -340,8 +349,8 @@ const AIAudienceEngine = () => {
         <div className="top-section">
           <div className="header-container">
             <div className="title-stage-row">
-              <h1 className="main-title">AI Audience 智能受眾引擎</h1>
-              <div className="stage-indicator">{config.stages[stage]}</div>
+              <MainTitle />
+              <StageIndicator currentStage={config.stages[stage]} />
             </div>
             <div className="progress-container">
               <div className="progress-bar-container">

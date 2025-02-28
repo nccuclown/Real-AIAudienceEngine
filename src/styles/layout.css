@@ -32,10 +32,13 @@
 /* 下區塊 - 描述與控制按鈕 */
 .bottom-section {
   flex: 0 0 auto;
-  padding: 15px 20px;
+  padding: 20px 20px;
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.7);
   border-top: 1px solid rgba(255, 187, 0, 0.3);
+  min-height: 160px; /* 確保有足夠空間不會重疊 */
+  display: flex;
+  flex-direction: column;
 }
 
 /* 底部內容區域佈局 */
@@ -43,10 +46,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
-  min-height: 120px; /* 給底部內容一個最小高度 */
-  padding: 10px 0; /* 增加上下內邊距 */
+  padding: 10px 0;
 }
 
 /* 描述文字容器 - 完全獨立的元件 */
@@ -54,8 +55,9 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  margin-bottom: 30px; /* 與按鈕區域保持足夠距離 */
+  align-items: center;
+  margin-bottom: 40px; /* 增加與按鈕區域的間距 */
+  flex: 1;
 }
 
 /* 描述文字內容樣式 */
@@ -64,7 +66,7 @@
   padding: 12px 20px;
   text-align: center;
   line-height: 1.6;
-  background-color: rgba(0, 0, 0, 0.25); /* 輕微背景色以區分 */
+  background-color: rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -144,16 +146,16 @@
 /* 標題與階段指示器行 */
 .title-stage-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* 改為水平排列 */
   justify-content: center;
   align-items: center;
   width: 100%;
-  gap: 10px;
+  gap: 15px; /* 增加間距 */
 }
 
 /* 主標題 */
 .main-title {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #ffbb00;
   margin: 0;
@@ -164,7 +166,7 @@
 
 /* 階段指示器 */
 .stage-indicator {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #ffbb00;
   background-color: rgba(0, 0, 0, 0.4);
@@ -232,10 +234,11 @@
   justify-content: center;
   gap: 20px;
   width: 100%;
-  padding: 10px 0;
-  border-top: 1px solid rgba(255, 187, 0, 0.1); /* 添加細微分隔線 */
-  background-color: rgba(0, 0, 0, 0.2); /* 輕微背景色區分 */
-  margin-top: auto; /* 確保按鈕容器始終在底部 */
+  padding: 15px 0;
+  border-top: 1px solid rgba(255, 187, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
+  position: relative; /* 確保位置獨立 */
+  margin-top: 10px; /* 頂部間距 */
 }
 
 /* 動畫邊界 */
