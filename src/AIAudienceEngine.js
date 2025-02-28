@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./styles/main.css";
 
 // 引入配置文件
-import { config, getAnimationParams } from "./config";
+import { config } from "./config";
 
 // 引入各模組組件及函數
 import ConsumerDatabase, {
@@ -55,6 +55,8 @@ const AIAudienceEngine = () => {
   const [dataCount, setDataCount] = useState(0);
   const [techLabel, setTechLabel] = useState("");
   const [stageDescription, setStageDescription] = useState("");
+  // 新增調試模式狀態
+  const [debugMode, setDebugMode] = useState(true);
 
   // 引用計時器，用於清理
   const animationRef = useRef(null);
@@ -67,6 +69,11 @@ const AIAudienceEngine = () => {
     setAudienceParticles([]);
     setDocumentParticles([]);
     setClientDataParticles([]);
+
+    // 調試日誌
+    if (debugMode) {
+      console.log("AIAudienceEngine組件已初始化");
+    }
 
     return () => {
       // 清理所有動畫定時器
@@ -102,11 +109,19 @@ const AIAudienceEngine = () => {
     setTechLabel("");
     setStageDescription("");
     setIsPaused(false);
+
+    // 調試日誌
+    if (debugMode) {
+      console.log("AIAudienceEngine已重置");
+    }
   };
 
   // 暫停/繼續
   const togglePause = () => {
     setIsPaused(!isPaused);
+    if (debugMode) {
+      console.log(`動畫${!isPaused ? "已暫停" : "已繼續"}`);
+    }
   };
 
   // 分離旋轉更新邏輯，使用較低頻率
@@ -135,12 +150,14 @@ const AIAudienceEngine = () => {
     // 使用配置中的時間軸
     const timeline = config.timeline;
 
-    // 獲取經過速度調整的動畫參數
-    const { particleUpdateInterval, progressIncrement } = getAnimationParams();
+    // 調試日誌
+    if (debugMode && progress === 0) {
+      console.log("開始執行動畫timeline");
+    }
 
     intervalRef.current = setInterval(() => {
       setProgress((prev) => {
-        const newProgress = prev + progressIncrement;
+        const newProgress = prev + config.animation.progressIncrement;
 
         // 檢查里程碑
         timeline.forEach((point) => {
@@ -148,10 +165,18 @@ const AIAudienceEngine = () => {
             Math.floor(prev) < point.milestone &&
             Math.floor(newProgress) >= point.milestone
           ) {
+            if (debugMode) {
+              console.log(`觸發里程碑: ${point.milestone}% - ${point.action}`);
+            }
+
             switch (point.action) {
               case "startSphere":
                 // 開始生成球體粒子
-                setAudienceParticles(generateSphereParticles());
+                const sphereParticles = generateSphereParticles();
+                if (debugMode) {
+                  console.log(`生成球體粒子: ${sphereParticles.length}個`);
+                }
+                setAudienceParticles(sphereParticles);
                 setShowSphere(true);
                 setShowCube(false); // 確保其他階段是關閉的
                 setShowDataFusion(false);
@@ -180,7 +205,9 @@ const AIAudienceEngine = () => {
               case "startCube":
                 // 開始生成文檔立方體
                 const newParticles = generateDocumentParticles();
-                console.log("生成文檔粒子:", newParticles.length);
+                if (debugMode) {
+                  console.log("生成文檔粒子:", newParticles.length);
+                }
                 setDocumentParticles(newParticles);
                 setShowSphere(false); // 關閉前一階段
                 setShowCube(true);
@@ -290,7 +317,7 @@ const AIAudienceEngine = () => {
                 // 完成演示 - 短暫暫停後重置
                 setTimeout(() => {
                   handleReset();
-                }, getAnimationParams().resetDelay);
+                }, config.animation.resetDelay);
                 break;
 
               default:
@@ -334,7 +361,7 @@ const AIAudienceEngine = () => {
       if (showDataFusion && clientDataParticles.length > 0) {
         setClientDataParticles((prev) => updateClientDataParticles(prev));
       }
-    }, particleUpdateInterval);
+    }, config.animation.particleUpdateInterval);
 
     return () => {
       clearInterval(intervalRef.current);
@@ -410,6 +437,43 @@ const AIAudienceEngine = () => {
     );
   };
 
+  // 渲染調試信息
+  const renderDebugInfo = () => {
+    if (!debugMode) return null;
+
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          background: "rgba(0,0,0,0.8)",
+          color: "#00ff00",
+          padding: "8px",
+          fontSize: "12px",
+          fontFamily: "monospace",
+          zIndex: 1000,
+          borderRadius: "4px",
+          maxWidth: "250px",
+        }}
+      >
+        <div>進度: {progress.toFixed(1)}%</div>
+        <div>
+          階段: {stage} ({config.stages[stage]})
+        </div>
+        <div>
+          球體: {showSphere ? "顯示" : "隱藏"} ({audienceParticles.length})
+        </div>
+        <div>
+          立方體: {showCube ? "顯示" : "隱藏"} ({documentParticles.length})
+        </div>
+        <div>數據融合: {showDataFusion ? "顯示" : "隱藏"}</div>
+        <div>產品匹配: {showMatching ? "顯示" : "隱藏"}</div>
+        <div>報告: {showReport ? "顯示" : "隱藏"}</div>
+      </div>
+    );
+  };
+
   return (
     <div className="engine-container">
       {/* 動態背景 */}
@@ -477,13 +541,18 @@ const AIAudienceEngine = () => {
           </div>
 
           <div className="center-zone">
-            // 在 AIAudienceEngine.js 中{/* 3D球體粒子 */}
+            {/* 3D球體粒子 - 修改容器設置 */}
             <div
-              className="spherer-layer"
+              className="sphere-layer"
               style={{
                 position: "absolute",
                 inset: 0,
-                zIndex: showSphere ? 30 : 10, // 增加為 30
+                zIndex: showSphere ? 25 : 10,
+                visibility: showSphere ? "visible" : "hidden",
+                opacity: showSphere ? 1 : 0,
+                overflow: "visible", // 關鍵：允許內容溢出
+                width: "100%",
+                height: "100%",
               }}
             >
               <ConsumerDatabase
@@ -493,6 +562,7 @@ const AIAudienceEngine = () => {
                 dataCount={dataCount}
               />
             </div>
+
             {/* 文檔立方體 */}
             <div
               className="cube-layer"
@@ -500,6 +570,9 @@ const AIAudienceEngine = () => {
                 position: "absolute",
                 inset: 0,
                 zIndex: showCube ? 25 : 10,
+                visibility: showCube ? "visible" : "hidden", // 確保可見性控制
+                opacity: showCube ? 1 : 0, // 使用不透明度控制顯示
+                border: debugMode ? "1px dashed cyan" : "none", // 調試邊框
               }}
             >
               <DocumentCube
@@ -539,7 +612,21 @@ const AIAudienceEngine = () => {
           <button onClick={handleReset} className="control-button reset-button">
             重新播放
           </button>
+          {debugMode && (
+            <button
+              onClick={() => setDebugMode(false)}
+              className="control-button"
+              style={{
+                background: "linear-gradient(135deg, #ff0000, #aa0000)",
+              }}
+            >
+              關閉調試模式
+            </button>
+          )}
         </div>
+
+        {/* 調試信息面板 */}
+        {renderDebugInfo()}
       </div>
     </div>
   );

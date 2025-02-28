@@ -9,14 +9,14 @@
   height: 100%;
   flex: 1;
   z-index: 20;
-  overflow: visible; /* 改為 visible 允許內容溢出 */
+  overflow: visible !important; /* 修改：允許內容溢出容器 */
 }
 
 /* 添加動畫邊界限制，確保所有內容都在上下邊界內 */
 .animation-boundary {
   position: relative;
-  overflow: visible; /* 修改為 visible 允許內容溢出 */
-  max-height: calc(100% - 110px); /* 限制高度，避免超出 */
+  overflow: visible !important; /* 修改：允許內容溢出 */
+  min-height: calc(100% - 110px); /* 限制最小高度 */
   margin-bottom: 10px;
 }
 
@@ -26,13 +26,13 @@
   position: relative;
   height: 100%;
   padding: 10px;
-  overflow: visible; /* 修改為 visible 允許內容溢出 */
+  overflow: visible !important; /* 修改：允許內容溢出 */
 }
 
 /* 確保center-zone能正確包含多個視覺化元素 */
 .center-zone {
   position: relative;
-  overflow: visible; /* 保持為visible，確保元素不被裁剪 */
+  overflow: visible !important; /* 修改為visible，確保元素不被裁剪 */
 }
 
 /* 明確定義層次，避免視覺元素互相遮擋 */
@@ -44,6 +44,7 @@
   width: 100%;
   height: 100%;
   z-index: 20;
+  overflow: visible !important; /* 確保內容不被裁剪 */
 }
 
 /* 強制定義cube-container的顯示層級 */
@@ -58,7 +59,9 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  overflow: visible !important; /* 確保內容不被裁剪 */
+  transform-style: preserve-3d; /* 啟用3D空間 */
+  perspective: 1000px; /* 添加3D視角 */
 }
 
 .cube-layer {
@@ -66,32 +69,36 @@
 }
 
 .sphere-layer {
-  z-index: 30; /* 提高球體層的 z-index 使其顯示在上層 */
+  z-index: 20;
 }
 
-/* 確保特定階段的元素顯示在其他元素之上 */
-.active-stage {
-  z-index: 35;
-}
-
-/* 提供一個用於調試的輔助類 */
-.debug-outline {
-  border: 1px dashed rgba(255, 0, 0, 0.5);
-}
-
-/* 防止元素溢出造成頁面滾動 */
-.overflow-guard {
+/* 確保粒子容器沒有限制 */
+.particle-wrapper {
   position: absolute;
-  inset: 0;
-  overflow: hidden;
   pointer-events: none;
+  z-index: 100;
+  transform-style: preserve-3d; /* 啟用3D空間 */
 }
 
-/* 確保元素在動畫過程中保持良好的性能 */
-.will-change-transform {
-  will-change: transform;
+/* 調整粒子標籤樣式，確保其可見 */
+.particle-label {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: inherit;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 500; /* 提高z-index確保在頂層 */
+  border: 1px solid currentColor;
+  box-shadow: 0 0 8px currentColor; /* 添加陰影以增加可見性 */
 }
 
-.will-change-opacity {
-  will-change: opacity;
+/* 定義3D動畫空間 */
+.engine-content {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  overflow: visible !important;
 }

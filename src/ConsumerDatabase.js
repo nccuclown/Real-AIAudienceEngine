@@ -4,43 +4,69 @@
 import React, { useState, useEffect } from "react";
 import { config, clampPercentage, getColorArray } from "./config";
 
-// 生成3D球體的粒子
+// 完全重寫的生成粒子函數 - 確保粒子在中央區域而非邊界上
 export const generateSphereParticles = () => {
   const particles = [];
-  const colors = getColorArray();
+  // 使用極其明亮的顏色
+  const colors = [
+    "#FF9500", // 明亮的橙色
+    "#FF3B30", // 明亮的紅色
+    "#34C759", // 明亮的綠色
+    "#007AFF", // 明亮的藍色
+    "#FFCC00", // 明亮的黃色
+    "#AF52DE", // 明亮的紫色
+  ];
   const { audienceTraits, particleCount } = config.audienceData;
 
-  for (let i = 0; i < particleCount; i++) {
-    // 在球體表面上均勻分布點
-    const phi = Math.acos(2 * Math.random() - 1);
-    const theta = Math.random() * Math.PI * 2;
+  // 半徑範圍 - 確保粒子分布在球體內部
+  const minRadius = 5;
+  const maxRadius = 25;
 
-    // 基於球坐標計算笛卡爾坐標
-    const radius = 42; // 球體半徑
-    const x = 50 + radius * Math.sin(phi) * Math.cos(theta);
-    const y = 50 + radius * Math.sin(phi) * Math.sin(theta);
-    const z = radius * Math.cos(phi); // z座標用於深度效果
+  for (let i = 0; i < particleCount; i++) {
+    // 隨機角度
+    const theta = Math.random() * Math.PI * 2; // 水平角度 0-2π
+    const phi = Math.random() * Math.PI; // 垂直角度 0-π
+
+    // 隨機半徑 - 使用立方根分布使粒子更均勻
+    const r =
+      minRadius + Math.pow(Math.random(), 1 / 3) * (maxRadius - minRadius);
+
+    // 絕對定位 - 使用固定的中心點50%,50%
+    const centerX = 50;
+    const centerY = 50;
+
+    // 計算笛卡爾坐標 - 將球坐標轉換為絕對位置
+    const x = centerX + r * Math.sin(phi) * Math.cos(theta);
+    const y = centerY + r * Math.sin(phi) * Math.sin(theta);
+    const z = r * Math.cos(phi);
 
     // 從特徵中隨機選一個
     const traitIndex = Math.floor(Math.random() * audienceTraits.length);
     const trait = audienceTraits[traitIndex];
 
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    const color = colors[i % colors.length]; // 確保顏色平均分配
 
-    // 基本粒子屬性
+    // 基本粒子屬性 - 大且明顯
     const particle = {
       id: `particle-${Date.now()}-${i}`,
-      x: clampPercentage(x),
-      y: clampPercentage(y),
+      x, // 不使用clampPercentage，直接使用計算的坐標
+      y, // 不使用clampPercentage，直接使用計算的坐標
       z,
-      phi,
+      displayX: x,
+      displayY: y,
+      displayZ: z,
       theta,
-      radius,
-      size: 1 + Math.random() * 1.5,
+      phi,
+      radius: r,
+      size: 4 + Math.random() * 4, // 大粒子
       color,
-      opacity: 0.4 + Math.random() * 0.4,
+      opacity: 0.9, // 高不透明度
       trait,
-      showTrait: Math.random() < 0.15, // 只有部分粒子顯示特徵
+      // 每8個粒子顯示1個標籤
+      showTrait: i % 8 === 0,
+      // 為標籤分配隨機角度，確保它們不會全部堆疊
+      labelAngle: Math.random() * 360,
+      labelDistance: 10 + Math.random() * 15, // 標籤到粒子的距離
       highlighted: false,
       matched: false,
     };
@@ -51,43 +77,49 @@ export const generateSphereParticles = () => {
   return particles;
 };
 
-// 更新球體粒子 - 處理呼吸效果、旋轉和匹配高亮
+// 更新球體粒子 - 使用固定中心點進行計算
 export const updateSphereParticles = (
   particles,
   sphereRotation,
   showMatching
 ) => {
-  return particles.map((particle) => {
-    // 在原位置基礎上添加呼吸效果
-    const breathFactor =
-      Math.sin(Date.now() * 0.001 + particle.id.charCodeAt(0)) * 0.05;
+  // 固定中心點
+  const centerX = 50;
+  const centerY = 50;
 
-    // 根據旋轉角度調整顯示位置
-    const rotatedTheta = particle.theta + sphereRotation * (Math.PI / 180);
+  return particles.map((particle, index) => {
+    // 更明顯的呼吸效果
+    const breathFactor = Math.sin(Date.now() * 0.0005 + index * 0.1) * 0.15;
 
-    // 新的顯示位置
-    const displayX =
-      50 + particle.radius * Math.sin(particle.phi) * Math.cos(rotatedTheta);
-    const displayY =
-      50 + particle.radius * Math.sin(particle.phi) * Math.sin(rotatedTheta);
+    // 旋轉角度 - 只旋轉theta角度，保持phi不變
+    const rotatedTheta = particle.theta + (sphereRotation * Math.PI) / 180;
 
-    // 調整z值，用於視覺上的縮放
-    const displayZ = particle.radius * Math.cos(particle.phi);
+    // 調整後的半徑
+    const adjustedRadius = particle.radius * (1 + breathFactor);
 
-    // 如果是被匹配的粒子且在匹配階段，向中心輕微移動
-    let adjustedRadius = particle.radius;
-    if (showMatching && particle.matched) {
-      adjustedRadius = particle.radius * 0.9; // 向中心收縮10%
-    }
+    // 計算新的位置
+    const x =
+      centerX +
+      adjustedRadius * Math.sin(particle.phi) * Math.cos(rotatedTheta);
+    const y =
+      centerY +
+      adjustedRadius * Math.sin(particle.phi) * Math.sin(rotatedTheta);
+    const z = adjustedRadius * Math.cos(particle.phi);
+
+    // 計算Z軸視覺效果
+    const normalizedZ = (z + particle.radius) / (particle.radius * 2); // 0-1範圍
+    const displayOpacity = 0.3 + normalizedZ * 0.7; // 0.3-1範圍
+    const sizeFactor = 0.7 + normalizedZ * 0.6; // 0.7-1.3範圍
 
     return {
       ...particle,
-      displayX: clampPercentage(displayX),
-      displayY: clampPercentage(displayY),
-      displayZ,
-      radius: adjustedRadius * (1 + breathFactor),
-      // 匹配時的發光效果
-      glowing: showMatching && particle.matched && Math.random() < 0.1,
+      displayX: x,
+      displayY: y,
+      displayZ: z,
+      displayOpacity,
+      sizeFactor,
+      // 發光效果基於正面位置
+      glowing: normalizedZ > 0.7 || (showMatching && particle.matched),
     };
   });
 };
@@ -105,6 +137,14 @@ export const ConsumerDatabase = ({
   dataCount,
 }) => {
   const [displayCount, setDisplayCount] = useState(0);
+  const [debugBorder, setDebugBorder] = useState(true); // 調試用邊框
+
+  // 使用useEffect輸出調試信息
+  useEffect(() => {
+    console.log(
+      `ConsumerDatabase: showSphere=${showSphere}, 粒子數=${audienceParticles.length}, 進度=${progress}`
+    );
+  }, [showSphere, audienceParticles, progress]);
 
   // 使用動畫逐步增加計數，從1開始
   useEffect(() => {
@@ -113,7 +153,7 @@ export const ConsumerDatabase = ({
       return;
     }
 
-    // 開始計數動畫 - 從很小的數字開始
+    // 開始計數動畫
     let startCount = 1;
     const targetCount = dataCount;
     const duration = 5000; // 5秒內完成計數
@@ -134,25 +174,89 @@ export const ConsumerDatabase = ({
     return () => clearInterval(timer);
   }, [showSphere, dataCount]);
 
-  if (!showSphere) return null;
+  // 為了測試，即使showSphere為false也顯示空容器
+  if (!showSphere) {
+    return (
+      <div
+        className="sphere-container"
+        style={{
+          border: debugBorder ? "2px dashed red" : "none",
+          opacity: 0.3,
+          position: "absolute",
+          inset: 0,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "red",
+          }}
+        >
+          球體未顯示 (進度: {progress.toFixed(1)}%)
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="sphere-container">
-      {audienceParticles.map((particle) => {
-        // 計算大小和不透明度 - 根據Z軸位置進行調整
-        const scale = (particle.displayZ + 50) / 100; // z值越大，顯示越大
-        const displaySize = particle.size * (0.5 + scale);
-        const displayOpacity = particle.opacity * scale;
+    <div
+      className="sphere-container"
+      style={{
+        border: debugBorder ? "2px solid lime" : "none",
+        position: "absolute",
+        inset: 0,
+        overflow: "visible", // 確保標籤不被裁剪
+      }}
+    >
+      {/* 添加球體背景發光效果 */}
+      <div
+        style={{
+          position: "absolute",
+          width: "120px",
+          height: "120px",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(0,0,0,0) 70%)",
+          filter: "blur(15px)",
+          zIndex: 95,
+        }}
+      />
 
-        // 決定是否顯示特性 - 只在正面顯示(scale > 0.7)
-        const shouldShowTrait = particle.showTrait && scale > 0.7;
+      {audienceParticles.map((particle, index) => {
+        // 使用粒子的計算屬性
+        const displayX =
+          particle.displayX !== undefined ? particle.displayX : particle.x;
+        const displayY =
+          particle.displayY !== undefined ? particle.displayY : particle.y;
+        const displayOpacity =
+          particle.displayOpacity !== undefined
+            ? particle.displayOpacity
+            : particle.opacity;
+        const sizeFactor =
+          particle.sizeFactor !== undefined ? particle.sizeFactor : 1;
 
-        // 確保特徵標籤不會超出邊界，設置邊界範圍
-        const labelX = Math.min(
-          Math.max(particle.displayX + displaySize / 2, 10),
-          90
-        );
-        const labelY = Math.min(Math.max(particle.displayY - 10, 10), 90);
+        // 計算粒子大小
+        const displaySize = particle.size * sizeFactor;
+
+        // 特徵標籤位置計算 - 直接從粒子位置偏移
+        const shouldShowTrait = particle.showTrait;
+
+        // 為標籤計算獨立位置，避免疊加
+        const labelAngle = particle.labelAngle || (index * 45) % 360; // 以45度間隔分布
+        const labelRadian = (labelAngle * Math.PI) / 180;
+        const labelDistance = particle.labelDistance || 15;
+
+        // 計算標籤的位置 - 相對於中心點
+        const centerX = 50;
+        const centerY = 50;
+        const labelX = centerX + labelDistance * Math.cos(labelRadian);
+        const labelY = centerY + labelDistance * Math.sin(labelRadian);
 
         return (
           <div key={particle.id} className="particle-wrapper">
@@ -160,36 +264,48 @@ export const ConsumerDatabase = ({
             <div
               className="particle"
               style={{
-                left: `${particle.displayX}%`,
-                top: `${particle.displayY}%`,
+                position: "absolute",
+                left: `${displayX}%`,
+                top: `${displayY}%`,
                 width: `${displaySize}px`,
                 height: `${displaySize}px`,
                 backgroundColor: particle.color,
                 opacity: displayOpacity,
-                zIndex: Math.floor(particle.displayZ + 100),
+                zIndex: 100,
                 boxShadow: particle.glowing
                   ? `0 0 10px ${particle.color}, 0 0 20px ${particle.color}`
-                  : particle.highlighted
-                  ? `0 0 5px ${particle.color}`
-                  : "none",
-                transform: particle.highlighted ? "scale(1.5)" : "scale(1)",
+                  : `0 0 5px ${particle.color}`,
+                transform: `scale(${sizeFactor})`,
+                border: `1px solid ${particle.color}`,
+                borderRadius: "50%",
+                pointerEvents: "none",
               }}
             />
 
-            {/* 特性標籤 - 確保位置在可見範圍內 */}
+            {/* 特性標籤 - 使用絕對位置 */}
             {shouldShowTrait && (
               <div
                 className="particle-label"
                 style={{
+                  position: "absolute",
                   left: `${labelX}%`,
                   top: `${labelY}%`,
-                  color: particle.color,
-                  zIndex: Math.floor(particle.displayZ + 101),
-                  opacity: displayOpacity * 1.3,
-                  maxWidth: "150px", // 限制最大寬度
+                  transform: "translate(-50%, -50%)",
+                  color: "white",
+                  backgroundColor: `${particle.color}99`,
+                  zIndex: 150,
+                  opacity: 0.9,
+                  maxWidth: "120px",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  boxShadow: `0 0 8px ${particle.color}`,
+                  padding: "3px 6px",
+                  fontWeight: "bold",
+                  fontSize: "0.8rem",
+                  borderRadius: "4px",
+                  pointerEvents: "none",
+                  border: `1px solid ${particle.color}`,
                 }}
               >
                 {particle.trait}
@@ -204,6 +320,24 @@ export const ConsumerDatabase = ({
         <div className="database-counter fade-in" style={{ zIndex: 200 }}>
           <div className="counter-value">{formatNumber(displayCount)}</div>
           <div className="counter-label">消費者輪廓資料庫</div>
+        </div>
+      )}
+
+      {/* 調試資訊 - 開發完畢後應移除 */}
+      {debugBorder && (
+        <div
+          style={{
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            background: "rgba(0,0,0,0.7)",
+            color: "lime",
+            padding: "4px 8px",
+            fontSize: "12px",
+            zIndex: 300,
+          }}
+        >
+          粒子數: {audienceParticles.length} | 進度: {progress.toFixed(1)}%
         </div>
       )}
     </div>
