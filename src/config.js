@@ -24,8 +24,8 @@ export const config = {
   ],
   timeline: [
     { milestone: 3, action: "startSphere" },      // 更早開始球體動畫
-    { milestone: 18, action: "showSphereTraits" }, // 維持更長時間顯示特徵
-    { milestone: 23, action: "startStage1" },     // 延長第一階段
+    { milestone: 19, action: "showSphereTraits" }, // 延長顯示時間
+    { milestone: 20, action: "startStage1" },     // 縮短第一階段過渡時間
     { milestone: 25, action: "startCube" },       // 延後開始第二階段
     { milestone: 38, action: "showCubeDocuments" },
     { milestone: 44, action: "startStage2" },

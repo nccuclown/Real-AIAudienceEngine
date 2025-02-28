@@ -86,8 +86,8 @@ export const ConsumerDatabase = ({
     }
 
     let startCount = 1;
-    const targetCount = dataCount;
-    const duration = 5000;
+    const targetCount = 5000000; // 設置目標數為500萬
+    const duration = 10000; // 增加持續時間到10秒，給用戶足夠時間觀察
     const interval = 50;
     const steps = duration / interval;
     const increment = (targetCount - startCount) / steps;
@@ -103,7 +103,7 @@ export const ConsumerDatabase = ({
     }, interval);
 
     return () => clearInterval(timer);
-  }, [showSphere, dataCount, audienceParticles.length]);
+  }, [showSphere, audienceParticles.length]); // 移除dataCount依賴，確保使用固定目標值
 
   if (!showSphere || audienceParticles.length === 0) return null;
 
@@ -119,7 +119,7 @@ export const ConsumerDatabase = ({
         const progressVisibilityFactor = Math.min(1, progress / 15); // 隨進度增加而增加顯示比例
         const shouldShowTrait = particle.showTrait && 
                                (scale > 0.4) && 
-                               (Math.random() < 0.7 * progressVisibilityFactor || particle.id.charCodeAt(0) % 4 === 0);
+                               (Math.random() < 0.9 * progressVisibilityFactor || particle.id.charCodeAt(0) % 3 === 0);
         
         // 讓標籤更分散
         const randomOffset = (particle.id.charCodeAt(0) % 15) - 7;
@@ -187,6 +187,17 @@ export const ConsumerDatabase = ({
           <div className="counter-label">消費者輪廓資料庫</div>
           <div className="counter-sublabel" style={{ marginTop: "5px", fontSize: "0.9rem", color: "#ffdd77" }}>
             收集標籤數: {Math.floor(displayCount * 0.35 / 1000)}K+ 種
+          </div>
+          <div className="data-categories" style={{ marginTop: "10px", fontSize: "0.8rem", color: "#ffffff", display: "flex", flexDirection: "column", gap: "5px" }}>
+            <div style={{ opacity: progress > 4 ? 1 : 0.2, transition: "opacity 0.5s" }}>
+              <span style={{ color: "#ffbb00" }}>●</span> 廣告點擊行為: {progress > 4 ? Math.floor(displayCount * 0.15 / 1000) : 0}K+
+            </div>
+            <div style={{ opacity: progress > 8 ? 1 : 0.2, transition: "opacity 0.5s" }}>
+              <span style={{ color: "#ff8a00" }}>●</span> 閱覽興趣偏好: {progress > 8 ? Math.floor(displayCount * 0.22 / 1000) : 0}K+
+            </div>
+            <div style={{ opacity: progress > 12 ? 1 : 0.2, transition: "opacity 0.5s" }}>
+              <span style={{ color: "#26c6da" }}>●</span> 零售消費行為: {progress > 12 ? Math.floor(displayCount * 0.18 / 1000) : 0}K+
+            </div>
           </div>
         </div>
       )}
