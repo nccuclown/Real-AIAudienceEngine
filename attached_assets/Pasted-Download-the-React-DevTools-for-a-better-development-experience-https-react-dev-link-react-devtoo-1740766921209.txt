@@ -1,0 +1,49 @@
+Download the React DevTools for a better development experience: https://react.dev/link/react-devtools
+AIAudienceEngine.js:198 執行動作: startSphere
+ConsumerDatabase.js:9 生成球體粒子數量: 0
+AIAudienceEngine.js:212 啟動球體階段，更新後粒子數: 0
+AIAudienceEngine.js:198 執行動作: startSphere
+ConsumerDatabase.js:9 生成球體粒子數量: 0
+AIAudienceEngine.js:212 啟動球體階段，更新後粒子數: 0
+ConsumerDatabase.js:79 Uncaught ReferenceError: setShowTraits is not defined
+    at ConsumerDatabase.js:79:1
+    at react-stack-bottom-frame (react-dom-client.development.js:22509:1)
+    at runWithFiberInDEV (react-dom-client.development.js:543:1)
+    at commitHookEffectListMount (react-dom-client.development.js:10739:1)
+    at commitHookPassiveMountEffects (react-dom-client.development.js:10876:1)
+    at commitPassiveMountOnFiber (react-dom-client.development.js:12652:1)
+    at recursivelyTraversePassiveMountEffects (react-dom-client.development.js:12625:1)
+    at commitPassiveMountOnFiber (react-dom-client.development.js:12755:1)
+    at recursivelyTraversePassiveMountEffects (react-dom-client.development.js:12625:1)
+    at commitPassiveMountOnFiber (react-dom-client.development.js:12755:1)Understand this errorAI
+react-dom-client.development.js:7409 An error occurred in the <ConsumerDatabase> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+defaultOnUncaughtError @ react-dom-client.development.js:7409Understand this warningAI
+ConsumerDatabase.js:79 Uncaught ReferenceError: setShowTraits is not defined
+    at ConsumerDatabase.js:79:1
+    at react-stack-bottom-frame (react-dom-client.development.js:22509:1)
+    at runWithFiberInDEV (react-dom-client.development.js:543:1)
+    at commitHookEffectListMount (react-dom-client.development.js:10739:1)
+    at commitHookPassiveMountEffects (react-dom-client.development.js:10876:1)
+    at reconnectPassiveEffects (react-dom-client.development.js:12802:1)
+    at recursivelyTraverseReconnectPassiveEffects (react-dom-client.development.js:12773:1)
+    at reconnectPassiveEffects (react-dom-client.development.js:12849:1)
+    at recursivelyTraverseReconnectPassiveEffects (react-dom-client.development.js:12773:1)
+    at reconnectPassiveEffects (react-dom-client.development.js:12849:1)Understand this errorAI
+react-dom-client.development.js:7409 An error occurred in the <ConsumerDatabase> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+defaultOnUncaughtError @ react-dom-client.development.js:7409Understand this warningAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
