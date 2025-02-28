@@ -1,4 +1,3 @@
-
 /* 文檔立方體相關樣式 */
 .document-particle {
   position: absolute;
@@ -7,11 +6,11 @@
   transform: translate(-50%, -50%);
   box-shadow: 0 0 5px rgba(255, 187, 0, 0.4);
   z-index: 100;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
 }
 
-.selected-document {
-  animation: pulse-document 1s ease-in-out infinite;
+.extracted-document {
+  animation: pulse-document 1.5s ease-in-out infinite;
   z-index: 110;
 }
 
@@ -61,6 +60,7 @@
   position: relative;
   width: 100%;
   height: 100%;
+  perspective: 1000px;
 }
 
 .cube-glow {
@@ -73,7 +73,105 @@
   background: radial-gradient(circle, rgba(255, 187, 0, 0.4) 0%, rgba(255, 187, 0, 0) 70%);
   transform: translate(-50%, -50%);
   pointer-events: none;
-  z-index: 90;
+}
+
+/* 知識庫核心樣式 */
+.knowledge-core {
+  z-index: 30;
+}
+
+.core-pulse {
+  animation-name: pulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+}
+
+/* 知識環動畫 */
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 文檔粒子動畫 */
+@keyframes pulse-document {
+  0% { 
+    box-shadow: 0 0 5px currentColor;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 10px currentColor;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% { 
+    box-shadow: 0 0 5px currentColor;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* 連接線動畫 */
+@keyframes dash {
+  to { 
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 閃爍點動畫 */
+@keyframes blink {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+/* 提取面板樣式 */
+.extraction-panel {
+  transform: translateZ(0);
+}
+
+.extraction-item {
+  display: flex;
+  align-items: center;
+}
+
+/* 飛行文檔樣式 */
+.flying-document {
+  position: absolute;
+  background-color: rgba(255, 187, 0, 0.8);
+  border-radius: 3px;
+  width: 12px;
+  height: 16px;
+  animation: fly-to-center 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 105;
+  pointer-events: none;
+}
+
+@keyframes fly-to-center {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(var(--targetX), var(--targetY)) scale(0.8);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(var(--targetX), var(--targetY)) scale(0);
+    opacity: 0;
+  }
 }
 
 .database-label {
@@ -129,21 +227,6 @@
   animation: rotate 60s linear infinite;
 }
 
-.knowledge-core {
-  position: absolute;
-  width: 40%;
-  height: 40%;
-  background-color: rgba(255, 184, 0, 0.8);
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(255, 184, 0, 0.5);
-  animation: pulse 2s ease-in-out infinite;
-}
 
 .knowledge-core span {
   font-size: 0.6rem;
@@ -152,14 +235,6 @@
   text-align: center;
 }
 
-@keyframes rotate {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
 
 /* RAG技術標籤 */
 .rag-tech-badge {
@@ -325,18 +400,26 @@
 @keyframes pulse {
   0%, 100% {
     transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.3;
   }
 }
 
 @keyframes pulse-document {
-  0%, 100% {
-    transform: scale(1);
+  0% { 
+    box-shadow: 0 0 5px currentColor;
+    transform: translate(-50%, -50%) scale(1);
   }
-  50% {
-    transform: scale(1.3);
+  50% { 
+    box-shadow: 0 0 10px currentColor;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% { 
+    box-shadow: 0 0 5px currentColor;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -366,5 +449,20 @@
   }
   50% {
     opacity: 1;
+  }
+}
+
+@keyframes fly-to-center {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(var(--targetX), var(--targetY)) scale(0.8);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(var(--targetX), var(--targetY)) scale(0);
+    opacity: 0;
   }
 }
