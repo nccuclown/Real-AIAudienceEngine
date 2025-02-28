@@ -98,10 +98,36 @@ const AIAudienceEngine = () => {
     };
   }, [isPaused, showSphere, showCube]);
 
+  // 動畫完成狀態追蹤
+  const [animationStates, setAnimationStates] = useState({
+    sphereComplete: false,
+    cubeComplete: false,
+    dataFusionComplete: false,
+    matchingComplete: false,
+    reportComplete: false
+  });
+
+  // 計算消費者資料顯示進度
+  const [consumerDataProgress, setConsumerDataProgress] = useState(0);
+  
+  // 動畫完成檢查
+  const checkAnimationComplete = (animationType, value = true) => {
+    setAnimationStates(prev => ({...prev, [animationType]: value}));
+  };
+
   useEffect(() => {
     if (isPaused) return;
     const timeline = config.timeline;
     const { particleUpdateInterval, progressIncrement } = getAnimationParams();
+
+    // 監控消費者資料庫動畫進度
+    if (showSphere && !animationStates.sphereComplete) {
+      if (consumerDataProgress >= 100) {
+        checkAnimationComplete('sphereComplete');
+      } else {
+        setConsumerDataProgress(prev => Math.min(prev + 0.5, 100));
+      }
+    }
 
     intervalRef.current = setInterval(() => {
       setProgress((prev) => {
@@ -111,6 +137,22 @@ const AIAudienceEngine = () => {
             Math.floor(prev) < point.milestone &&
             Math.floor(newProgress) >= point.milestone
           ) {
+            // 確保前一階段動畫完成才轉到下一階段
+            let shouldProceed = true;
+            
+            // 檢查各階段動畫是否完成
+            if (point.action === "startCube" && !animationStates.sphereComplete) {
+              shouldProceed = false;
+            } else if (point.action === "startDataFusion" && !animationStates.cubeComplete) {
+              shouldProceed = false;
+            } else if (point.action === "startMatching" && !animationStates.dataFusionComplete) {
+              shouldProceed = false;
+            } else if (point.action === "startReport" && !animationStates.matchingComplete) {
+              shouldProceed = false;
+            }
+            
+            if (!shouldProceed) return prev; // 維持當前進度直到動畫完成
+            
             switch (point.action) {
               case "startSphere":
                 const newParticles = generateSphereParticles();
@@ -122,6 +164,8 @@ const AIAudienceEngine = () => {
                 setShowReport(false);
                 setTechLabel(config.techLabels[0]);
                 setStageDescription(config.stageDescriptions[0]);
+                setConsumerDataProgress(0); // 重置消費者資料進度
+                checkAnimationComplete('sphereComplete', false); // 重置動畫完成狀態
                 console.log("啟動球體階段，更新後粒子數:", newParticles.length);
                 break;
               case "showSphereTraits":
@@ -132,6 +176,10 @@ const AIAudienceEngine = () => {
                     showTrait: Math.random() < 0.2,
                   }))
                 );
+                // 當特徵顯示完成後，標記球體動畫完成
+                setTimeout(() => {
+                  checkAnimationComplete('sphereComplete');
+                }, 1500);
                 break;
               case "startStage1":
                 setStage(1);
@@ -148,6 +196,7 @@ const AIAudienceEngine = () => {
                 setTechLabel(config.techLabels[1]);
                 setStageDescription(config.stageDescriptions[1]);
                 setAudienceParticles([]);
+                checkAnimationComplete('cubeComplete', false); // 重置立方體動畫完成狀態
                 break;
               case "showCubeDocuments":
                 setDocumentParticles((prev) =>
@@ -157,6 +206,10 @@ const AIAudienceEngine = () => {
                     showType: Math.random() < 0.25,
                   }))
                 );
+                // 當文檔顯示完成後，標記立方體動畫完成
+                setTimeout(() => {
+                  checkAnimationComplete('cubeComplete');
+                }, 2000);
                 break;
               case "startStage2":
                 setStage(2);
@@ -170,6 +223,7 @@ const AIAudienceEngine = () => {
                 setShowReport(false);
                 setTechLabel(config.techLabels[2]);
                 setStageDescription(config.stageDescriptions[2]);
+                checkAnimationComplete('dataFusionComplete', false); // 重置數據融合動畫完成狀態
                 break;
               case "showDataMerging":
                 setClientDataParticles((prev) =>
@@ -178,6 +232,10 @@ const AIAudienceEngine = () => {
                     isMerging: Math.random() < 0.6,
                   }))
                 );
+                // 當數據融合動畫完成
+                setTimeout(() => {
+                  checkAnimationComplete('dataFusionComplete');
+                }, 2000);
                 break;
               case "startStage3":
                 setStage(3);
@@ -197,6 +255,7 @@ const AIAudienceEngine = () => {
                     highlighted: false,
                   }))
                 );
+                checkAnimationComplete('matchingComplete', false); // 重置匹配動畫完成狀態
                 break;
               case "showMatchedAudience":
                 setAudienceParticles((prev) =>
@@ -206,6 +265,10 @@ const AIAudienceEngine = () => {
                     opacity: p.matched ? 0.9 : 0.3,
                   }))
                 );
+                // 當受眾匹配動畫完成
+                setTimeout(() => {
+                  checkAnimationComplete('matchingComplete');
+                }, 2000);
                 break;
               case "startStage4":
                 setStage(4);
@@ -218,8 +281,13 @@ const AIAudienceEngine = () => {
                 setShowReport(true);
                 setTechLabel(config.techLabels[4]);
                 setStageDescription(config.stageDescriptions[4]);
+                checkAnimationComplete('reportComplete', false); // 重置報告動畫完成狀態
                 break;
               case "showFullReport":
+                // 報告顯示完成
+                setTimeout(() => {
+                  checkAnimationComplete('reportComplete');
+                }, 1500);
                 break;
               case "complete":
                 setTimeout(() => handleReset(), getAnimationParams().resetDelay);
@@ -230,9 +298,11 @@ const AIAudienceEngine = () => {
           }
         });
 
-        if (newProgress < 20) {
+        // 確保消費者數據顯示完整
+        if (showSphere && newProgress < 20) {
           const maxCount = config.audienceData.maxAudienceCount;
-          setDataCount(Math.min(maxCount, Math.floor((newProgress / 15) * maxCount)));
+          // 基於動畫進度而不是時間軸進度來設置數據計數
+          setDataCount(Math.min(maxCount, Math.floor((consumerDataProgress / 100) * maxCount)));
         }
 
         if (newProgress >= 100) return 99.9;

@@ -24,18 +24,18 @@ export const config = {
   ],
   timeline: [
     { milestone: 3, action: "startSphere" },      // 更早開始球體動畫
-    { milestone: 19, action: "showSphereTraits" }, // 延長顯示時間
-    { milestone: 20, action: "startStage1" },     // 縮短第一階段過渡時間
-    { milestone: 25, action: "startCube" },       // 延後開始第二階段
-    { milestone: 38, action: "showCubeDocuments" },
-    { milestone: 44, action: "startStage2" },
-    { milestone: 45, action: "startDataFusion" },
-    { milestone: 58, action: "showDataMerging" },
-    { milestone: 64, action: "startStage3" },
-    { milestone: 65, action: "startMatching" },
-    { milestone: 78, action: "showMatchedAudience" },
-    { milestone: 84, action: "startStage4" },
-    { milestone: 85, action: "startReport" },
+    { milestone: 17, action: "showSphereTraits" }, // 縮短顯示時間
+    { milestone: 19, action: "startStage1" },     // 縮短第一階段過渡時間
+    { milestone: 20, action: "startCube" },       // 立即開始第二階段
+    { milestone: 35, action: "showCubeDocuments" },
+    { milestone: 42, action: "startStage2" },
+    { milestone: 44, action: "startDataFusion" },
+    { milestone: 56, action: "showDataMerging" },
+    { milestone: 62, action: "startStage3" },
+    { milestone: 64, action: "startMatching" },
+    { milestone: 76, action: "showMatchedAudience" },
+    { milestone: 82, action: "startStage4" },
+    { milestone: 84, action: "startReport" },
     { milestone: 95, action: "showFullReport" },
     { milestone: 98, action: "complete" },
   ],

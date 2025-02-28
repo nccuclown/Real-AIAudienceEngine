@@ -27,17 +27,19 @@ export const ConsumerDatabase = ({
   dataCount,
 }) => {
   const [displayCount, setDisplayCount] = useState(0);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     if (!showSphere) {
       setDisplayCount(0);
+      setAnimationComplete(false);
       return;
     }
 
     let startCount = 1;
     const targetCount = 5000000; // 設置目標數為500萬
-    const duration = 10000; // 增加持續時間到10秒，給用戶足夠時間觀察
-    const interval = 50;
+    const duration = 8000; // 縮短持續時間到8秒，讓動畫更快完成
+    const interval = 40;
     const steps = duration / interval;
     const increment = (targetCount - startCount) / steps;
 
@@ -47,12 +49,14 @@ export const ConsumerDatabase = ({
       if (currentCount >= targetCount) {
         currentCount = targetCount;
         clearInterval(timer);
+        // 標記消費者資料庫動畫完成
+        setAnimationComplete(true);
       }
       setDisplayCount(Math.floor(currentCount));
     }, interval);
 
     return () => clearInterval(timer);
-  }, [showSphere]); // 移除所有其他依賴
+  }, [showSphere]); // 簡化依賴
 
   if (!showSphere) return null;
 
