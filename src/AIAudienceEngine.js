@@ -321,7 +321,8 @@ const AIAudienceEngine = () => {
         zIndex: 50,
         padding: "10px 15px",
         maxWidth: "800px",
-        margin: "0 auto"
+        margin: "0 auto",
+        textAlign: "center"
       }}>
         {description}
       </div>
@@ -405,14 +406,16 @@ const AIAudienceEngine = () => {
 
         {/* 下區塊：描述文字與控制按鈕 */}
         <div className="bottom-section">
-          <StageDescription description={stageDescription} />
-          <div className="controls-container">
-            <button onClick={togglePause} className={`control-button ${isPaused ? "pause-button" : "play-button"}`}>
-              {isPaused ? "繼續" : "暫停"}
-            </button>
-            <button onClick={handleReset} className="control-button reset-button">
-              重新播放
-            </button>
+          <div className="bottom-content">
+            <StageDescription description={stageDescription} />
+            <div className="controls-container">
+              <button onClick={togglePause} className={`control-button ${isPaused ? "pause-button" : "play-button"}`}>
+                {isPaused ? "繼續" : "暫停"}
+              </button>
+              <button onClick={handleReset} className="control-button reset-button">
+                重新播放
+              </button>
+            </div>
           </div>
         </div>
       </div>
