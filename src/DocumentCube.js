@@ -189,11 +189,14 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
 
   // 當文件立方體展示完成時，發送完成事件
   useEffect(() => {
-    if (showCube && documentParticles.length > 0 && progress > 52) { // Adjust progress threshold as needed
+    // 只有當所有知識點都已顯示(progress > 52)且文檔粒子存在時
+    if (showCube && documentParticles.length > 0 && progress > 52) {
+      // 透過計時器確保動畫有足夠時間執行
       const timer = setTimeout(() => {
+        console.log("立方體動畫完成，發送完成事件");
         const event = new CustomEvent('cubeAnimationComplete');
         window.dispatchEvent(event);
-      }, 1000); // Adjust delay as needed
+      }, 3000); // 增加延遲確保動畫完成
 
       return () => clearTimeout(timer);
     }

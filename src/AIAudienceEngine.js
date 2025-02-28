@@ -141,15 +141,8 @@ const AIAudienceEngine = () => {
     const timeline = config.timeline;
     const { particleUpdateInterval, progressIncrement } = getAnimationParams();
     
-    // 監控消費者資料庫動畫進度
-    if (showSphere && !animationStates.sphereComplete) {
-      if (consumerDataProgress >= 100) {
-        checkAnimationComplete('sphereComplete');
-      } else {
-        setConsumerDataProgress(prev => Math.min(prev + 0.5, 100));
-      }
-    }
-
+    // 不再使用進度條監控，完全依賴動畫完成事件
+    
     intervalRef.current = setInterval(() => {
       setProgress((prev) => {
         const newProgress = prev + progressIncrement;
@@ -165,11 +158,11 @@ const AIAudienceEngine = () => {
             // 確保前一階段動畫完成才轉到下一階段
             let shouldProceed = true;
             
-            // 檢查各階段動畫是否完成
+            // 嚴格檢查各階段動畫是否完成
             if (point.action === "startCube" && !animationStates.sphereComplete) {
               shouldProceed = false;
               shouldHoldProgress = true;
-              console.log("等待球體動畫完成...");
+              console.log("等待球體動畫完成...到3000000");
             } else if (point.action === "startDataFusion" && !animationStates.cubeComplete) {
               shouldProceed = false;
               shouldHoldProgress = true;

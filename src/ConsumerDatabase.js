@@ -37,8 +37,8 @@ export const ConsumerDatabase = ({
     }
 
     let startCount = 1;
-    const targetCount = 5000000; // 設置目標數為500萬
-    const duration = 12000; // 延長持續時間到12秒，確保有足夠時間展示
+    const targetCount = 3000000; // 設置正確的目標數為300萬
+    const duration = 12000; // 持續時間12秒
     const interval = 30;
     const steps = duration / interval;
     const increment = (targetCount - startCount) / steps;
@@ -49,8 +49,9 @@ export const ConsumerDatabase = ({
       if (currentCount >= targetCount) {
         currentCount = targetCount;
         clearInterval(timer);
-        // 標記消費者資料庫動畫完成
+        // 必須確保計數完成才標記動畫完成
         setAnimationComplete(true);
+        console.log("消費者資料庫動畫計數完成:", targetCount);
         // 使用自定義事件通知父組件此動畫已完成
         const event = new CustomEvent('sphereAnimationComplete');
         window.dispatchEvent(event);
