@@ -31,7 +31,7 @@ export const generateSphereParticles = () => {
       color,
       opacity: 0.9 + Math.random() * 0.1, // 提高整體透明度
       trait,
-      showTrait: Math.random() < 0.35, // 進一步增加標籤顯示比例
+      showTrait: true, // 顯示所有標籤
       highlighted: false,
       matched: false,
     };
@@ -115,9 +115,16 @@ export const ConsumerDatabase = ({
         const displayOpacity = Math.min(1, Math.max(0, particle.opacity * Math.max(0.2, scale)));
         const displayZIndex = Math.min(Math.max(0, Math.floor(isFinite(particle.displayZ) ? particle.displayZ + 500 : 500)), 1500); // 確保 zIndex 有效
 
-        const shouldShowTrait = particle.showTrait && scale > 0.6; // 降低標籤顯示門檻
-        const labelX = Math.min(Math.max(particle.displayX + (Math.random() * 10 - 5), 10), 90);
-        const labelY = Math.min(Math.max(particle.displayY - 12, 10), 90);
+        // 根據進度和位置動態顯示標籤，模擬標籤隨時間增加
+        const progressVisibilityFactor = Math.min(1, progress / 15); // 隨進度增加而增加顯示比例
+        const shouldShowTrait = particle.showTrait && 
+                               (scale > 0.4) && 
+                               (Math.random() < 0.7 * progressVisibilityFactor || particle.id.charCodeAt(0) % 4 === 0);
+        
+        // 讓標籤更分散
+        const randomOffset = (particle.id.charCodeAt(0) % 15) - 7;
+        const labelX = Math.min(Math.max(particle.displayX + randomOffset, 10), 90);
+        const labelY = Math.min(Math.max(particle.displayY + (randomOffset / 2), 10), 90);
 
         return (
           <div key={particle.id} className="particle-wrapper">
@@ -153,6 +160,7 @@ export const ConsumerDatabase = ({
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   transform: "translateX(-50%)",
+                  '--animation-order': particle.id.charCodeAt(0) % 20, // 設置不同的出現順序
                 }}
               >
                 {particle.trait}
@@ -166,14 +174,20 @@ export const ConsumerDatabase = ({
           className="database-counter fade-in"
           style={{
             zIndex: 200,
-            top: "40%",
+            top: "20%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             animation: progress > 15 ? "fadeOut 1s forwards" : "none",
+            padding: "15px 25px",
+            backdropFilter: "blur(5px)",
+            boxShadow: "0 0 20px rgba(255, 187, 0, 0.5)",
           }}
         >
           <div className="counter-value">{formatNumber(displayCount)}</div>
           <div className="counter-label">消費者輪廓資料庫</div>
+          <div className="counter-sublabel" style={{ marginTop: "5px", fontSize: "0.9rem", color: "#ffdd77" }}>
+            收集標籤數: {Math.floor(displayCount * 0.35 / 1000)}K+ 種
+          </div>
         </div>
       )}
     </div>
