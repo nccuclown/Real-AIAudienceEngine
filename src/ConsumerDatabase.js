@@ -10,10 +10,10 @@ export const generateSphereParticles = () => {
   for (let i = 0; i < particleCount; i++) {
     const phi = Math.acos(2 * Math.random() - 1);
     const theta = Math.random() * Math.PI * 2;
-    const radius = 75; // 增大球體半徑
-    const x = 50 + radius * Math.sin(phi) * Math.cos(theta);
-    const y = 50 + radius * Math.sin(phi) * Math.sin(theta);
-    const z = Math.max(-75, Math.min(75, radius * Math.cos(phi)));
+    const radius = 750; // 放大球體半徑十倍
+    const x = 50 + radius * Math.sin(phi) * Math.cos(theta) / 10; // 調整x座標比例
+    const y = 50 + radius * Math.sin(phi) * Math.sin(theta) / 10; // 調整y座標比例
+    const z = Math.max(-750, Math.min(750, radius * Math.cos(phi)));
 
     const traitIndex = Math.floor(Math.random() * audienceTraits.length);
     const trait = audienceTraits[traitIndex];
@@ -27,11 +27,11 @@ export const generateSphereParticles = () => {
       phi,
       theta,
       radius,
-      size: 6 + Math.random() * 6, // 增大粒子尺寸
+      size: 60 + Math.random() * 60, // 放大粒子尺寸十倍
       color,
-      opacity: 0.85 + Math.random() * 0.15, // 提高最低透明度
+      opacity: 0.9 + Math.random() * 0.1, // 提高整體透明度
       trait,
-      showTrait: Math.random() < 0.25, // 增加標籤顯示比例
+      showTrait: Math.random() < 0.35, // 進一步增加標籤顯示比例
       highlighted: false,
       matched: false,
     };
@@ -110,10 +110,10 @@ export const ConsumerDatabase = ({
   return (
     <div className="sphere-container">
       {audienceParticles.map((particle) => {
-        const scale = (particle.displayZ + 75) / 150 || 0.1; // 調整縮放比例
-        const displaySize = Math.max(5, particle.size * (0.6 + Math.max(0.1, scale)));
+        const scale = (particle.displayZ + 750) / 1500 || 0.1; // 調整縮放比例
+        const displaySize = Math.max(50, particle.size * (0.6 + Math.max(0.1, scale)));
         const displayOpacity = Math.min(1, Math.max(0, particle.opacity * Math.max(0.2, scale)));
-        const displayZIndex = Math.min(Math.max(0, Math.floor(isFinite(particle.displayZ) ? particle.displayZ + 50 : 50)), 150); // 確保 zIndex 有效
+        const displayZIndex = Math.min(Math.max(0, Math.floor(isFinite(particle.displayZ) ? particle.displayZ + 500 : 500)), 1500); // 確保 zIndex 有效
 
         const shouldShowTrait = particle.showTrait && scale > 0.6; // 降低標籤顯示門檻
         const labelX = Math.min(Math.max(particle.displayX + (Math.random() * 10 - 5), 10), 90);
