@@ -343,12 +343,14 @@ const AIAudienceEngine = () => {
         {/* 上區塊：標題與進度條 */}
         <div className="top-section">
           <div className="header-container">
-            <h1 className="main-title">AI Audience 智能受眾引擎</h1>
+            <div className="title-stage-row">
+              <h1 className="main-title">AI Audience 智能受眾引擎</h1>
+              <div className="stage-indicator">{config.stages[stage]}</div>
+            </div>
             <div className="progress-container">
               <div className="progress-bar-container">
                 <div className="progress-bar" style={{ width: `${progress}%` }} />
               </div>
-              <div className="stage-indicator">{config.stages[stage]}</div>
             </div>
           </div>
         </div>

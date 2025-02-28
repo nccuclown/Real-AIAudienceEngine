@@ -106,7 +106,15 @@
 .header-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  width: 100%;
+}
+
+/* 標題與階段指示器行 */
+.title-stage-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -114,18 +122,31 @@
 .main-title {
   font-size: 1.8rem;
   font-weight: 700;
-  text-align: center;
   color: #ffbb00;
   margin: 0;
   text-shadow: 0 0 10px rgba(255, 187, 0, 0.5);
   letter-spacing: 1px;
+  flex: 1;
+  text-align: left;
+}
+
+/* 階段指示器 */
+.stage-indicator {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #ffbb00;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px 15px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 187, 0, 0.3);
+  text-shadow: 0 0 5px rgba(255, 187, 0, 0.5);
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* 進度條容器 */
 .progress-container {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  width: 100%;
 }
 
 /* 進度條背景 */
@@ -143,13 +164,6 @@
   background: linear-gradient(to right, #ffbb00, #ff8a00);
   border-radius: 3px;
   transition: width 0.2s ease;
-}
-
-/* 階段指示器 */
-.stage-indicator {
-  font-size: 0.9rem;
-  text-align: right;
-  color: #ffbb00;
 }
 
 /* 技術標籤 */
