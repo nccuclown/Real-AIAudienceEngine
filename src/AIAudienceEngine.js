@@ -316,20 +316,8 @@ const AIAudienceEngine = () => {
   const StageDescription = ({ description }) => {
     if (!description || typeof description !== 'string') return null;
     return (
-      <div className="stage-description-wrapper" style={{ 
-        position: "relative",
-        zIndex: 50,
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        margin: "0 auto 20px auto" // 增加底部邊距，讓按鈕不會太靠近
-      }}>
-        <div style={{
-          padding: "10px 15px",
-          maxWidth: "1000px", // 增加最大寬度，讓文字有更多空間
-          textAlign: "center",
-          lineHeight: "1.6" // 增加行高，優化閱讀體驗
-        }}>
+      <div className="stage-description-container">
+        <div className="stage-description-content">
           {description}
         </div>
       </div>
