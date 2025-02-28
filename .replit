@@ -10,3 +10,14 @@ run = ["sh", "-c", "npm run start"]
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[workflows]
+runButton = "Dev Server"
+
+[[workflows.workflow]]
+name = "Dev Server"
+author = 39030242
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
