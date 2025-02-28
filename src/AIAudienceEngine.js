@@ -316,6 +316,17 @@ const AIAudienceEngine = () => {
   const StageDescription = ({ description }) => {
     if (!description || typeof description !== 'string') return null;
     return (
+      <div className="stage-description" style={{ 
+        position: "relative",
+        zIndex: 50,
+        padding: "10px 15px",
+        maxWidth: "800px",
+        margin: "0 auto"
+      }}>
+        {description}
+      </div>
+    );') return null;
+    return (
       <div className="stage-description-bottom">{description}</div>
     );
   };

@@ -333,7 +333,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
       {/* 提取信息面板 */}
       <div className="extraction-panel" style={{
         position: 'absolute',
-        top: '25%',
+        top: '15%',
         left: '5%',
         width: '240px',
         padding: '10px',
@@ -341,7 +341,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
         borderRadius: '5px',
         border: `1px solid ${config.colors.primary}`,
         boxShadow: `0 0 10px ${config.colors.primary}`,
-        zIndex: 40,
+        zIndex: 100,
         opacity: progress > 28 ? 1 : 0,
         transition: 'opacity 0.5s',
       }}>
@@ -401,8 +401,8 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
       {/* RAG 技術標籤 */}
       <div className="rag-tag" style={{
         position: 'absolute',
-        top: '45%',
-        right: '10%',
+        top: '25%',
+        right: '8%',
         padding: '8px 12px',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         borderRadius: '5px',
@@ -410,7 +410,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
         color: config.colors.secondary,
         fontSize: '0.9rem',
         fontWeight: 'bold',
-        zIndex: 40,
+        zIndex: 100,
         display: 'flex',
         alignItems: 'center',
       }}>
@@ -429,12 +429,12 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
       {/* 處理步驟指示器 */}
       <div className="processing-steps" style={{
         position: 'absolute',
-        bottom: '10%',
+        bottom: '15%',
         left: '50%',
         transform: 'translateX(-50%)',
         display: 'flex',
         gap: '20px',
-        zIndex: 40,
+        zIndex: 100,
       }}>
         <div className="step" style={{
           padding: '5px 10px',
