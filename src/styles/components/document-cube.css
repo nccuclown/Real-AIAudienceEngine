@@ -1,71 +1,75 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Three-Section Layout</title>
-<style>
-body {
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
-}
 
-.top-section {
-  background-color: #f0f0f0;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.middle-section {
-  flex: 1; /* Takes up available space */
-  padding: 20px;
-  overflow-y: auto; /* Add scrollbar if content exceeds height */
-  background-color: white;
-}
-
-.bottom-section {
-  background-color: #f0f0f0;
-  padding: 20px;
-  text-align: center;
-}
-
-/* Progress Bar Styling (example) */
-.progress-bar {
-  width: 300px;
-  height: 20px;
-  background-color: #ddd;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
+/* document-cube.css */
+.cube-container {
+  position: relative;
+  width: 100%;
   height: 100%;
-  background-color: #4CAF50;
-  width: 50%; /* Adjust as needed */
 }
 
+.document-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: transform 0.5s ease;
+}
 
-</style>
-</head>
-<body>
-  <div class="top-section">
-    <h1>Visualization Title</h1>
-    <div class="progress-bar">
-      <div class="progress-bar-fill"></div>
-    </div>
-  </div>
+.document-particle {
+  position: absolute;
+  transform-origin: center;
+  border-radius: 2px;
+  transition: opacity 0.3s ease, box-shadow 0.3s ease, transform 0.5s ease;
+}
 
-  <div class="middle-section">
-    <!-- Place your visualization content here -->
-    <p>This is where the main visualization content will go.  Add your charts, graphs, or other visual elements here.</p>
-  </div>
+.particle-label {
+  position: absolute;
+  padding: 3px 6px;
+  font-size: 0.7rem;
+  border-radius: 2px;
+  white-space: nowrap;
+  z-index: 200;
+  pointer-events: none;
+}
 
-  <div class="bottom-section">
-    <p>A brief description of the visualization.</p>
-    <button>Replay</button>
-  </div>
-</body>
-</html>
+.extracted-document {
+  transform: scale(1.2);
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* 知識庫核心樣式 */
+.knowledge-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+}
