@@ -340,7 +340,7 @@ const AIAudienceEngine = () => {
         </svg>
       </div>
       <div className="app-layout">
-        {/* 上部分：標題與進度條 */}
+        {/* 上區塊：標題與進度條 */}
         <div className="top-section">
           <div className="header-container">
             <h1 className="main-title">AI Audience 智能受眾引擎</h1>
@@ -353,29 +353,55 @@ const AIAudienceEngine = () => {
           </div>
         </div>
 
-        {/* 中間部分：視覺展演內容 */}
+        {/* 中區塊：視覺化內容 - 分為左中右三區域 */}
         <div className="middle-section">
           <div className="visualization-container animation-boundary">
+            {/* 左區域 - 資料融合 */}
             <div className="left-zone">
-              <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
+              <div className="zone-content">
+                <div className="data-fusion-layer" style={{ zIndex: showDataFusion ? 100 : 10 }}>
+                  <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
+                </div>
+              </div>
             </div>
+            
+            {/* 中間區域 - 球體和立方體 */}
             <div className="center-zone">
-              <div className="sphere-layer" style={{ position: "absolute", inset: 0, zIndex: showSphere ? 50 : 10, height: "100%" }}>
+              <div className="sphere-layer" style={{ zIndex: showSphere ? 100 : 10 }}>
                 <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
               </div>
-              <div className="cube-layer" style={{ position: "absolute", inset: 0, zIndex: showCube ? 25 : 10, height: "100%" }}>
+              <div className="cube-layer" style={{ zIndex: showCube ? 100 : 10 }}>
                 <DocumentCube showCube={showCube} documentParticles={documentParticles} progress={progress} cubeRotation={cubeRotation} />
               </div>
             </div>
+            
+            {/* 右區域 - 產品匹配 */}
             <div className="right-zone">
-              <ProductMatching showMatching={showMatching} progress={progress} />
+              <div className="zone-content">
+                <div className="matching-layer" style={{ zIndex: showMatching ? 100 : 10 }}>
+                  <ProductMatching showMatching={showMatching} progress={progress} />
+                </div>
+              </div>
             </div>
-            <AnalysisReport showReport={showReport} progress={progress} />
+            
+            {/* 報告層 - 當啟用時覆蓋在中間區域上 */}
+            <div className="report-layer" style={{ 
+              position: "absolute", 
+              inset: 0, 
+              zIndex: showReport ? 150 : 0,
+              display: showReport ? "flex" : "none",
+              justifyContent: "center",
+              alignItems: "center"
+            }}>
+              <AnalysisReport showReport={showReport} progress={progress} />
+            </div>
+            
+            {/* 技術標籤 - 顯示在右上角 */}
             <TechLabel label={techLabel} />
           </div>
         </div>
 
-        {/* 下部分：說明文字與控制按鈕 */}
+        {/* 下區塊：描述文字與控制按鈕 */}
         <div className="bottom-section">
           <StageDescription description={stageDescription} />
           <div className="controls-container">
