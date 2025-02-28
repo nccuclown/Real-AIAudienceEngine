@@ -325,9 +325,6 @@ const AIAudienceEngine = () => {
       }}>
         {description}
       </div>
-    );') return null;
-    return (
-      <div className="stage-description-bottom">{description}</div>
     );
   };
 
