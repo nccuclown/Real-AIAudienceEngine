@@ -305,7 +305,7 @@ const AIAudienceEngine = () => {
 
   // 將組件定義在父組件外部以避免每次重新渲染
   const TechLabel = ({ label }) => {
-    if (!label) return null;
+    if (!label || typeof label !== 'string') return null;
     return (
       <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
         {label}
@@ -314,7 +314,7 @@ const AIAudienceEngine = () => {
   };
 
   const StageDescription = ({ description }) => {
-    if (!description) return null;
+    if (!description || typeof description !== 'string') return null;
     return (
       <div className="stage-description-bottom">{description}</div>
     );
@@ -346,10 +346,10 @@ const AIAudienceEngine = () => {
             <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
           </div>
           <div className="center-zone">
-            <div className="sphere-layer" style={{ position: "absolute", inset: 0, zIndex: showSphere ? 50 : 10 }}>
+            <div className="sphere-layer" style={{ position: "absolute", inset: 0, zIndex: showSphere ? 50 : 10, height: "100%" }}>
               <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
             </div>
-            <div className="cube-layer" style={{ position: "absolute", inset: 0, zIndex: showCube ? 25 : 10 }}>
+            <div className="cube-layer" style={{ position: "absolute", inset: 0, zIndex: showCube ? 25 : 10, height: "100%" }}>
               <DocumentCube showCube={showCube} documentParticles={documentParticles} progress={progress} cubeRotation={cubeRotation} />
             </div>
           </div>

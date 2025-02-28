@@ -7,17 +7,12 @@ export default class WebSocketClient {
     this.socket = null;
     this.listeners = [];
     this.reconnectAttempts = 0;
-    this.maxReconnectAttempts = 3; // 減少重連次數
+    this.maxReconnectAttempts = 0; // 禁用重連
     this.isConnecting = false;
-    this.enabled = true; // 控制是否啟用 WebSocket
+    this.enabled = false; // 禁用WebSocket以避免連接錯誤
     
-    // 只有在啟用狀態才連接
-    if (this.enabled) {
-      this.connect();
-    } else {
-      console.log('WebSocket is disabled');
-      this.notifyListeners('unavailable', null);
-    }
+    console.log('WebSocket is disabled');
+    this.notifyListeners('unavailable', null);
   }
 
   // 從當前窗口位置構建 WebSocket URL

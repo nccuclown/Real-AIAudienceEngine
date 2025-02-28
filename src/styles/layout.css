@@ -14,7 +14,8 @@
 .animation-boundary {
   position: relative;
   overflow: visible;
-  max-height: calc(100% - 110px);
+  height: calc(100% - 110px);
+  min-height: 300px;
   margin-bottom: 10px;
 }
 
