@@ -139,9 +139,21 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
       
       // 模擬提取信息
       const infoTypes = [
-        "提案分析...", "白皮書關鍵點...", "產業報告摘要...", 
-        "媒體投放建議...", "受眾洞察...", "策略趨勢...",
-        "競品分析...", "消費者行為...", "KOL影響力..."
+        "提案分析", "白皮書關鍵點", "產業報告摘要", 
+        "媒體投放建議", "受眾洞察", "策略趨勢",
+        "競品分析", "消費者行為", "KOL影響力"
+      ];
+      
+      const infoDetails = [
+        "從1,243筆提案數據中提取關鍵市場洞察，發現可應用於5大垂直產業領域",
+        "整合8份產業白皮書的市場趨勢，辨識15個關鍵增長點，預測未來3年發展趨勢",
+        "分析526個競品數據與優勢特點，歸納12個成功商業模式，發現差異化機會",
+        "萃取372個行銷策略關鍵成功因素，建立效益評估模型，提高投放ROI達38%",
+        "辨識目標受眾的5大消費傾向，23種購買決策因素，8種媒體接觸習慣",
+        "彙整128項消費者行為調查結果，分析4大類群體偏好，建立精準溝通框架",
+        "提煉18個品牌差異化指標，發掘3個未滿足市場需求，創建品牌獨特定位",
+        "統整83個高轉化率廣告文案特徵，優化創意表現，提升點擊率達43%",
+        "匯總57個目標KPI達成策略，建立跨通路整合方案，優化全通路體驗"
       ];
       
       const infoBatch = [];
@@ -149,6 +161,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
         infoBatch.push({
           id: `info-${i}`,
           text: infoTypes[i],
+          detail: infoDetails[i],
           opacity: 0,
           delay: i * 0.5
         });
@@ -266,8 +279,8 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
               }}
             ></div>
             
-            {/* 文檔類型標籤 */}
-            {particle.showType && (
+            {/* 文檔類型標籤 - 只在中央區域顯示 */}
+            {particle.showType && Math.abs(particle.y) < 50 && (
               <div
                 className="particle-label"
                 style={{
@@ -277,6 +290,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                   backgroundColor: `rgba(0, 0, 0, 0.7)`,
                   border: `1px solid ${particle.color}`,
                   color: particle.color,
+                  zIndex: 200,
                 }}
               >
                 {particle.type}
@@ -353,20 +367,6 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
         
         <div className="extraction-list">
           {extractedInfo.map((info, index) => {
-            // 為每個項目添加詳細內容
-            const detailTexts = [
-              "從1,243筆提案數據中提取關鍵洞察",
-              "整合8份產業白皮書的市場趨勢",
-              "分析526個競品數據與優勢特點",
-              "萃取372個行銷策略關鍵成功因素",
-              "辨識目標受眾的5大消費傾向",
-              "彙整128項消費者行為調查結果",
-              "提煉18個品牌差異化指標",
-              "統整83個高轉化率廣告文案特徵",
-              "匯總57個目標KPI達成策略"
-            ];
-            const detailText = index < detailTexts.length ? detailTexts[index] : "分析關鍵數據中...";
-            
             return (
               <div key={info.id} className="extraction-item" style={{
                 fontSize: '0.8rem',
@@ -390,7 +390,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                   marginTop: '3px',
                   lineHeight: '1.2'
                 }}>
-                  {detailText}
+                  {info.detail}
                 </div>
               </div>
             );
