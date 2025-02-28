@@ -1,3 +1,64 @@
+
+/* 新增UI元素樣式 */
+
+/* 動畫階段指示器 */
+.animation-stage-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 187, 0, 0.4);
+  border-radius: 4px;
+  color: #ffbb00;
+  font-size: 0.8rem;
+  margin-left: 15px;
+}
+
+/* 推進按鈕樣式 */
+.advance-button {
+  background-color: rgba(38, 198, 218, 0.2) !important;
+  border-color: rgba(38, 198, 218, 0.5) !important;
+}
+
+.advance-button:hover:not(:disabled) {
+  background-color: rgba(38, 198, 218, 0.3) !important;
+}
+
+.advance-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* 為動畫粒子添加飛入效果 */
+@keyframes flyToCore {
+  0% {
+    opacity: 0.8;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.1);
+  }
+}
+
+/* 知識項目激活效果 */
+.knowledge-item-active {
+  animation: glowPulse 2s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 187, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 187, 0, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 187, 0, 0.5);
+  }
+}
+
 /* main.css - 主要CSS檔案，引入所有其他CSS檔案 */
 
 @import "./base.css";

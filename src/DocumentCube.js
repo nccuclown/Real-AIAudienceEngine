@@ -1,3 +1,4 @@
+
 // DocumentCube.js
 import React, { useState, useEffect } from "react";
 import "./styles/components/document-cube.css";
@@ -59,8 +60,8 @@ export const updateDocumentParticles = (particles, progress) => {
     let connectionProgress = p.connectionProgress;
     let isExtracted = p.isExtracted;
 
-    // 30-35% 進度範圍：部分文檔開始連接到知識庫
-    if (progress > 30 && progress < 35 && Math.random() < 0.001 && !isConnecting) {
+    // 當進度超過30%，開始連接到知識庫
+    if (progress > 30 && Math.random() < 0.001 && !isConnecting) {
       isConnecting = true;
     }
 
@@ -99,10 +100,18 @@ export const updateDocumentParticles = (particles, progress) => {
 const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) => {
   const [knowledgeRings, setKnowledgeRings] = useState([]);
   const [extractedInfo, setExtractedInfo] = useState([]);
+  const [animationPhase, setAnimationPhase] = useState(0);
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const [internalProgress, setInternalProgress] = useState(0);
 
   // 生成知識環 - 縮小尺寸以確保完全在中間區域顯示
   useEffect(() => {
     if (showCube) {
+      // 重置動畫狀態
+      setAnimationPhase(0);
+      setAnimationComplete(false);
+      setInternalProgress(0);
+      
       const rings = [];
       // 內環 - 縮小半徑
       rings.push({
@@ -170,38 +179,59 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
     }
   }, [showCube]);
 
+  // 控制立方體動畫進度
+  useEffect(() => {
+    if (!showCube) return;
+
+    // 內部動畫時間控制
+    const animationTimer = setInterval(() => {
+      setInternalProgress(prev => {
+        const newProgress = prev + 0.5; // 緩慢增加內部進度
+        
+        // 檢查是否需要進入下一階段
+        if (newProgress >= 30 && animationPhase === 0) {
+          setAnimationPhase(1); // 第一階段：顯示知識點
+        } else if (newProgress >= 60 && animationPhase === 1) {
+          setAnimationPhase(2); // 第二階段：顯示處理結果
+        } else if (newProgress >= 90 && animationPhase === 2) {
+          setAnimationPhase(3); // 第三階段：顯示完整知識庫
+        }
+        
+        // 如果達到100%，標記動畫完成
+        if (newProgress >= 100 && !animationComplete) {
+          setAnimationComplete(true);
+          // 完成後觸發事件
+          setTimeout(() => {
+            console.log("立方體動畫完成，發送完成事件");
+            const event = new CustomEvent('cubeAnimationComplete');
+            window.dispatchEvent(event);
+          }, 1000);
+          clearInterval(animationTimer);
+          return 100;
+        }
+        
+        return newProgress > 100 ? 100 : newProgress;
+      });
+    }, 100);
+
+    return () => clearInterval(animationTimer);
+  }, [showCube, animationPhase, animationComplete]);
+
   // 更新提取信息的顯示
   useEffect(() => {
-    if (showCube && progress > 28) {
+    if (showCube && animationPhase >= 1) {
       const timer = setInterval(() => {
         setExtractedInfo(prev => 
           prev.map(info => ({
             ...info,
-            opacity: progress > (28 + info.delay) ? 
-              Math.min(info.opacity + 0.05, 1) : info.opacity
+            opacity: Math.min(info.opacity + 0.05, 1)
           }))
         );
       }, 100);
 
       return () => clearInterval(timer);
     }
-  }, [showCube, progress]);
-
-  // 當文件立方體展示完成時，發送完成事件
-  useEffect(() => {
-    // 只有當所有知識點都已顯示(progress > 52)且文檔粒子存在時
-    if (showCube && documentParticles.length > 0 && progress > 52) {
-      // 透過計時器確保動畫有足夠時間執行
-      const timer = setTimeout(() => {
-        console.log("立方體動畫完成，發送完成事件");
-        const event = new CustomEvent('cubeAnimationComplete');
-        window.dispatchEvent(event);
-      }, 3000); // 增加延遲確保動畫完成
-
-      return () => clearTimeout(timer);
-    }
-  }, [showCube, documentParticles.length, progress]);
-
+  }, [showCube, animationPhase]);
 
   if (!showCube) return null;
 
@@ -222,7 +252,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
         alignItems: "center",
         pointerEvents: "none"
       }}>
-        {showCube && progress >= 25 && (
+        {showCube && (
           <div className="knowledge-core" style={{
             width: "150px",
             height: "150px",
@@ -263,7 +293,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
             }}></div>
 
             {/* 動態知識擷取動畫 */}
-            {progress > 30 && progress < 65 && (
+            {animationPhase >= 1 && (
               <>
                 {/* 知識擷取的閃光效果 */}
                 <div className="knowledge-extraction-rays" style={{
@@ -297,18 +327,18 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                   zIndex: 30
                 }}>
                   {/* 第一個知識點 - 產業專案 */}
-                  <div className={`knowledge-item ${progress > 32 ? 'knowledge-item-active' : ''}`} style={{
+                  <div className={`knowledge-item ${animationPhase >= 1 ? 'knowledge-item-active' : ''}`} style={{
                     position: "absolute",
                     top: "-130px",
                     left: "50%",
-                    transform: `translate(-50%, ${progress > 32 ? '0' : '-50px'})`,
+                    transform: `translate(-50%, ${animationPhase >= 1 ? '0' : '-50px'})`,
                     backgroundColor: "rgba(0, 0, 0, 0.7)",
                     border: `1px solid ${config.colors.primary}`,
                     borderRadius: "8px",
                     padding: "8px 12px",
                     color: "white",
                     fontSize: "0.8rem",
-                    opacity: progress > 32 ? 1 : 0,
+                    opacity: animationPhase >= 1 ? 1 : 0,
                     transition: "opacity 0.5s, transform 0.5s",
                     whiteSpace: "nowrap",
                     textAlign: "center",
@@ -317,7 +347,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                     <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
                     從1234篇產業專案中提取關鍵詞彙
                     <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
-                      {progress > 32 && Array.from({ length: 5 }).map((_, i) => (
+                      {animationPhase >= 1 && Array.from({ length: 5 }).map((_, i) => (
                         <div key={`particle-1-${i}`} style={{
                           position: "absolute",
                           width: "3px", 
@@ -334,18 +364,18 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                   </div>
 
                   {/* 第二個知識點 - 白皮書 */}
-                  <div className={`knowledge-item ${progress > 37 ? 'knowledge-item-active' : ''}`} style={{
+                  <div className={`knowledge-item ${animationPhase >= 1 ? 'knowledge-item-active' : ''}`} style={{
                     position: "absolute",
                     top: "50%",
                     right: "-180px",
-                    transform: `translateY(-50%) ${progress > 37 ? 'translateX(0)' : 'translateX(50px)'}`,
+                    transform: `translateY(-50%) ${animationPhase >= 1 ? 'translateX(0)' : 'translateX(50px)'}`,
                     backgroundColor: "rgba(0, 0, 0, 0.7)",
                     border: `1px solid ${config.colors.secondary}`,
                     borderRadius: "8px",
                     padding: "8px 12px",
                     color: "white",
                     fontSize: "0.8rem",
-                    opacity: progress > 37 ? 1 : 0,
+                    opacity: animationPhase >= 1 ? 1 : 0,
                     transition: "opacity 0.5s, transform 0.5s",
                     whiteSpace: "nowrap",
                     textAlign: "center",
@@ -354,7 +384,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                     <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
                     整合543份產業白皮書
                     <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
-                      {progress > 37 && Array.from({ length: 5 }).map((_, i) => (
+                      {animationPhase >= 1 && Array.from({ length: 5 }).map((_, i) => (
                         <div key={`particle-2-${i}`} style={{
                           position: "absolute",
                           width: "3px", 
@@ -371,18 +401,18 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                   </div>
 
                   {/* 第三個知識點 - 廣告投放 */}
-                  <div className={`knowledge-item ${progress > 42 ? 'knowledge-item-active' : ''}`} style={{
+                  <div className={`knowledge-item ${animationPhase >= 2 ? 'knowledge-item-active' : ''}`} style={{
                     position: "absolute",
                     bottom: "-130px",
                     left: "50%",
-                    transform: `translate(-50%, ${progress > 42 ? '0' : '50px'})`,
+                    transform: `translate(-50%, ${animationPhase >= 2 ? '0' : '50px'})`,
                     backgroundColor: "rgba(0, 0, 0, 0.7)",
                     border: `1px solid ${config.colors.blue}`,
                     borderRadius: "8px",
                     padding: "8px 12px",
                     color: "white",
                     fontSize: "0.8rem",
-                    opacity: progress > 42 ? 1 : 0,
+                    opacity: animationPhase >= 2 ? 1 : 0,
                     transition: "opacity 0.5s, transform 0.5s",
                     whiteSpace: "nowrap",
                     textAlign: "center",
@@ -391,7 +421,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                     <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
                     分析527個廣告投放數據
                     <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
-                      {progress > 42 && Array.from({ length: 5 }).map((_, i) => (
+                      {animationPhase >= 2 && Array.from({ length: 5 }).map((_, i) => (
                         <div key={`particle-3-${i}`} style={{
                           position: "absolute",
                           width: "3px", 
@@ -408,18 +438,18 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                   </div>
 
                   {/* 第四個知識點 - 成功提案 */}
-                  <div className={`knowledge-item ${progress > 47 ? 'knowledge-item-active' : ''}`} style={{
+                  <div className={`knowledge-item ${animationPhase >= 2 ? 'knowledge-item-active' : ''}`} style={{
                     position: "absolute",
                     top: "50%",
                     left: "-180px",
-                    transform: `translateY(-50%) ${progress > 47 ? 'translateX(0)' : 'translateX(-50px)'}`,
+                    transform: `translateY(-50%) ${animationPhase >= 2 ? 'translateX(0)' : 'translateX(-50px)'}`,
                     backgroundColor: "rgba(0, 0, 0, 0.7)",
                     border: `1px solid ${config.colors.accent}`,
                     borderRadius: "8px",
                     padding: "8px 12px",
                     color: "white",
                     fontSize: "0.8rem",
-                    opacity: progress > 47 ? 1 : 0,
+                    opacity: animationPhase >= 2 ? 1 : 0,
                     transition: "opacity 0.5s, transform 0.5s",
                     whiteSpace: "nowrap",
                     textAlign: "center",
@@ -428,7 +458,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                     <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
                     學習372個成功提案
                     <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
-                      {progress > 47 && Array.from({ length: 5 }).map((_, i) => (
+                      {animationPhase >= 2 && Array.from({ length: 5 }).map((_, i) => (
                         <div key={`particle-4-${i}`} style={{
                           position: "absolute",
                           width: "3px", 
@@ -445,7 +475,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                   </div>
 
                   {/* 中央處理指示器 */}
-                  {progress > 52 && (
+                  {animationPhase >= 3 && (
                     <div style={{
                       position: "absolute",
                       top: "50%",
@@ -466,17 +496,35 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                       animation: "pulse 2s infinite",
                       zIndex: 40
                     }}>
-                      <div style={{ fontWeight: "bold", marginBottom: "5px" }}>知識整合中</div>
-                      <div style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{Math.min(99, Math.floor((progress - 52) * 6))}%</div>
+                      <div style={{ fontWeight: "bold", marginBottom: "5px" }}>知識整合完成</div>
+                      <div style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+                        {animationComplete ? "100%" : `${Math.min(99, Math.floor(internalProgress))}%`}
+                      </div>
                     </div>
                   )}
                 </div>
               </>
             )}
+
+            {/* 動畫進度指示器 - 僅在開發模式顯示 */}
+            <div style={{ 
+              position: "absolute", 
+              bottom: "-80px", 
+              left: "50%", 
+              transform: "translateX(-50%)",
+              fontSize: "0.7rem", 
+              color: "#aaaaaa",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              padding: "2px 6px",
+              borderRadius: "4px",
+              whiteSpace: "nowrap"
+            }}>
+              動畫階段: {animationPhase}/3 | 進度: {Math.floor(internalProgress)}%
+              {animationComplete && <span style={{ color: "#26c6da" }}> (完成)</span>}
+            </div>
           </div>
         )}
       </div>
-
     </div>
   );
 };

@@ -1,7 +1,8 @@
+
 // AIAudienceEngine.js
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/main.css";
-import { config, getAnimationParams } from "./config";
+import { config, getAnimationParams, calculateProgressFromStage } from "./config";
 import ConsumerDatabase, {
   generateSphereParticles,
   updateSphereParticles,
@@ -43,6 +44,7 @@ const AIAudienceEngine = () => {
   const [dataCount, setDataCount] = useState(0);
   const [techLabel, setTechLabel] = useState("");
   const [stageDescription, setStageDescription] = useState("");
+  const [currentTimelineIndex, setCurrentTimelineIndex] = useState(0);
 
   const animationRef = useRef(null);
   const intervalRef = useRef(null);
@@ -82,6 +84,14 @@ const AIAudienceEngine = () => {
     setTechLabel("");
     setStageDescription("");
     setIsPaused(false);
+    setCurrentTimelineIndex(0);
+    setAnimationStates({
+      sphereComplete: false,
+      cubeComplete: false,
+      dataFusionComplete: false,
+      matchingComplete: false,
+      reportComplete: false
+    });
   };
 
   const togglePause = () => setIsPaused(!isPaused);
@@ -106,13 +116,14 @@ const AIAudienceEngine = () => {
     matchingComplete: false,
     reportComplete: false
   });
-
-  // 計算消費者資料顯示進度
-  const [consumerDataProgress, setConsumerDataProgress] = useState(0);
   
-  // 動畫完成檢查
+  // 檢查動畫完成
   const checkAnimationComplete = (animationType, value = true) => {
-    setAnimationStates(prev => ({...prev, [animationType]: value}));
+    setAnimationStates(prev => {
+      const newStates = {...prev, [animationType]: value};
+      console.log(`動畫狀態更新: ${animationType} = ${value}`, newStates);
+      return newStates;
+    });
   };
 
   // 監聽動畫完成事件
@@ -120,226 +131,228 @@ const AIAudienceEngine = () => {
     const handleSphereComplete = () => {
       checkAnimationComplete('sphereComplete', true);
       console.log("球體動畫完成事件觸發");
+      // 當球體動畫完成，更新進度並移動到下一階段
+      advanceTimeline();
     };
     
     const handleCubeComplete = () => {
       checkAnimationComplete('cubeComplete', true);
       console.log("立方體動畫完成事件觸發");
+      // 當立方體動畫完成，更新進度並移動到下一階段
+      advanceTimeline();
+    };
+
+    const handleDataFusionComplete = () => {
+      checkAnimationComplete('dataFusionComplete', true);
+      console.log("數據融合動畫完成事件觸發");
+      advanceTimeline();
+    };
+
+    const handleMatchingComplete = () => {
+      checkAnimationComplete('matchingComplete', true);
+      console.log("匹配動畫完成事件觸發");
+      advanceTimeline();
+    };
+
+    const handleReportComplete = () => {
+      checkAnimationComplete('reportComplete', true);
+      console.log("報告動畫完成事件觸發");
+      advanceTimeline();
     };
     
     window.addEventListener('sphereAnimationComplete', handleSphereComplete);
     window.addEventListener('cubeAnimationComplete', handleCubeComplete);
+    window.addEventListener('dataFusionComplete', handleDataFusionComplete);
+    window.addEventListener('matchingComplete', handleMatchingComplete);
+    window.addEventListener('reportComplete', handleReportComplete);
     
     return () => {
       window.removeEventListener('sphereAnimationComplete', handleSphereComplete);
       window.removeEventListener('cubeAnimationComplete', handleCubeComplete);
+      window.removeEventListener('dataFusionComplete', handleDataFusionComplete);
+      window.removeEventListener('matchingComplete', handleMatchingComplete);
+      window.removeEventListener('reportComplete', handleReportComplete);
     };
   }, []);
 
+  // 推進時間線到下一個階段
+  const advanceTimeline = () => {
+    if (isPaused) return;
+    
+    // 確保不會超出時間線範圍
+    if (currentTimelineIndex >= config.timeline.length - 1) {
+      return;
+    }
+    
+    const nextIndex = currentTimelineIndex + 1;
+    setCurrentTimelineIndex(nextIndex);
+    
+    // 根據當前階段更新進度條
+    setProgress(calculateProgressFromStage(nextIndex, config.timeline.length - 1));
+    
+    // 執行相應的動畫階段
+    executeTimelineAction(config.timeline[nextIndex].action);
+  };
+
+  // 執行時間線動作
+  const executeTimelineAction = (action) => {
+    console.log(`執行動作: ${action}`);
+    
+    switch (action) {
+      case "startSphere":
+        const newParticles = generateSphereParticles();
+        setAudienceParticles(newParticles);
+        setShowSphere(true);
+        setShowCube(false);
+        setShowDataFusion(false);
+        setShowMatching(false);
+        setShowReport(false);
+        setTechLabel(config.techLabels[0]);
+        setStageDescription(config.stageDescriptions[0]);
+        checkAnimationComplete('sphereComplete', false); // 重置動畫完成狀態
+        console.log("啟動球體階段，更新後粒子數:", newParticles.length);
+        break;
+      case "showSphereTraits":
+        setAudienceParticles((prev) =>
+          prev.map((p) => ({
+            ...p,
+            opacity: 0.6 + Math.random() * 0.4,
+            showTrait: Math.random() < 0.2,
+          }))
+        );
+        break;
+      case "startStage1":
+        setStage(1);
+        break;
+      case "startCube":
+        if (!animationStates.sphereComplete) {
+          console.log("等待球體動畫完成...");
+          return;
+        }
+        const cubeParticles = generateDocumentParticles();
+        console.log("生成文檔粒子:", cubeParticles.length);
+        setDocumentParticles(cubeParticles);
+        setShowSphere(false);
+        setShowCube(true);
+        setShowDataFusion(false);
+        setShowMatching(false);
+        setShowReport(false);
+        setTechLabel(config.techLabels[1]);
+        setStageDescription(config.stageDescriptions[1]);
+        setAudienceParticles([]);
+        checkAnimationComplete('cubeComplete', false); // 重置立方體動畫完成狀態
+        break;
+      case "showCubeDocuments":
+        setDocumentParticles((prev) =>
+          prev.map((p) => ({
+            ...p,
+            opacity: 0.6 + Math.random() * 0.4,
+            showType: Math.random() < 0.25,
+          }))
+        );
+        break;
+      case "startStage2":
+        setStage(2);
+        break;
+      case "startDataFusion":
+        if (!animationStates.cubeComplete) {
+          console.log("等待立方體動畫完成...");
+          return;
+        }
+        setClientDataParticles(generateClientDataParticles());
+        setShowSphere(false);
+        setShowCube(false);
+        setShowDataFusion(true);
+        setShowMatching(false);
+        setShowReport(false);
+        setTechLabel(config.techLabels[2]);
+        setStageDescription(config.stageDescriptions[2]);
+        checkAnimationComplete('dataFusionComplete', false); // 重置數據融合動畫完成狀態
+        break;
+      case "showDataMerging":
+        setClientDataParticles((prev) =>
+          prev.map((p) => ({
+            ...p,
+            isMerging: Math.random() < 0.6,
+          }))
+        );
+        break;
+      case "startStage3":
+        setStage(3);
+        break;
+      case "startMatching":
+        if (!animationStates.dataFusionComplete) {
+          console.log("等待數據融合動畫完成...");
+          return;
+        }
+        setShowSphere(false);
+        setShowCube(false);
+        setShowDataFusion(false);
+        setShowMatching(true);
+        setShowReport(false);
+        setTechLabel(config.techLabels[3]);
+        setStageDescription(config.stageDescriptions[3]);
+        setAudienceParticles((prev) =>
+          prev.map((p) => ({
+            ...p,
+            matched: Math.random() < 0.25,
+            highlighted: false,
+          }))
+        );
+        checkAnimationComplete('matchingComplete', false); // 重置匹配動畫完成狀態
+        break;
+      case "showMatchedAudience":
+        setAudienceParticles((prev) =>
+          prev.map((p) => ({
+            ...p,
+            highlighted: p.matched,
+            opacity: p.matched ? 0.9 : 0.3,
+          }))
+        );
+        break;
+      case "startStage4":
+        setStage(4);
+        break;
+      case "startReport":
+        if (!animationStates.matchingComplete) {
+          console.log("等待匹配動畫完成...");
+          return;
+        }
+        setShowSphere(false);
+        setShowCube(false);
+        setShowDataFusion(false);
+        setShowMatching(false);
+        setShowReport(true);
+        setTechLabel(config.techLabels[4]);
+        setStageDescription(config.stageDescriptions[4]);
+        checkAnimationComplete('reportComplete', false); // 重置報告動畫完成狀態
+        break;
+      case "showFullReport":
+        // 報告顯示完成處理
+        break;
+      case "complete":
+        setTimeout(() => handleReset(), getAnimationParams().resetDelay);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // 初始化時啟動第一個階段
+  useEffect(() => {
+    if (!isPaused && currentTimelineIndex === 0) {
+      executeTimelineAction(config.timeline[0].action);
+      setCurrentTimelineIndex(0);
+    }
+  }, [isPaused]);
+
+  // 更新粒子和動畫狀態
   useEffect(() => {
     if (isPaused) return;
-    const timeline = config.timeline;
-    const { particleUpdateInterval, progressIncrement } = getAnimationParams();
     
-    // 不再使用進度條監控，完全依賴動畫完成事件
+    const { particleUpdateInterval } = getAnimationParams();
     
     intervalRef.current = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + progressIncrement;
-        
-        // 使用變數記錄是否需要暫停進度
-        let shouldHoldProgress = false;
-        
-        timeline.forEach((point) => {
-          if (
-            Math.floor(prev) < point.milestone &&
-            Math.floor(newProgress) >= point.milestone
-          ) {
-            // 確保前一階段動畫完成才轉到下一階段
-            let shouldProceed = true;
-            
-            // 嚴格檢查各階段動畫是否完成
-            if (point.action === "startCube" && !animationStates.sphereComplete) {
-              shouldProceed = false;
-              shouldHoldProgress = true;
-              console.log("等待球體動畫完成...到3000000");
-            } else if (point.action === "startDataFusion" && !animationStates.cubeComplete) {
-              shouldProceed = false;
-              shouldHoldProgress = true;
-              console.log("等待立方體動畫完成...");
-            } else if (point.action === "startMatching" && !animationStates.dataFusionComplete) {
-              shouldProceed = false;
-              shouldHoldProgress = true;
-              console.log("等待數據融合動畫完成...");
-            } else if (point.action === "startReport" && !animationStates.matchingComplete) {
-              shouldProceed = false;
-              shouldHoldProgress = true;
-              console.log("等待匹配動畫完成...");
-            }
-            
-            if (!shouldProceed) return prev; // 維持當前進度直到動畫完成
-            
-            switch (point.action) {
-              case "startSphere":
-                const newParticles = generateSphereParticles();
-                setAudienceParticles(newParticles);
-                setShowSphere(true);
-                setShowCube(false);
-                setShowDataFusion(false);
-                setShowMatching(false);
-                setShowReport(false);
-                setTechLabel(config.techLabels[0]);
-                setStageDescription(config.stageDescriptions[0]);
-                setConsumerDataProgress(0); // 重置消費者資料進度
-                checkAnimationComplete('sphereComplete', false); // 重置動畫完成狀態
-                console.log("啟動球體階段，更新後粒子數:", newParticles.length);
-                break;
-              case "showSphereTraits":
-                setAudienceParticles((prev) =>
-                  prev.map((p) => ({
-                    ...p,
-                    opacity: 0.6 + Math.random() * 0.4,
-                    showTrait: Math.random() < 0.2,
-                  }))
-                );
-                // 當特徵顯示完成後，標記球體動畫完成
-                setTimeout(() => {
-                  checkAnimationComplete('sphereComplete');
-                }, 1500);
-                break;
-              case "startStage1":
-                setStage(1);
-                break;
-              case "startCube":
-                const cubeParticles = generateDocumentParticles();
-                console.log("生成文檔粒子:", cubeParticles.length);
-                setDocumentParticles(cubeParticles);
-                setShowSphere(false);
-                setShowCube(true);
-                setShowDataFusion(false);
-                setShowMatching(false);
-                setShowReport(false);
-                setTechLabel(config.techLabels[1]);
-                setStageDescription(config.stageDescriptions[1]);
-                setAudienceParticles([]);
-                checkAnimationComplete('cubeComplete', false); // 重置立方體動畫完成狀態
-                break;
-              case "showCubeDocuments":
-                setDocumentParticles((prev) =>
-                  prev.map((p) => ({
-                    ...p,
-                    opacity: 0.6 + Math.random() * 0.4,
-                    showType: Math.random() < 0.25,
-                  }))
-                );
-                // 當文檔顯示完成後，標記立方體動畫完成
-                setTimeout(() => {
-                  checkAnimationComplete('cubeComplete');
-                }, 2000);
-                break;
-              case "startStage2":
-                setStage(2);
-                break;
-              case "startDataFusion":
-                setClientDataParticles(generateClientDataParticles());
-                setShowSphere(false);
-                setShowCube(false);
-                setShowDataFusion(true);
-                setShowMatching(false);
-                setShowReport(false);
-                setTechLabel(config.techLabels[2]);
-                setStageDescription(config.stageDescriptions[2]);
-                checkAnimationComplete('dataFusionComplete', false); // 重置數據融合動畫完成狀態
-                break;
-              case "showDataMerging":
-                setClientDataParticles((prev) =>
-                  prev.map((p) => ({
-                    ...p,
-                    isMerging: Math.random() < 0.6,
-                  }))
-                );
-                // 當數據融合動畫完成
-                setTimeout(() => {
-                  checkAnimationComplete('dataFusionComplete');
-                }, 2000);
-                break;
-              case "startStage3":
-                setStage(3);
-                break;
-              case "startMatching":
-                setShowSphere(false);
-                setShowCube(false);
-                setShowDataFusion(false);
-                setShowMatching(true);
-                setShowReport(false);
-                setTechLabel(config.techLabels[3]);
-                setStageDescription(config.stageDescriptions[3]);
-                setAudienceParticles((prev) =>
-                  prev.map((p) => ({
-                    ...p,
-                    matched: Math.random() < 0.25,
-                    highlighted: false,
-                  }))
-                );
-                checkAnimationComplete('matchingComplete', false); // 重置匹配動畫完成狀態
-                break;
-              case "showMatchedAudience":
-                setAudienceParticles((prev) =>
-                  prev.map((p) => ({
-                    ...p,
-                    highlighted: p.matched,
-                    opacity: p.matched ? 0.9 : 0.3,
-                  }))
-                );
-                // 當受眾匹配動畫完成
-                setTimeout(() => {
-                  checkAnimationComplete('matchingComplete');
-                }, 2000);
-                break;
-              case "startStage4":
-                setStage(4);
-                break;
-              case "startReport":
-                setShowSphere(false);
-                setShowCube(false);
-                setShowDataFusion(false);
-                setShowMatching(false);
-                setShowReport(true);
-                setTechLabel(config.techLabels[4]);
-                setStageDescription(config.stageDescriptions[4]);
-                checkAnimationComplete('reportComplete', false); // 重置報告動畫完成狀態
-                break;
-              case "showFullReport":
-                // 報告顯示完成
-                setTimeout(() => {
-                  checkAnimationComplete('reportComplete');
-                }, 1500);
-                break;
-              case "complete":
-                setTimeout(() => handleReset(), getAnimationParams().resetDelay);
-                break;
-              default:
-                break;
-            }
-          }
-        });
-
-        // 確保消費者數據顯示完整
-        if (showSphere) {
-          const maxCount = config.audienceData.maxAudienceCount;
-          // 基於動畫進度而不是時間軸進度來設置數據計數
-          setDataCount(Math.min(maxCount, Math.floor((consumerDataProgress / 100) * maxCount)));
-        }
-        
-        // 如果時間線被動畫完成狀態阻擋，暫停進度增長
-        if (shouldHoldProgress) {
-          return prev; // 保持當前進度不變
-        }
-
-        if (newProgress >= 100) return 99.9;
-        return newProgress;
-      });
-
       if (showSphere && audienceParticles.length > 0) {
         setAudienceParticles((prev) =>
           updateSphereParticles(prev, sphereRotation, showMatching)
@@ -347,12 +360,21 @@ const AIAudienceEngine = () => {
       }
       if (showCube && documentParticles.length > 0) {
         setDocumentParticles((prev) =>
-          updateDocumentParticles(prev, progress)
+          updateDocumentParticles(prev, currentTimelineIndex / config.timeline.length * 100)
         );
       }
       if (showDataFusion && clientDataParticles.length > 0) {
         setClientDataParticles((prev) => updateClientDataParticles(prev));
       }
+      
+      // 確保消費者數據顯示完整
+      if (showSphere) {
+        const maxCount = config.audienceData.maxAudienceCount;
+        // 基於動畫進度來設置數據計數
+        const animationProgress = currentTimelineIndex / (config.timeline.length - 1) * 100;
+        setDataCount(Math.min(maxCount, Math.floor((animationProgress / 100) * maxCount)));
+      }
+      
     }, particleUpdateInterval);
 
     return () => {
@@ -369,7 +391,7 @@ const AIAudienceEngine = () => {
     audienceParticles.length,
     documentParticles.length,
     clientDataParticles.length,
-    dataCount,
+    currentTimelineIndex
   ]);
 
   const generateColorParticles = () => {
@@ -434,6 +456,14 @@ const AIAudienceEngine = () => {
     );
   };
 
+  // 顯示目前執行的階段名稱
+  const getCurrentStageAction = () => {
+    if (currentTimelineIndex < config.timeline.length) {
+      return config.timeline[currentTimelineIndex].action;
+    }
+    return "完成";
+  };
+
   return (
     <div className="engine-container">
       <div className="engine-background" />
@@ -452,6 +482,10 @@ const AIAudienceEngine = () => {
             <div className="title-stage-row">
               <MainTitle />
               <StageIndicator currentStage={config.stages[stage]} />
+              {/* 新增：顯示目前的動畫階段 */}
+              <div className="animation-stage-indicator">
+                目前動畫階段: {getCurrentStageAction()}
+              </div>
             </div>
             <div className="progress-container">
               <div className="progress-bar-container">
@@ -537,6 +571,14 @@ const AIAudienceEngine = () => {
               </button>
               <button onClick={handleReset} className="control-button reset-button">
                 重新播放
+              </button>
+              {/* 新增：手動推進按鈕 */}
+              <button 
+                onClick={() => !isPaused && advanceTimeline()} 
+                className="control-button advance-button"
+                disabled={isPaused || currentTimelineIndex >= config.timeline.length - 1}
+              >
+                推進到下一階段
               </button>
             </div>
           </div>

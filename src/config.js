@@ -1,6 +1,7 @@
+
 // config.js
 export const config = {
-  speedFactor: 2.0,
+  speedFactor: 1.0, // 降低速度因子以允許動畫完整展示
   stages: [
     "龐大的消費者資料庫",
     "提案與結案的RAG豐富化",
@@ -22,22 +23,23 @@ export const config = {
     "在完整的內外數據支援下，AI Audience 能迅速找到最精準的受眾，無論您的產品是什麼。",
     "最後，AI Audience 為您生成一份完整的受眾分析報告，涵蓋性別、年齡、興趣與購買行為，幫助您做出最佳決策。",
   ],
+  // 時間軸現在只標記階段轉換點，不再控制具體時間
   timeline: [
-    { milestone: 1, action: "startSphere" },      // 開始球體動畫
-    { milestone: 10, action: "showSphereTraits" }, // 顯示特徵
-    { milestone: 15, action: "startStage1" },     // 第一階段標記
-    { milestone: 20, action: "startCube" },       // 等待球體動畫完成後開始立方體
-    { milestone: 30, action: "showCubeDocuments" },
-    { milestone: 40, action: "startStage2" },
-    { milestone: 45, action: "startDataFusion" }, // 等待立方體動畫完成後開始數據融合
-    { milestone: 55, action: "showDataMerging" },
-    { milestone: 60, action: "startStage3" },
-    { milestone: 65, action: "startMatching" },   // 等待數據融合完成
-    { milestone: 75, action: "showMatchedAudience" },
-    { milestone: 80, action: "startStage4" },
-    { milestone: 85, action: "startReport" },     // 等待匹配動畫完成
-    { milestone: 95, action: "showFullReport" },
-    { milestone: 98, action: "complete" },
+    { milestone: "sphere", action: "startSphere" },      // 開始球體動畫
+    { milestone: "sphereTraits", action: "showSphereTraits" }, // 顯示特徵
+    { milestone: "stage1", action: "startStage1" },     // 第一階段標記
+    { milestone: "cube", action: "startCube" },       // 等待球體動畫完成後開始立方體
+    { milestone: "cubeDocuments", action: "showCubeDocuments" },
+    { milestone: "stage2", action: "startStage2" },
+    { milestone: "dataFusion", action: "startDataFusion" }, // 等待立方體動畫完成後開始數據融合
+    { milestone: "dataMerging", action: "showDataMerging" },
+    { milestone: "stage3", action: "startStage3" },
+    { milestone: "matching", action: "startMatching" },   // 等待數據融合完成
+    { milestone: "matchedAudience", action: "showMatchedAudience" },
+    { milestone: "stage4", action: "startStage4" },
+    { milestone: "report", action: "startReport" },     // 等待匹配動畫完成
+    { milestone: "fullReport", action: "showFullReport" },
+    { milestone: "complete", action: "complete" },
   ],
   colors: {
     primary: "#ffbb00",
@@ -154,4 +156,9 @@ export const getColorArray = () => [
 
 export const clampPercentage = (value) => {
   return Math.max(0, Math.min(100, value));
+};
+
+// 為進度條提供基於階段完成的進度計算
+export const calculateProgressFromStage = (currentStage, totalStages) => {
+  return (currentStage / totalStages) * 100;
 };
