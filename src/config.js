@@ -23,19 +23,19 @@ export const config = {
     "最後，AI Audience 為您生成一份完整的受眾分析報告，涵蓋性別、年齡、興趣與購買行為，幫助您做出最佳決策。",
   ],
   timeline: [
-    { milestone: 3, action: "startSphere" },      // 更早開始球體動畫
-    { milestone: 17, action: "showSphereTraits" }, // 縮短顯示時間
-    { milestone: 19, action: "startStage1" },     // 縮短第一階段過渡時間
-    { milestone: 20, action: "startCube" },       // 立即開始第二階段
+    { milestone: 1, action: "startSphere" },      // 更早開始球體動畫
+    { milestone: 10, action: "showSphereTraits" }, // 顯示特徵
+    { milestone: 15, action: "startStage1" },     // 第一階段標記
+    { milestone: 25, action: "startCube" },       // 確保球體動畫充分展示後再開始立方體
     { milestone: 35, action: "showCubeDocuments" },
-    { milestone: 42, action: "startStage2" },
-    { milestone: 44, action: "startDataFusion" },
-    { milestone: 56, action: "showDataMerging" },
-    { milestone: 62, action: "startStage3" },
-    { milestone: 64, action: "startMatching" },
-    { milestone: 76, action: "showMatchedAudience" },
-    { milestone: 82, action: "startStage4" },
-    { milestone: 84, action: "startReport" },
+    { milestone: 45, action: "startStage2" },
+    { milestone: 50, action: "startDataFusion" },
+    { milestone: 60, action: "showDataMerging" },
+    { milestone: 65, action: "startStage3" },
+    { milestone: 70, action: "startMatching" },
+    { milestone: 80, action: "showMatchedAudience" },
+    { milestone: 85, action: "startStage4" },
+    { milestone: 90, action: "startReport" },
     { milestone: 95, action: "showFullReport" },
     { milestone: 98, action: "complete" },
   ],

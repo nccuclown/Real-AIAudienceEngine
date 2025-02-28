@@ -187,6 +187,19 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
     }
   }, [showCube, progress]);
 
+  // 當文件立方體展示完成時，發送完成事件
+  useEffect(() => {
+    if (showCube && documentParticles.length > 0 && progress > 52) { // Adjust progress threshold as needed
+      const timer = setTimeout(() => {
+        const event = new CustomEvent('cubeAnimationComplete');
+        window.dispatchEvent(event);
+      }, 1000); // Adjust delay as needed
+
+      return () => clearTimeout(timer);
+    }
+  }, [showCube, documentParticles.length, progress]);
+
+
   if (!showCube) return null;
 
   // 計算立方體旋轉
@@ -245,7 +258,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
               opacity: 0.7,
               animation: "rotate 5s linear infinite"
             }}></div>
-            
+
             {/* 動態知識擷取動畫 */}
             {progress > 30 && progress < 65 && (
               <>
@@ -427,7 +440,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
                       ))}
                     </div>
                   </div>
-                  
+
                   {/* 中央處理指示器 */}
                   {progress > 52 && (
                     <div style={{

@@ -115,11 +115,32 @@ const AIAudienceEngine = () => {
     setAnimationStates(prev => ({...prev, [animationType]: value}));
   };
 
+  // 監聽動畫完成事件
+  useEffect(() => {
+    const handleSphereComplete = () => {
+      checkAnimationComplete('sphereComplete', true);
+      console.log("球體動畫完成事件觸發");
+    };
+    
+    const handleCubeComplete = () => {
+      checkAnimationComplete('cubeComplete', true);
+      console.log("立方體動畫完成事件觸發");
+    };
+    
+    window.addEventListener('sphereAnimationComplete', handleSphereComplete);
+    window.addEventListener('cubeAnimationComplete', handleCubeComplete);
+    
+    return () => {
+      window.removeEventListener('sphereAnimationComplete', handleSphereComplete);
+      window.removeEventListener('cubeAnimationComplete', handleCubeComplete);
+    };
+  }, []);
+
   useEffect(() => {
     if (isPaused) return;
     const timeline = config.timeline;
     const { particleUpdateInterval, progressIncrement } = getAnimationParams();
-
+    
     // 監控消費者資料庫動畫進度
     if (showSphere && !animationStates.sphereComplete) {
       if (consumerDataProgress >= 100) {
@@ -132,6 +153,10 @@ const AIAudienceEngine = () => {
     intervalRef.current = setInterval(() => {
       setProgress((prev) => {
         const newProgress = prev + progressIncrement;
+        
+        // 使用變數記錄是否需要暫停進度
+        let shouldHoldProgress = false;
+        
         timeline.forEach((point) => {
           if (
             Math.floor(prev) < point.milestone &&
@@ -143,12 +168,20 @@ const AIAudienceEngine = () => {
             // 檢查各階段動畫是否完成
             if (point.action === "startCube" && !animationStates.sphereComplete) {
               shouldProceed = false;
+              shouldHoldProgress = true;
+              console.log("等待球體動畫完成...");
             } else if (point.action === "startDataFusion" && !animationStates.cubeComplete) {
               shouldProceed = false;
+              shouldHoldProgress = true;
+              console.log("等待立方體動畫完成...");
             } else if (point.action === "startMatching" && !animationStates.dataFusionComplete) {
               shouldProceed = false;
+              shouldHoldProgress = true;
+              console.log("等待數據融合動畫完成...");
             } else if (point.action === "startReport" && !animationStates.matchingComplete) {
               shouldProceed = false;
+              shouldHoldProgress = true;
+              console.log("等待匹配動畫完成...");
             }
             
             if (!shouldProceed) return prev; // 維持當前進度直到動畫完成
@@ -299,10 +332,15 @@ const AIAudienceEngine = () => {
         });
 
         // 確保消費者數據顯示完整
-        if (showSphere && newProgress < 20) {
+        if (showSphere) {
           const maxCount = config.audienceData.maxAudienceCount;
           // 基於動畫進度而不是時間軸進度來設置數據計數
           setDataCount(Math.min(maxCount, Math.floor((consumerDataProgress / 100) * maxCount)));
+        }
+        
+        // 如果時間線被動畫完成狀態阻擋，暫停進度增長
+        if (shouldHoldProgress) {
+          return prev; // 保持當前進度不變
         }
 
         if (newProgress >= 100) return 99.9;
