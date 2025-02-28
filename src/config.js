@@ -1,8 +1,6 @@
-// AI Audience 系統配置文件
-// 此文件集中管理所有可變內容，方便非技術人員調整文字、顏色和動畫時機
-
+// config.js
 export const config = {
-  // 階段標題
+  speedFactor: 2.0,
   stages: [
     "龐大的消費者資料庫",
     "提案與結案的RAG豐富化",
@@ -10,8 +8,6 @@ export const config = {
     "精準受眾匹配",
     "完整受眾分析報告",
   ],
-
-  // 技術標籤
   techLabels: [
     "Powered by Predictive AI",
     "RAG - Retrieval-Augmented Generation",
@@ -19,8 +15,6 @@ export const config = {
     "AI Agent + Predictive AI",
     "Generative AI",
   ],
-
-  // 階段描述
   stageDescriptions: [
     "AI Audience 從數百萬消費者輪廓開始，打造了一個龐大的資料庫。Predictive AI 讓我們預測每個人的潛在需求。",
     "我們將過去的提案與結案融入 AI Audience，用 RAG 技術豐富它的知識，讓它更懂市場與客戶。",
@@ -28,8 +22,6 @@ export const config = {
     "在完整的內外數據支援下，AI Audience 能迅速找到最精準的受眾，無論您的產品是什麼。",
     "最後，AI Audience 為您生成一份完整的受眾分析報告，涵蓋性別、年齡、興趣與購買行為，幫助您做出最佳決策。",
   ],
-
-  // 動畫時間軸配置（百分比）
   timeline: [
     { milestone: 5, action: "startSphere" },
     { milestone: 18, action: "showSphereTraits" },
@@ -47,8 +39,6 @@ export const config = {
     { milestone: 95, action: "showFullReport" },
     { milestone: 98, action: "complete" },
   ],
-
-  // 顏色配置
   colors: {
     primary: "#ffbb00",
     secondary: "#ff8a00",
@@ -57,10 +47,7 @@ export const config = {
     lightBlue: "#00bcd4",
     background: "#0a0a10",
   },
-
-  // 消費者輪廓配置
   audienceData: {
-    // 受眾特徵標籤
     audienceTraits: [
       "興趣：科技",
       "消費力：高",
@@ -73,17 +60,10 @@ export const config = {
       "購買決策：快速",
       "價格敏感度：低",
     ],
-
-    // 最大受眾數量 - 降低數值以便從小數字逐漸遞增
     maxAudienceCount: 3000000,
-
-    // 粒子數量
-    particleCount: 80, // 從150減少到80
+    particleCount: 80,
   },
-
-  // 文檔數據配置
   documentData: {
-    // 文件類型
     documentTypes: [
       "旅遊廣告成效",
       "科技產品提案",
@@ -96,17 +76,10 @@ export const config = {
       "電商平台報告",
       "串流媒體行銷",
     ],
-
-    // 粒子數量
-    particleCount: 50, // 從100減少到50
-
-    // 立方體尺寸
+    particleCount: 50,
     cubeSize: 30,
   },
-
-  // 客戶數據配置
   clientData: {
-    // 客戶數據類型
     clientDataTypes: [
       "購買記錄",
       "瀏覽行為",
@@ -119,19 +92,13 @@ export const config = {
       "價格敏感度",
       "季節性模式",
     ],
-
-    // 粒子數量
-    particleCount: 30, // 從60減少到30
+    particleCount: 30,
   },
-
-  // 產品需求配置
   productDemand: {
     name: "新款高端智能手機",
     features: ["AI相機", "高續航", "全面屏"],
     targetAudience: ["科技愛好者", "專業人士", "高消費族群"],
   },
-
-  // 匹配受眾群體
   matchedAudience: {
     name: "科技迷 - 高消費力",
     size: 1240000,
@@ -149,23 +116,32 @@ export const config = {
       researchHabits: "深度研究型",
     },
   },
-
-  // 分析報告配置
   reportConfig: {
     title: "受眾分析報告",
     matchAnalysis:
       "此受眾群體對新科技產品有高度興趣，購買力強，消費決策速度快。對品質與創新有高度追求，非常適合高端智能手機的推廣活動。預估轉化率提升38%。",
   },
-
-  // 動畫配置
   animation: {
-    particleUpdateInterval: 100, // 從50ms增加到100ms
+    particleUpdateInterval: 100,
     resetDelay: 5000,
-    progressIncrement: 0.1, // 從0.2減少到0.1，使動畫更平滑
+    progressIncrement: 0.1,
   },
 };
 
-// 輔助函數
+export const getAnimationParams = () => {
+  return {
+    particleUpdateInterval: Math.max(
+      10,
+      Math.floor(config.animation.particleUpdateInterval / config.speedFactor)
+    ),
+    progressIncrement: config.animation.progressIncrement * config.speedFactor,
+    resetDelay: Math.max(
+      1000,
+      Math.floor(config.animation.resetDelay / config.speedFactor)
+    ),
+  };
+};
+
 export const getColorArray = () => [
   config.colors.primary,
   config.colors.secondary,
@@ -174,7 +150,6 @@ export const getColorArray = () => [
   config.colors.lightBlue,
 ];
 
-// 限制百分比值在有效範圍內
 export const clampPercentage = (value) => {
   return Math.max(0, Math.min(100, value));
 };
