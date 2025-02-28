@@ -245,6 +245,218 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
               opacity: 0.7,
               animation: "rotate 5s linear infinite"
             }}></div>
+            
+            {/* 動態知識擷取動畫 */}
+            {progress > 30 && progress < 65 && (
+              <>
+                {/* 知識擷取的閃光效果 */}
+                <div className="knowledge-extraction-rays" style={{
+                  position: "absolute",
+                  inset: "-50px",
+                  borderRadius: "50%",
+                  background: "transparent",
+                  zIndex: 20
+                }}>
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <div key={`ray-${i}`} style={{
+                      position: "absolute",
+                      width: "2px",
+                      height: `${80 + Math.random() * 100}px`,
+                      background: i % 3 === 0 ? config.colors.primary : 
+                                i % 3 === 1 ? config.colors.secondary : config.colors.blue,
+                      left: "50%",
+                      top: "50%",
+                      transformOrigin: "0 0",
+                      transform: `rotate(${i * 30 + Math.random() * 10}deg) translateY(-50%)`,
+                      opacity: 0.7,
+                      animation: `rayPulse ${2 + Math.random() * 3}s infinite alternate ${Math.random()}s`
+                    }}></div>
+                  ))}
+                </div>
+
+                {/* 知識點文字飛入效果 */}
+                <div className="knowledge-extraction-texts" style={{
+                  position: "absolute",
+                  inset: "-200px",
+                  zIndex: 30
+                }}>
+                  {/* 第一個知識點 - 產業專案 */}
+                  <div className={`knowledge-item ${progress > 32 ? 'knowledge-item-active' : ''}`} style={{
+                    position: "absolute",
+                    top: "-130px",
+                    left: "50%",
+                    transform: `translate(-50%, ${progress > 32 ? '0' : '-50px'})`,
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    border: `1px solid ${config.colors.primary}`,
+                    borderRadius: "8px",
+                    padding: "8px 12px",
+                    color: "white",
+                    fontSize: "0.8rem",
+                    opacity: progress > 32 ? 1 : 0,
+                    transition: "opacity 0.5s, transform 0.5s",
+                    whiteSpace: "nowrap",
+                    textAlign: "center",
+                    boxShadow: `0 0 15px ${config.colors.primary}`
+                  }}>
+                    <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
+                    從1234篇產業專案中提取關鍵詞彙
+                    <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
+                      {progress > 32 && Array.from({ length: 5 }).map((_, i) => (
+                        <div key={`particle-1-${i}`} style={{
+                          position: "absolute",
+                          width: "3px", 
+                          height: "3px",
+                          backgroundColor: config.colors.primary,
+                          borderRadius: "50%",
+                          left: `${10 + i * 20}%`,
+                          top: "100%",
+                          opacity: 0,
+                          animation: `flyToCore 1s forwards ${i * 0.2}s`
+                        }}></div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 第二個知識點 - 白皮書 */}
+                  <div className={`knowledge-item ${progress > 37 ? 'knowledge-item-active' : ''}`} style={{
+                    position: "absolute",
+                    top: "50%",
+                    right: "-180px",
+                    transform: `translateY(-50%) ${progress > 37 ? 'translateX(0)' : 'translateX(50px)'}`,
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    border: `1px solid ${config.colors.secondary}`,
+                    borderRadius: "8px",
+                    padding: "8px 12px",
+                    color: "white",
+                    fontSize: "0.8rem",
+                    opacity: progress > 37 ? 1 : 0,
+                    transition: "opacity 0.5s, transform 0.5s",
+                    whiteSpace: "nowrap",
+                    textAlign: "center",
+                    boxShadow: `0 0 15px ${config.colors.secondary}`
+                  }}>
+                    <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
+                    整合543份產業白皮書
+                    <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
+                      {progress > 37 && Array.from({ length: 5 }).map((_, i) => (
+                        <div key={`particle-2-${i}`} style={{
+                          position: "absolute",
+                          width: "3px", 
+                          height: "3px",
+                          backgroundColor: config.colors.secondary,
+                          borderRadius: "50%",
+                          left: "0%",
+                          top: `${10 + i * 20}%`,
+                          opacity: 0,
+                          animation: `flyToCore 1s forwards ${i * 0.2}s`
+                        }}></div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 第三個知識點 - 廣告投放 */}
+                  <div className={`knowledge-item ${progress > 42 ? 'knowledge-item-active' : ''}`} style={{
+                    position: "absolute",
+                    bottom: "-130px",
+                    left: "50%",
+                    transform: `translate(-50%, ${progress > 42 ? '0' : '50px'})`,
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    border: `1px solid ${config.colors.blue}`,
+                    borderRadius: "8px",
+                    padding: "8px 12px",
+                    color: "white",
+                    fontSize: "0.8rem",
+                    opacity: progress > 42 ? 1 : 0,
+                    transition: "opacity 0.5s, transform 0.5s",
+                    whiteSpace: "nowrap",
+                    textAlign: "center",
+                    boxShadow: `0 0 15px ${config.colors.blue}`
+                  }}>
+                    <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
+                    分析527個廣告投放數據
+                    <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
+                      {progress > 42 && Array.from({ length: 5 }).map((_, i) => (
+                        <div key={`particle-3-${i}`} style={{
+                          position: "absolute",
+                          width: "3px", 
+                          height: "3px",
+                          backgroundColor: config.colors.blue,
+                          borderRadius: "50%",
+                          left: `${10 + i * 20}%`,
+                          top: "0%",
+                          opacity: 0,
+                          animation: `flyToCore 1s forwards ${i * 0.2}s`
+                        }}></div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 第四個知識點 - 成功提案 */}
+                  <div className={`knowledge-item ${progress > 47 ? 'knowledge-item-active' : ''}`} style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "-180px",
+                    transform: `translateY(-50%) ${progress > 47 ? 'translateX(0)' : 'translateX(-50px)'}`,
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    border: `1px solid ${config.colors.accent}`,
+                    borderRadius: "8px",
+                    padding: "8px 12px",
+                    color: "white",
+                    fontSize: "0.8rem",
+                    opacity: progress > 47 ? 1 : 0,
+                    transition: "opacity 0.5s, transform 0.5s",
+                    whiteSpace: "nowrap",
+                    textAlign: "center",
+                    boxShadow: `0 0 15px ${config.colors.accent}`
+                  }}>
+                    <span style={{ color: "#26c6da", marginRight: "5px" }}>✓</span>
+                    學習372個成功提案
+                    <div className="knowledge-particles" style={{ position: "absolute", inset: 0 }}>
+                      {progress > 47 && Array.from({ length: 5 }).map((_, i) => (
+                        <div key={`particle-4-${i}`} style={{
+                          position: "absolute",
+                          width: "3px", 
+                          height: "3px",
+                          backgroundColor: config.colors.accent,
+                          borderRadius: "50%",
+                          left: "100%",
+                          top: `${10 + i * 20}%`,
+                          opacity: 0,
+                          animation: `flyToCore 1s forwards ${i * 0.2}s`
+                        }}></div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* 中央處理指示器 */}
+                  {progress > 52 && (
+                    <div style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                      border: `1px solid ${config.colors.primary}`,
+                      borderRadius: "50%",
+                      width: "100px",
+                      height: "100px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      color: "#ffbb00",
+                      fontSize: "0.8rem",
+                      boxShadow: `0 0 20px ${config.colors.primary}`,
+                      animation: "pulse 2s infinite",
+                      zIndex: 40
+                    }}>
+                      <div style={{ fontWeight: "bold", marginBottom: "5px" }}>知識整合中</div>
+                      <div style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{Math.min(99, Math.floor((progress - 52) * 6))}%</div>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

@@ -117,6 +117,50 @@
 }
 
 .rag-large-tag {
+
+/* 知識擷取動畫相關樣式 */
+@keyframes rayPulse {
+  0% {
+    opacity: 0.3;
+    height: 80px;
+  }
+  100% {
+    opacity: 0.8;
+    height: 150px;
+  }
+}
+
+@keyframes flyToCore {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+.knowledge-item-active {
+  animation: glowItem 2s infinite alternate;
+}
+
+@keyframes glowItem {
+  0% {
+    box-shadow: 0 0 10px currentColor;
+  }
+  100% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+.knowledge-extraction-texts {
+  perspective: 1000px;
+}
+
   position: absolute;
   right: 0;
   top: 20%;

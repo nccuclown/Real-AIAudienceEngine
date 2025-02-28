@@ -369,73 +369,7 @@ const AIAudienceEngine = () => {
                 <div className="data-fusion-layer" style={{ zIndex: showDataFusion ? 100 : 10 }}>
                   <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
                 </div>
-                {/* 知識擷取面板 - 調整位置和大小 */}
-                {showCube && progress > 30 && progress < 65 && (
-                  <div className="knowledge-extraction-panel" style={{ 
-                    position: "absolute", 
-                    top: "50%", 
-                    left: "50%", 
-                    transform: "translate(-50%, -50%)",
-                    zIndex: 200,
-                    width: "350px",
-                    maxHeight: "80%",
-                    overflow: "auto",
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
-                    border: "1px solid #ffbb00",
-                    borderRadius: "8px",
-                    padding: "15px",
-                    fontSize: "0.9rem"
-                  }}>
-                    <h3 style={{ 
-                      color: "#ffbb00", 
-                      fontSize: "1rem", 
-                      marginBottom: "15px", 
-                      textAlign: "center" 
-                    }}>
-                      知識擷取中...
-                    </h3>
-                    <div style={{ marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid rgba(255, 187, 0, 0.3)" }}>
-                      <span style={{ color: "#26c6da" }}>✓</span> 從1234篇產業專案中提取關鍵中英詞彙、概念，豐富語義理解能力
-                    </div>
-                    <div style={{ marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid rgba(255, 187, 0, 0.3)" }}>
-                      <span style={{ color: "#26c6da" }}>✓</span> 整合543份產業白皮書的市場調查、趨勢預測，增強內容策略規劃
-                    </div>
-                    <div style={{ marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid rgba(255, 187, 0, 0.3)" }}>
-                      <span style={{ color: "#26c6da" }}>✓</span> 分析527個廣告投放數據與受眾特徵，掌握15個核心消費者類型
-                    </div>
-                    <div style={{ marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid rgba(255, 187, 0, 0.3)" }}>
-                      <span style={{ color: "#26c6da" }}>✓</span> 學習372個成功提案關鍵結構及語言，提高企劃說服力
-                    </div>
-                    <div className="extraction-buttons" style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: "15px"
-                    }}>
-                      <button style={{
-                        backgroundColor: "rgba(255, 187, 0, 0.2)",
-                        border: "1px solid #ffbb00",
-                        color: "#ffbb00",
-                        padding: "5px 10px",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "0.8rem"
-                      }}>
-                        1. 提取關鍵知識
-                      </button>
-                      <button style={{
-                        backgroundColor: "rgba(255, 138, 0, 0.2)",
-                        border: "1px solid #ff8a00",
-                        color: "#ff8a00",
-                        padding: "5px 10px",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "0.8rem"
-                      }}>
-                        2. 整合內部資料
-                      </button>
-                    </div>
-                  </div>
-                )}
+                {/* 左側區域不再顯示知識擷取面板 */}
               </div>
             </div>
             
