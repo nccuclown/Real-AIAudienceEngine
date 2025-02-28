@@ -10,10 +10,10 @@ export const generateSphereParticles = () => {
   for (let i = 0; i < particleCount; i++) {
     const phi = Math.acos(2 * Math.random() - 1);
     const theta = Math.random() * Math.PI * 2;
-    const radius = 60;
+    const radius = 75; // 增大球體半徑
     const x = 50 + radius * Math.sin(phi) * Math.cos(theta);
     const y = 50 + radius * Math.sin(phi) * Math.sin(theta);
-    const z = Math.max(-60, Math.min(60, radius * Math.cos(phi)));
+    const z = Math.max(-75, Math.min(75, radius * Math.cos(phi)));
 
     const traitIndex = Math.floor(Math.random() * audienceTraits.length);
     const trait = audienceTraits[traitIndex];
@@ -27,11 +27,11 @@ export const generateSphereParticles = () => {
       phi,
       theta,
       radius,
-      size: 5 + Math.random() * 5,
+      size: 6 + Math.random() * 6, // 增大粒子尺寸
       color,
-      opacity: 0.8 + Math.random() * 0.2,
+      opacity: 0.85 + Math.random() * 0.15, // 提高最低透明度
       trait,
-      showTrait: Math.random() < 0.15,
+      showTrait: Math.random() < 0.25, // 增加標籤顯示比例
       highlighted: false,
       matched: false,
     };
@@ -110,14 +110,14 @@ export const ConsumerDatabase = ({
   return (
     <div className="sphere-container">
       {audienceParticles.map((particle) => {
-        const scale = (particle.displayZ + 60) / 120 || 0.1; // 防止分母為 0
-        const displaySize = Math.max(4, particle.size * (0.5 + Math.max(0.1, scale)));
-        const displayOpacity = Math.min(1, Math.max(0, particle.opacity * Math.max(0.1, scale)));
+        const scale = (particle.displayZ + 75) / 150 || 0.1; // 調整縮放比例
+        const displaySize = Math.max(5, particle.size * (0.6 + Math.max(0.1, scale)));
+        const displayOpacity = Math.min(1, Math.max(0, particle.opacity * Math.max(0.2, scale)));
         const displayZIndex = Math.min(Math.max(0, Math.floor(isFinite(particle.displayZ) ? particle.displayZ + 50 : 50)), 150); // 確保 zIndex 有效
 
-        const shouldShowTrait = particle.showTrait && scale > 0.7;
-        const labelX = Math.min(Math.max(particle.displayX + Math.random() * 15 - 7.5, 5), 95);
-        const labelY = Math.min(Math.max(particle.displayY - 15 + Math.random() * 15 - 7.5, 5), 95);
+        const shouldShowTrait = particle.showTrait && scale > 0.6; // 降低標籤顯示門檻
+        const labelX = Math.min(Math.max(particle.displayX + (Math.random() * 10 - 5), 10), 90);
+        const labelY = Math.min(Math.max(particle.displayY - 12, 10), 90);
 
         return (
           <div key={particle.id} className="particle-wrapper">
@@ -161,14 +161,15 @@ export const ConsumerDatabase = ({
           </div>
         );
       })}
-      {progress <= 15 && (
+      {progress <= 18 && (
         <div
           className="database-counter fade-in"
           style={{
             zIndex: 200,
-            top: "30%",
+            top: "40%",
+            left: "50%",
             transform: "translate(-50%, -50%)",
-            animation: "fadeOut 1s forwards 10s",
+            animation: progress > 15 ? "fadeOut 1s forwards" : "none",
           }}
         >
           <div className="counter-value">{formatNumber(displayCount)}</div>

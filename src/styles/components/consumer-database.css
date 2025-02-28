@@ -44,18 +44,20 @@
 
 .particle-label {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.85);
   color: inherit;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   white-space: nowrap;
   transform: translateX(-50%);
   pointer-events: none;
   max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6), 0 0 3px currentColor;
+  border: 1px solid currentColor;
   transition: opacity 0.3s;
   will-change: opacity, transform;
   z-index: 25;
