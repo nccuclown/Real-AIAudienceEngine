@@ -18,7 +18,12 @@ import ProductMatching from "./ProductMatching";
 import AnalysisReport from "./AnalysisReport";
 
 export default function App() {
-  return <div className="app-container"><AIAudienceEngine /></div>;
+  // Wrapping in a div helps React manage the component tree better
+  return (
+    <div className="app-container">
+      <AIAudienceEngine />
+    </div>
+  );
 }
 
 const AIAudienceEngine = () => {
@@ -299,11 +304,14 @@ const AIAudienceEngine = () => {
     return particles;
   };
 
-  const renderTechLabel = () => (!techLabel ? null : (
-    <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
-      {techLabel}
-    </div>
-  ));
+  const renderTechLabel = () => {
+    if (!techLabel) return null;
+    return (
+      <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
+        {techLabel}
+      </div>
+    );
+  };
 
   const renderStageDescription = () => (!stageDescription ? null : (
     <div className="stage-description-bottom fade-in">{stageDescription}</div>
