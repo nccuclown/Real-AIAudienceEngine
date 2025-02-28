@@ -319,9 +319,9 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
       {/* 提取信息面板 */}
       <div className="extraction-panel" style={{
         position: 'absolute',
-        top: '15%',
+        top: '25%',
         left: '5%',
-        width: '200px',
+        width: '240px',
         padding: '10px',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         borderRadius: '5px',
@@ -352,30 +352,57 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
         </div>
         
         <div className="extraction-list">
-          {extractedInfo.map(info => (
-            <div key={info.id} className="extraction-item" style={{
-              fontSize: '0.8rem',
-              marginBottom: '6px',
-              opacity: info.opacity,
-              transform: `translateX(${(1 - info.opacity) * -20}px)`,
-              transition: 'all 0.3s',
-            }}>
-              <span className="item-icon" style={{
-                display: 'inline-block',
-                marginRight: '6px',
-                color: config.colors.secondary,
-              }}>✓</span>
-              {info.text}
-            </div>
-          ))}
+          {extractedInfo.map((info, index) => {
+            // 為每個項目添加詳細內容
+            const detailTexts = [
+              "從1,243筆提案數據中提取關鍵洞察",
+              "整合8份產業白皮書的市場趨勢",
+              "分析526個競品數據與優勢特點",
+              "萃取372個行銷策略關鍵成功因素",
+              "辨識目標受眾的5大消費傾向",
+              "彙整128項消費者行為調查結果",
+              "提煉18個品牌差異化指標",
+              "統整83個高轉化率廣告文案特徵",
+              "匯總57個目標KPI達成策略"
+            ];
+            const detailText = index < detailTexts.length ? detailTexts[index] : "分析關鍵數據中...";
+            
+            return (
+              <div key={info.id} className="extraction-item" style={{
+                fontSize: '0.8rem',
+                marginBottom: '10px',
+                opacity: info.opacity,
+                transform: `translateX(${(1 - info.opacity) * -20}px)`,
+                transition: 'all 0.3s',
+              }}>
+                <div style={{ display: 'flex' }}>
+                  <span className="item-icon" style={{
+                    display: 'inline-block',
+                    marginRight: '6px',
+                    color: config.colors.secondary,
+                  }}>✓</span>
+                  <strong>{info.text}</strong>
+                </div>
+                <div style={{ 
+                  marginLeft: '18px', 
+                  fontSize: '0.7rem', 
+                  color: '#cccccc',
+                  marginTop: '3px',
+                  lineHeight: '1.2'
+                }}>
+                  {detailText}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
       
       {/* RAG 技術標籤 */}
       <div className="rag-tag" style={{
         position: 'absolute',
-        top: '15%',
-        right: '5%',
+        top: '45%',
+        right: '10%',
         padding: '8px 12px',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         borderRadius: '5px',

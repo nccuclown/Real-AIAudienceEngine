@@ -208,6 +208,27 @@ body {
   animation: fadeIn 0.5s ease-in;
 }
 
+.extraction-panel {
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 187, 0, 0.3) rgba(0, 0, 0, 0.3);
+}
+
+.extraction-panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+.extraction-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.extraction-panel::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 187, 0, 0.3);
+  border-radius: 3px;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
