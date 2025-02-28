@@ -32,28 +32,28 @@ export const ConsumerDatabase = ({
   const [internalProgress, setInternalProgress] = useState(0);
   const [traitsOpacity, setTraitsOpacity] = useState(0);
   const [traits, setTraits] = useState([
-    // 廣告點擊行為標籤 - 調整位置避開中央計數器區域
-    { name: "搜尋廣告點擊", color: "#ffbb00", value: "22%", category: "ad", position: { top: "25%", left: "55%" } },
-    { name: "影片廣告完整觀看", color: "#ffbb00", value: "36%", category: "ad", position: { top: "30%", left: "80%" } },
-    { name: "社群廣告互動", color: "#ffbb00", value: "41%", category: "ad", position: { top: "15%", left: "65%" } },
+    // 廣告點擊行為標籤 - 完全避開中央計數器區域
+    { name: "搜尋廣告點擊", color: "#ffbb00", value: "22%", category: "ad", position: { top: "15%", left: "55%" } },
+    { name: "影片廣告完整觀看", color: "#ffbb00", value: "36%", category: "ad", position: { top: "10%", left: "75%" } },
+    { name: "社群廣告互動", color: "#ffbb00", value: "41%", category: "ad", position: { top: "10%", left: "35%" } },
     
-    // 閱覽興趣標籤 - 調整在計數器上方和兩側
-    { name: "科技新聞閱讀", color: "#ff8a00", value: "57%", category: "interest", position: { top: "20%", left: "35%" } },
-    { name: "旅遊資訊搜尋", color: "#ff8a00", value: "46%", category: "interest", position: { top: "70%", left: "35%" } },
-    { name: "美食探索內容", color: "#ff8a00", value: "38%", category: "interest", position: { top: "70%", left: "75%" } },
-    { name: "理財相關文章", color: "#ff8a00", value: "33%", category: "interest", position: { top: "15%", left: "25%" } },
+    // 閱覽興趣標籤 - 完全避開計數器中心
+    { name: "科技新聞閱讀", color: "#ff8a00", value: "57%", category: "interest", position: { top: "20%", left: "85%" } },
+    { name: "旅遊資訊搜尋", color: "#ff8a00", value: "46%", category: "interest", position: { top: "75%", left: "35%" } },
+    { name: "美食探索內容", color: "#ff8a00", value: "38%", category: "interest", position: { top: "80%", left: "75%" } },
+    { name: "理財相關文章", color: "#ff8a00", value: "33%", category: "interest", position: { top: "15%", left: "15%" } },
     
-    // 零售消費行為標籤 - 調整到計數器下方和兩側
-    { name: "線上購物頻率", color: "#26c6da", value: "52%", category: "retail", position: { top: "85%", left: "55%" } },
-    { name: "高單價商品購買", color: "#26c6da", value: "29%", category: "retail", position: { top: "35%", left: "15%" } },
-    { name: "季節性消費模式", color: "#26c6da", value: "44%", category: "retail", position: { top: "80%", left: "65%" } },
+    // 零售消費行為標籤 - 完全避開計數器
+    { name: "線上購物頻率", color: "#26c6da", value: "52%", category: "retail", position: { top: "90%", left: "55%" } },
+    { name: "高單價商品購買", color: "#26c6da", value: "29%", category: "retail", position: { top: "30%", left: "5%" } },
+    { name: "季節性消費模式", color: "#26c6da", value: "44%", category: "retail", position: { top: "85%", left: "15%" } },
     
-    // 用戶特性標籤 - 分散到四周角落
-    { name: "行動裝置使用者", color: "#ff5500", value: "68%", category: "user", position: { top: "20%", left: "10%" } },
-    { name: "高消費力族群", color: "#ff5500", value: "46%", category: "user", position: { top: "85%", left: "25%" } },
-    { name: "科技產品愛好者", color: "#ff5500", value: "57%", category: "user", position: { top: "65%", left: "10%" } },
-    { name: "社群媒體活躍用戶", color: "#ff5500", value: "72%", category: "user", position: { top: "15%", left: "80%" } },
-    { name: "旅遊相關興趣", color: "#00bcd4", value: "41%", category: "user", position: { top: "90%", left: "85%" } }
+    // 用戶特性標籤 - 分散到四周更遠的角落
+    { name: "行動裝置使用者", color: "#ff5500", value: "68%", category: "user", position: { top: "5%", left: "10%" } },
+    { name: "高消費力族群", color: "#ff5500", value: "46%", category: "user", position: { top: "85%", left: "85%" } },
+    { name: "科技產品愛好者", color: "#ff5500", value: "57%", category: "user", position: { top: "70%", left: "5%" } },
+    { name: "社群媒體活躍用戶", color: "#ff5500", value: "72%", category: "user", position: { top: "5%", left: "80%" } },
+    { name: "旅遊相關興趣", color: "#00bcd4", value: "41%", category: "user", position: { top: "95%", left: "90%" } }
   ]);
 
   // 根據計數進度更新標籤透明度
@@ -170,7 +170,7 @@ export const ConsumerDatabase = ({
           {traits.map((trait, index) => {
             // 定義計數器中心區域，確保標籤不會重疊
             const counterCenter = { x: 50, y: 50 }; // 計數器在中央
-            const counterExclusionRadius = 25; // 設置排除區域半徑（百分比）
+            const counterExclusionRadius = 35; // 增加排除區域半徑（百分比）來確保不會重疊到計數器
             
             // 解析位置為數字
             const top = parseFloat(trait.position.top);
@@ -182,9 +182,9 @@ export const ConsumerDatabase = ({
               Math.pow(top - counterCenter.y, 2)
             );
             
-            // 跳過如果標籤太靠近中央（在排除區域內）
+            // 如果標籤太靠近中央區域（在排除區域內），強制移動到邊緣
             if (distanceToCenter < counterExclusionRadius) {
-              return null; // 不顯示此標籤
+              return null; // 直接跳過會與中央重疊的標籤
             }
             
             return (
@@ -235,45 +235,7 @@ export const ConsumerDatabase = ({
             );
           })}
           
-          {/* 添加分類圖例 - 僅在標籤開始顯示後才顯示 */}
-          {traitsOpacity > 0.3 && (
-            <div 
-              className="traits-legend"
-              style={{
-                position: "absolute",
-                bottom: "5%",
-                right: "5%",
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                padding: "8px 12px",
-                borderRadius: "4px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-                opacity: traitsOpacity,
-                transition: "opacity 1s",
-                zIndex: 310,
-                fontSize: "0.8rem",
-                border: "1px solid rgba(255, 255, 255, 0.2)"
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <span style={{ width: "10px", height: "10px", backgroundColor: "#ffbb00", borderRadius: "50%" }}></span>
-                <span>廣告點擊行為</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <span style={{ width: "10px", height: "10px", backgroundColor: "#ff8a00", borderRadius: "50%" }}></span>
-                <span>閱覽興趣偏好</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <span style={{ width: "10px", height: "10px", backgroundColor: "#26c6da", borderRadius: "50%" }}></span>
-                <span>零售消費行為</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <span style={{ width: "10px", height: "10px", backgroundColor: "#ff5500", borderRadius: "50%" }}></span>
-                <span>用戶特性標籤</span>
-              </div>
-            </div>
-          )}
+          {/* 分類圖例已移除 */}
         </div>
       )}
     </div>
