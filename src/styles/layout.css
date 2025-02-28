@@ -201,6 +201,8 @@
   color: white;
   font-size: 0.95rem;
   line-height: 1.5;
+  display: flex;
+  justify-content: center;
 }
 
 /* 控制按鈕容器 */

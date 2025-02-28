@@ -322,7 +322,8 @@ const AIAudienceEngine = () => {
         padding: "10px 15px",
         maxWidth: "800px",
         margin: "0 auto",
-        textAlign: "center"
+        textAlign: "center",
+        width: "100%"
       }}>
         {description}
       </div>
