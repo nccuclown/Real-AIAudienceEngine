@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./styles/main.css";
 
 // 引入配置文件
-import { config } from "./config";
+import { config, getAnimationParams } from "./config";
 
 // 引入各模組組件及函數
 import ConsumerDatabase, {
@@ -135,9 +135,12 @@ const AIAudienceEngine = () => {
     // 使用配置中的時間軸
     const timeline = config.timeline;
 
+    // 獲取經過速度調整的動畫參數
+    const { particleUpdateInterval, progressIncrement } = getAnimationParams();
+
     intervalRef.current = setInterval(() => {
       setProgress((prev) => {
-        const newProgress = prev + config.animation.progressIncrement;
+        const newProgress = prev + progressIncrement;
 
         // 檢查里程碑
         timeline.forEach((point) => {
@@ -287,7 +290,7 @@ const AIAudienceEngine = () => {
                 // 完成演示 - 短暫暫停後重置
                 setTimeout(() => {
                   handleReset();
-                }, config.animation.resetDelay);
+                }, getAnimationParams().resetDelay);
                 break;
 
               default:
@@ -331,7 +334,7 @@ const AIAudienceEngine = () => {
       if (showDataFusion && clientDataParticles.length > 0) {
         setClientDataParticles((prev) => updateClientDataParticles(prev));
       }
-    }, config.animation.particleUpdateInterval);
+    }, particleUpdateInterval);
 
     return () => {
       clearInterval(intervalRef.current);

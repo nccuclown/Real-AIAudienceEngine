@@ -1,7 +1,12 @@
+// 完整的 src/config.js 文件
+
 // AI Audience 系統配置文件
 // 此文件集中管理所有可變內容，方便非技術人員調整文字、顏色和動畫時機
 
 export const config = {
+  // 全局速度控制 - 數值越大動畫越快 (1.0 = 原始速度)
+  speedFactor: 2.2,
+
   // 階段標題
   stages: [
     "龐大的消費者資料庫",
@@ -159,10 +164,25 @@ export const config = {
 
   // 動畫配置
   animation: {
-    particleUpdateInterval: 100, // 從50ms增加到100ms
+    particleUpdateInterval: 100, // 從50ms增加到100ms，再根據speedFactor調整
     resetDelay: 5000,
-    progressIncrement: 0.1, // 從0.2減少到0.1，使動畫更平滑
+    progressIncrement: 0.1, // 從0.2減少到0.1，使動畫更平滑，再根據speedFactor調整
   },
+};
+
+// 獲取經過速度因子調整的參數
+export const getAnimationParams = () => {
+  return {
+    particleUpdateInterval: Math.max(
+      10,
+      Math.floor(config.animation.particleUpdateInterval / config.speedFactor)
+    ),
+    progressIncrement: config.animation.progressIncrement * config.speedFactor,
+    resetDelay: Math.max(
+      1000,
+      Math.floor(config.animation.resetDelay / config.speedFactor)
+    ),
+  };
 };
 
 // 輔助函數
