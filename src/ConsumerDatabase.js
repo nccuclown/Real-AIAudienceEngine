@@ -72,6 +72,7 @@ export const ConsumerDatabase = ({
             padding: "15px 25px",
             backdropFilter: "blur(5px)",
             boxShadow: "0 0 20px rgba(255, 187, 0, 0.5)",
+            textAlign: "center", // 確保所有文字置中
           }}
         >
           <div className="counter-value">{formatNumber(displayCount)}</div>
@@ -79,7 +80,7 @@ export const ConsumerDatabase = ({
           <div className="counter-sublabel" style={{ marginTop: "5px", fontSize: "0.9rem", color: "#ffdd77" }}>
             收集標籤數: {Math.floor(displayCount * 0.35 / 1000)}K+ 種
           </div>
-          <div className="data-categories" style={{ marginTop: "10px", fontSize: "0.8rem", color: "#ffffff", display: "flex", flexDirection: "column", gap: "5px" }}>
+          <div className="data-categories" style={{ marginTop: "10px", fontSize: "0.8rem", color: "#ffffff", display: "flex", flexDirection: "column", gap: "5px", alignItems: "center" }}>
             <div style={{ opacity: progress > 4 ? 1 : 0.2, transition: "opacity 0.5s" }}>
               <span style={{ color: "#ffbb00" }}>●</span> 廣告點擊行為: {progress > 4 ? Math.floor(displayCount * 0.15 / 1000) : 0}K+
             </div>

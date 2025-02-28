@@ -73,3 +73,56 @@
   transform: translate(-50%, -50%);
   z-index: 30;
 }
+/* document-cube.css */
+.cube-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.document-extraction-container {
+  z-index: 100;
+}
+
+.extraction-panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+.extraction-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.extraction-panel::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 187, 0, 0.3);
+  border-radius: 3px;
+}
+
+@keyframes pulsate {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
