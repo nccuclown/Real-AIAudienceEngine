@@ -48,14 +48,24 @@ export function isWebSocketAvailable() {
   return isSocketAvailable;
 }
 
-// Initialize socket when this module is imported
+// 仅在需要时初始化socket
 let socketInitialized = false;
-window.addEventListener('load', () => {
+
+// 导出一个函数，只有在明确调用时才初始化WebSocket
+export function ensureSocketInitialized() {
   if (!socketInitialized) {
     socketInitialized = true;
-    setTimeout(() => initSocket(), 1000); // Delay initialization to ensure the page is fully loaded
+    try {
+      initSocket();
+    } catch (error) {
+      console.log('WebSocket initialization skipped, will continue without real-time updates');
+      isSocketAvailable = false;
+    }
   }
-});
+  return isSocketAvailable;
+}
+
+// 不再自动初始化
 
 export default {
   initSocket,

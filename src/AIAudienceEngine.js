@@ -17,14 +17,13 @@ import ClientDataFusion, {
 import ProductMatching from "./ProductMatching";
 import AnalysisReport from "./AnalysisReport";
 
-export default function App() {
-  // Wrapping in a div helps React manage the component tree better
-  return (
-    <div className="app-container">
-      <AIAudienceEngine />
-    </div>
-  );
-}
+// 将AIAudienceEngine组件作为默认导出
+const App = () => {
+  // 直接返回AIAudienceEngine组件
+  return <AIAudienceEngine />;
+};
+
+export default App;
 
 const AIAudienceEngine = () => {
   const [stage, setStage] = useState(0);
@@ -305,15 +304,22 @@ const AIAudienceEngine = () => {
   };
 
   // Use proper conditional rendering instead of functions
-  const techLabelElement = techLabel ? (
-    <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
-      {techLabel}
-    </div>
-  ) : null;
+  // 使用React.memo来避免不必要的重新渲染
+  const TechLabel = React.memo(({ label }) => {
+    if (!label) return null;
+    return (
+      <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
+        {label}
+      </div>
+    );
+  });
 
-  const stageDescriptionElement = stageDescription ? (
-    <div className="stage-description-bottom fade-in">{stageDescription}</div>
-  ) : null;
+  const StageDescription = React.memo(({ description }) => {
+    if (!description) return null;
+    return (
+      <div className="stage-description-bottom fade-in">{description}</div>
+    );
+  });
 
   return (
     <div className="engine-container">
@@ -352,9 +358,9 @@ const AIAudienceEngine = () => {
             <ProductMatching showMatching={showMatching} progress={progress} />
           </div>
           <AnalysisReport showReport={showReport} progress={progress} />
-          {techLabelElement}
+          <TechLabel label={techLabel} />
         </div>
-        {stageDescriptionElement}
+        <StageDescription description={stageDescription} />
         <div className="controls-container">
           <button onClick={togglePause} className={`control-button ${isPaused ? "pause-button" : "play-button"}`}>
             {isPaused ? "繼續" : "暫停"}

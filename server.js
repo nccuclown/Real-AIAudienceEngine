@@ -54,21 +54,31 @@ const server = http.createServer((req, res) => {
 // Create WebSocket server
 const wss = new WebSocket.Server({ 
   server,
-  path: '/ws'  // Specify the path explicitly
+  path: '/ws',  // Specify the path explicitly
+  clientTracking: true,
+  // 增加ping-pong保持连接活跃
+  pingInterval: 30000,
+  pingTimeout: 5000
 });
 
 // Store connected clients
 const clients = new Set();
 
-wss.on('connection', (ws) => {
-  console.log('Client connected');
+wss.on('connection', (ws, req) => {
+  const clientIp = req.socket.remoteAddress;
+  console.log(`Client connected from ${clientIp}`);
   clients.add(ws);
   
   // Send initial connection confirmation
-  ws.send(JSON.stringify({
-    type: 'connection',
-    message: 'Connected to WebSocket server'
-  }));
+  try {
+    ws.send(JSON.stringify({
+      type: 'connection',
+      message: 'Connected to WebSocket server',
+      timestamp: Date.now()
+    }));
+  } catch (error) {
+    console.error('Error sending initial message:', error);
+  }
   
   ws.on('message', (message) => {
     console.log('Received message:', message.toString());

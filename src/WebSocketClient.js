@@ -2,15 +2,12 @@
 // WebSocketClient.js
 export default class WebSocketClient {
   constructor(url = null) {
-    // Use HTTP/HTTPS for development, not WSS
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const host = window.location.hostname;
-    const port = '3000';
-    this.url = url || `${protocol}//${host}:${port}/ws`;
+    // 使用相对路径，避免跨域问题
+    this.url = url || `/ws`;
     this.socket = null;
     this.listeners = [];
     this.reconnectAttempts = 0;
-    this.maxReconnectAttempts = 5;
+    this.maxReconnectAttempts = 3; // 减少重连次数
     this.isConnecting = false;
     this.connect();
   }
@@ -62,11 +59,11 @@ export default class WebSocketClient {
   attemptReconnect() {
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnectAttempts++;
-      const delay = Math.min(3000 * this.reconnectAttempts, 10000);
+      const delay = Math.min(2000 * this.reconnectAttempts, 5000);
       console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts}) in ${delay/1000}s...`);
       setTimeout(() => this.connect(), delay);
     } else {
-      console.log('Max reconnect attempts reached. WebSocket unavailable.');
+      console.log('WebSocket unavailable, continuing without real-time updates.');
       this.notifyListeners('unavailable', null);
     }
   }
