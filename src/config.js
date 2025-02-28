@@ -1,7 +1,12 @@
+// 完整的 src/config.js 文件
+
 // AI Audience 系統配置文件
 // 此文件集中管理所有可變內容，方便非技術人員調整文字、顏色和動畫時機
 
 export const config = {
+  // 全局速度控制 - 數值越大動畫越快 (1.0 = 原始速度)
+  speedFactor: 1,
+
   // 階段標題
   stages: [
     "龐大的消費者資料庫",
@@ -74,11 +79,11 @@ export const config = {
       "價格敏感度：低",
     ],
 
-    // 最大受眾數量 - 降低數值以便從小數字逐漸遞增
+    // 最大受眾數量
     maxAudienceCount: 3000000,
 
     // 粒子數量
-    particleCount: 80, // 從150減少到80
+    particleCount: 80,
   },
 
   // 文檔數據配置
@@ -98,7 +103,7 @@ export const config = {
     ],
 
     // 粒子數量
-    particleCount: 50, // 從100減少到50
+    particleCount: 50,
 
     // 立方體尺寸
     cubeSize: 30,
@@ -121,7 +126,7 @@ export const config = {
     ],
 
     // 粒子數量
-    particleCount: 30, // 從60減少到30
+    particleCount: 30,
   },
 
   // 產品需求配置
@@ -159,10 +164,25 @@ export const config = {
 
   // 動畫配置
   animation: {
-    particleUpdateInterval: 100, // 從50ms增加到100ms
+    particleUpdateInterval: 100,
     resetDelay: 5000,
-    progressIncrement: 0.1, // 從0.2減少到0.1，使動畫更平滑
+    progressIncrement: 0.1,
   },
+};
+
+// 獲取經過速度因子調整的參數
+export const getAnimationParams = () => {
+  return {
+    particleUpdateInterval: Math.max(
+      10,
+      Math.floor(config.animation.particleUpdateInterval / config.speedFactor)
+    ),
+    progressIncrement: config.animation.progressIncrement * config.speedFactor,
+    resetDelay: Math.max(
+      1000,
+      Math.floor(config.animation.resetDelay / config.speedFactor)
+    ),
+  };
 };
 
 // 輔助函數

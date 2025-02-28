@@ -1,21 +1,21 @@
 /* layout.css - 佈局相關，包含網格、定位等 */
 
-/* ---------- 視覺化區域樣式 ---------- */
+/* 視覺化區域樣式 */
 .visualization-container {
   position: relative;
   display: grid;
-  grid-template-columns: 30% 40% 30%;
+  grid-template-columns: 30% 40% 30%; /* 分為左中右三區 */
   grid-template-rows: 100%;
   height: 100%;
   flex: 1;
   z-index: 20;
+  overflow: visible;
 }
 
-/* 添加動畫邊界限制，確保所有內容都在上下邊界內 */
 .animation-boundary {
   position: relative;
-  overflow: hidden;
-  max-height: calc(100% - 110px); /* 限制高度，避免超出 */
+  overflow: visible;
+  max-height: calc(100% - 110px);
   margin-bottom: 10px;
 }
 
@@ -25,16 +25,17 @@
   position: relative;
   height: 100%;
   padding: 10px;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* 確保center-zone能正確包含多個視覺化元素 */
 .center-zone {
   position: relative;
-  overflow: visible; /* 修改為visible，確保元素不被裁剪 */
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* 明確定義層次，避免視覺元素互相遮擋 */
 .sphere-container,
 .cube-container,
 .data-fusion-container,
@@ -45,18 +46,17 @@
   z-index: 20;
 }
 
-/* 強制定義cube-container的顯示層級 */
 .cube-container {
   z-index: 25;
 }
 
-/* 增加層級控制類 */
 .cube-layer,
 .sphere-layer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
 .cube-layer {
@@ -64,5 +64,28 @@
 }
 
 .sphere-layer {
-  z-index: 20;
+  z-index: 50;
+}
+
+.active-stage {
+  z-index: 35;
+}
+
+.debug-outline {
+  border: 1px dashed rgba(255, 0, 0, 0.5);
+}
+
+.overflow-guard {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
 }
