@@ -196,39 +196,7 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
 
   return (
     <div className={`cube-container ${showCube ? "active" : ""}`}>
-      {showCube && progress > 25 && progress < 44 && (
-        <>
-          <div className="rag-tag" style={{
-            position: "absolute",
-            right: "0",
-            top: "50%", 
-            transform: "translateY(-50%)",
-            zIndex: 30,
-            padding: "8px 12px",
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            borderRadius: "6px",
-            border: "1px solid #ffbb00",
-            color: "#ffbb00",
-            fontWeight: "bold"
-          }}>
-            ● RAG 知識檢索進行中
-          </div>
-          <div className="rag-large-tag" style={{
-            position: "absolute",
-            right: "0",
-            top: "20%",
-            zIndex: 30,
-            padding: "8px 12px",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            borderRadius: "6px",
-            color: "#ffbb00",
-            fontWeight: "bold",
-            fontSize: "0.8rem"
-          }}>
-            RAG - Retrieval-Augmented Generation
-          </div>
-        </>
-      )}
+      {/* 移除了右側的RAG標籤 */}
 
       <div className="knowledge-base-container" style={{
         position: "absolute", 

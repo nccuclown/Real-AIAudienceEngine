@@ -374,10 +374,10 @@ const AIAudienceEngine = () => {
                   <div className="knowledge-extraction-panel" style={{ 
                     position: "absolute", 
                     top: "50%", 
-                    left: 10, 
-                    transform: "translateY(-50%)",
+                    left: "50%", 
+                    transform: "translate(-50%, -50%)",
                     zIndex: 200,
-                    width: "280px",
+                    width: "350px",
                     maxHeight: "80%",
                     overflow: "auto",
                     backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -441,6 +441,25 @@ const AIAudienceEngine = () => {
             
             {/* 中間區域 - 球體和立方體 */}
             <div className="center-zone">
+              {/* 中央上方的RAG標籤 */}
+              {showCube && progress > 25 && (
+                <div style={{ 
+                  position: "absolute", 
+                  top: "10%", 
+                  left: "50%", 
+                  transform: "translateX(-50%)",
+                  zIndex: 150,
+                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  border: "1px solid #ffbb00",
+                  borderRadius: "4px",
+                  padding: "8px 15px",
+                  color: "#ffbb00",
+                  fontWeight: "bold",
+                  textAlign: "center"
+                }}>
+                  RAG - Retrieval-Augmented Generation
+                </div>
+              )}
               <div className="sphere-layer" style={{ zIndex: showSphere ? 100 : 10 }}>
                 <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
               </div>
@@ -449,59 +468,10 @@ const AIAudienceEngine = () => {
               </div>
             </div>
             
-            {/* 右區域 - 產品匹配 */}
+            {/* 右區域 - 已清空 */}
             <div className="right-zone">
               <div className="zone-content">
-                <div className="matching-layer" style={{ zIndex: showMatching ? 100 : 10 }}>
-                  <ProductMatching showMatching={showMatching} progress={progress} />
-                </div>
-                
-                {/* RAG標籤 - 右上角 */}
-                {showCube && progress > 25 && progress < 65 && (
-                  <div style={{ 
-                    position: "absolute", 
-                    top: "10%", 
-                    right: "5%", 
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
-                    color: "#ffbb00",
-                    padding: "6px 12px",
-                    borderRadius: "4px",
-                    fontWeight: "bold",
-                    fontSize: "0.8rem",
-                    zIndex: 200,
-                    border: "1px solid #ff8a00"
-                  }}>
-                    RAG - Retrieval-Augmented Generation
-                  </div>
-                )}
-                
-                {/* RAG運行指示器 - 中間位置 */}
-                {showCube && progress > 30 && progress < 60 && (
-                  <div style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    padding: "8px 15px",
-                    borderRadius: "20px",
-                    zIndex: 200
-                  }}>
-                    <div style={{ 
-                      width: "12px", 
-                      height: "12px", 
-                      borderRadius: "50%", 
-                      backgroundColor: "#ffbb00",
-                      animation: "pulse 1.5s infinite"
-                    }} />
-                    <div style={{ color: "#ffbb00", fontWeight: "bold", fontSize: "0.9rem" }}>
-                      RAG 知識庫運行中
-                    </div>
-                  </div>
-                )}
+                {/* 右側區域元件已移除 */}
               </div>
             </div>
             
