@@ -246,7 +246,7 @@ const AIAudienceEngine = () => {
       }
       if (showCube && documentParticles.length > 0) {
         setDocumentParticles((prev) =>
-          updateDocumentParticles(prev, cubeRotation)
+          updateDocumentParticles(prev, progress)
         );
       }
       if (showDataFusion && clientDataParticles.length > 0) {

@@ -17,7 +17,7 @@ export const config = {
   ],
   stageDescriptions: [
     "AI Audience 從數百萬消費者輪廓開始，打造了一個龐大的資料庫。Predictive AI 讓我們預測每個人的潛在需求。",
-    "我們將過去的提案與結案融入 AI Audience，用 RAG 技術豐富它的知識，讓它更懂市場與客戶。",
+    "我們將過去的提案、結案與產業白皮書融入 AI Audience，用 RAG 技術豐富它的知識庫，讓它更專業、更懂市場與客戶。",
     "透過獨特的 TNL MG Tag，我們整合客戶的第一方數據，讓 AI Audience 的資料庫更豐富、更貼近您的需求。",
     "在完整的內外數據支援下，AI Audience 能迅速找到最精準的受眾，無論您的產品是什麼。",
     "最後，AI Audience 為您生成一份完整的受眾分析報告，涵蓋性別、年齡、興趣與購買行為，幫助您做出最佳決策。",
@@ -75,8 +75,10 @@ export const config = {
       "時尚產業分析",
       "電商平台報告",
       "串流媒體行銷",
+      "消費者行為調查",
+      "產業白皮書",
     ],
-    particleCount: 50,
+    particleCount: 60,
     cubeSize: 30,
   },
   clientData: {
