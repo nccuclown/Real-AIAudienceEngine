@@ -24,9 +24,13 @@
 .middle-section {
   flex: 1;
   position: relative;
-  overflow: hidden;
-  min-height: 60vh;
+  overflow: visible; /* 改為可見，方便調試 */
+  min-height: 50vh; /* 稍微縮小以確保元素不會溢出 */
+  max-height: calc(100vh - 280px); /* 限制最大高度，預留頂部和底部空間 */
   z-index: 50;
+  display: flex; /* 使用彈性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
 }
 
 /* 下區塊 - 描述與控制按鈕 */
@@ -87,18 +91,23 @@
   position: relative;
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow: visible; /* 改為可見以便調試 */
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 各個區域內的容器 */
 .zone-content {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 90%; /* 稍微縮小高度，確保內容不會溢出 */
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* 控制內容不超出 */
 }
 
 /* 球體和立方體容器位置調整 */
@@ -268,4 +277,33 @@
   .left-zone, .center-zone, .right-zone {
     padding: 5px;
   }
+}
+
+
+/* RAG元素脈衝動畫 */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+}
+
+/* 知識擷取面板樣式 */
+.knowledge-extraction-panel {
+  color: white;
+  max-width: 280px;
+}
+
+/* 確保底部區域不會被覆蓋 */
+.bottom-section {
+  position: relative;
+  z-index: 500; /* 確保始終在最上層 */
 }

@@ -100,34 +100,34 @@ const DocumentCube = ({ showCube, documentParticles, progress, cubeRotation }) =
   const [knowledgeRings, setKnowledgeRings] = useState([]);
   const [extractedInfo, setExtractedInfo] = useState([]);
 
-  // 生成知識環
+  // 生成知識環 - 縮小尺寸以確保完全在中間區域顯示
   useEffect(() => {
     if (showCube) {
       const rings = [];
-      // 內環
+      // 內環 - 縮小半徑
       rings.push({
         id: 'inner-ring',
-        radius: 60,
+        radius: 45, // 從60縮小到45
         particleCount: 20,
         color: config.colors.primary,
         rotationSpeed: 0.5,
         width: 3
       });
 
-      // 中環
+      // 中環 - 縮小半徑
       rings.push({
         id: 'middle-ring',
-        radius: 90,
+        radius: 70, // 從90縮小到70
         particleCount: 30,
         color: config.colors.secondary,
         rotationSpeed: -0.3,
         width: 2
       });
 
-      // 外環
+      // 外環 - 縮小半徑
       rings.push({
         id: 'outer-ring',
-        radius: 120,
+        radius: 95, // 從120縮小到95
         particleCount: 40,
         color: config.colors.blue,
         rotationSpeed: 0.2,

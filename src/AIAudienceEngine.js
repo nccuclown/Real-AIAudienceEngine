@@ -363,12 +363,52 @@ const AIAudienceEngine = () => {
         {/* 中區塊：視覺化內容 - 分為左中右三區域 */}
         <div className="middle-section">
           <div className="visualization-container animation-boundary">
-            {/* 左區域 - 資料融合 */}
+            {/* 左區域 - 資料融合和知識擷取 */}
             <div className="left-zone">
               <div className="zone-content">
                 <div className="data-fusion-layer" style={{ zIndex: showDataFusion ? 100 : 10 }}>
                   <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
                 </div>
+                {/* 知識擷取面板 - 仔細控制位置和大小 */}
+                {showCube && progress > 30 && progress < 65 && (
+                  <div className="knowledge-extraction-panel" style={{ 
+                    position: "absolute", 
+                    top: "50%", 
+                    left: 10, 
+                    transform: "translateY(-50%)",
+                    zIndex: 200,
+                    maxWidth: "90%",
+                    maxHeight: "80%",
+                    overflow: "auto",
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    border: "1px solid #ffbb00",
+                    borderRadius: "8px",
+                    padding: "12px",
+                    fontSize: "0.85rem" // 減小字體大小以適應空間
+                  }}>
+                    <div style={{ fontWeight: "bold", color: "#ffbb00", marginBottom: "10px", textAlign: "center" }}>
+                      知識擷取中...
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                      <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                        <div style={{ color: "#ffbb00", flexShrink: 0 }}>✓</div>
+                        <div>從1234篇產業專家中提取關鍵中英詞彙、概念、豐富語義理解能力</div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                        <div style={{ color: "#ffbb00", flexShrink: 0 }}>✓</div>
+                        <div>整合543份產業白皮書的市場調查、趨勢預測、增強內容策略制</div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                        <div style={{ color: "#ffbb00", flexShrink: 0 }}>✓</div>
+                        <div>分析527個廣告投放數據與受眾特徵，掌握15個核心消費者類型</div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                        <div style={{ color: "#ffbb00", flexShrink: 0 }}>✓</div>
+                        <div>學習372個成功提案關鍵結構及語言，提高企劃說服力</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -388,6 +428,53 @@ const AIAudienceEngine = () => {
                 <div className="matching-layer" style={{ zIndex: showMatching ? 100 : 10 }}>
                   <ProductMatching showMatching={showMatching} progress={progress} />
                 </div>
+                
+                {/* RAG標籤 - 右上角 */}
+                {showCube && progress > 25 && progress < 65 && (
+                  <div style={{ 
+                    position: "absolute", 
+                    top: "10%", 
+                    right: "5%", 
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    color: "#ffbb00",
+                    padding: "6px 12px",
+                    borderRadius: "4px",
+                    fontWeight: "bold",
+                    fontSize: "0.8rem",
+                    zIndex: 200,
+                    border: "1px solid #ff8a00"
+                  }}>
+                    RAG - Retrieval-Augmented Generation
+                  </div>
+                )}
+                
+                {/* RAG運行指示器 - 中間位置 */}
+                {showCube && progress > 30 && progress < 60 && (
+                  <div style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    padding: "8px 15px",
+                    borderRadius: "20px",
+                    zIndex: 200
+                  }}>
+                    <div style={{ 
+                      width: "12px", 
+                      height: "12px", 
+                      borderRadius: "50%", 
+                      backgroundColor: "#ffbb00",
+                      animation: "pulse 1.5s infinite"
+                    }} />
+                    <div style={{ color: "#ffbb00", fontWeight: "bold", fontSize: "0.9rem" }}>
+                      RAG 知識庫運行中
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             
