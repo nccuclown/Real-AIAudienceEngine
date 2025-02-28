@@ -5,7 +5,7 @@
 
 export const config = {
   // 全局速度控制 - 數值越大動畫越快 (1.0 = 原始速度)
-  speedFactor: 2.2,
+  speedFactor: 2.0,
 
   // 階段標題
   stages: [

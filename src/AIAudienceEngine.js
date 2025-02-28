@@ -477,13 +477,13 @@ const AIAudienceEngine = () => {
           </div>
 
           <div className="center-zone">
-            {/* 3D球體粒子 */}
+            // 在 AIAudienceEngine.js 中{/* 3D球體粒子 */}
             <div
-              className="sphere-layer"
+              className="spherer-layer"
               style={{
                 position: "absolute",
                 inset: 0,
-                zIndex: showSphere ? 25 : 10,
+                zIndex: showSphere ? 30 : 10, // 增加為 30
               }}
             >
               <ConsumerDatabase
@@ -493,7 +493,6 @@ const AIAudienceEngine = () => {
                 dataCount={dataCount}
               />
             </div>
-
             {/* 文檔立方體 */}
             <div
               className="cube-layer"
