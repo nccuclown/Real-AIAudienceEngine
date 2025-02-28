@@ -210,9 +210,6 @@ const AIAudienceEngine = () => {
         setStageDescription(config.stageDescriptions[0]);
         checkAnimationComplete('sphereComplete', false); // 重置動畫完成狀態
         console.log("啟動球體階段，更新後粒子數:", newParticles.length);
-        // Add code to display sphere traits here.  This will depend on your ConsumerDatabase component.
-        // Example:  You might call a function within ConsumerDatabase to display the traits.
-        //  e.g.,  ConsumerDatabase.showTraits(newParticles);  (Assuming such a function exists)
         break;
       case "startStage1":
         setStage(1);
