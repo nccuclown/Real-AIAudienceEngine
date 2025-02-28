@@ -1,0 +1,40 @@
+Download the React DevTools for a better development experience: https://react.dev/link/react-devtools
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+manifest.json:1 Manifest: Line: 1, column: 1, Syntax error.Understand this errorAI
+ConsumerDatabase.js:42 生成球體粒子數量: 80
+AIAudienceEngine.js:121 啟動球體階段，更新後粒子數: 80
+ConsumerDatabase.js:42 生成球體粒子數量: 80
+AIAudienceEngine.js:121 啟動球體階段，更新後粒子數: 80
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+DocumentCube.js:9 生成立方體粒子開始
+DocumentCube.js:93 生成的粒子數量: 50
+AIAudienceEngine.js:137 生成文檔粒子: 50
+DocumentCube.js:9 生成立方體粒子開始
+DocumentCube.js:93 生成的粒子數量: 50
+AIAudienceEngine.js:137 生成文檔粒子: 50
+react-dom-client.development.js:5803 Internal React error: Expected static flag was missing. Please notify the React team.
+finishRenderingHooks @ react-dom-client.development.js:5803Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
