@@ -1,0 +1,55 @@
+Download the React DevTools for a better development experience: https://react.dev/link/react-devtools
+react refresh:6 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+./node_modules/.pnpm/webpack-dev-server@4.15.2_webpack@5.98.0/node_modules/webpack-dev-server/client/index.js?protocol=ws%3A&hostname=0.0.0.0&port=3000&pathname=%2Fws&logging=none&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%7D&reconnect=10&hot=true&live-reload=true @ index.js:320
+options.factory @ react refresh:6
+__webpack_require__ @ bootstrap:22
+(anonymous) @ startup:5
+(anonymous) @ startup:7Understand this errorAI
+ConsumerDatabase.js:42 生成球體粒子數量: 80
+AIAudienceEngine.js:126 啟動球體階段，更新後粒子數: 80
+ConsumerDatabase.js:42 生成球體粒子數量: 80
+AIAudienceEngine.js:126 啟動球體階段，更新後粒子數: 80
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
+DocumentCube.js:9 生成立方體粒子開始
+DocumentCube.js:93 生成的粒子數量: 50
+AIAudienceEngine.js:142 生成文檔粒子: 50
+DocumentCube.js:9 生成立方體粒子開始
+DocumentCube.js:93 生成的粒子數量: 50
+AIAudienceEngine.js:142 生成文檔粒子: 50
+react-dom-client.development.js:5803 Internal React error: Expected static flag was missing. Please notify the React team.
+finishRenderingHooks @ react-dom-client.development.js:5803
+renderWithHooks @ react-dom-client.development.js:5779
+updateFunctionComponent @ react-dom-client.development.js:8018
+beginWork @ react-dom-client.development.js:9683
+runWithFiberInDEV @ react-dom-client.development.js:543
+performUnitOfWork @ react-dom-client.development.js:15042
+workLoopSync @ react-dom-client.development.js:14870
+renderRootSync @ react-dom-client.development.js:14850
+performWorkOnRoot @ react-dom-client.development.js:14332
+performWorkOnRootViaSchedulerTask @ react-dom-client.development.js:15931
+performWorkUntilDeadline @ scheduler.development.js:44Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
+ConsumerDatabase.js:42 生成球體粒子數量: 80
+AIAudienceEngine.js:126 啟動球體階段，更新後粒子數: 80
+ConsumerDatabase.js:42 生成球體粒子數量: 80
+AIAudienceEngine.js:126 啟動球體階段，更新後粒子數: 80
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+DocumentCube.js:9 生成立方體粒子開始
+DocumentCube.js:93 生成的粒子數量: 50
+AIAudienceEngine.js:142 生成文檔粒子: 50
+DocumentCube.js:9 生成立方體粒子開始
+DocumentCube.js:93 生成的粒子數量: 50
+AIAudienceEngine.js:142 生成文檔粒子: 50
