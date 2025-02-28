@@ -24,6 +24,53 @@
 .trait-tag-animated {
   animation: pulse 2s infinite ease-in-out;
   will-change: transform;
+  position: relative;
+}
+
+/* 添加標籤連接線動畫 */
+.trait-tag-animated::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 1px;
+  background-color: var(--line-color, #ffbb00);
+  opacity: 0.6;
+  top: 50%;
+  transform-origin: 0 50%;
+  z-index: -1;
+  animation: connectLine 3s infinite ease-in-out;
+}
+
+@keyframes connectLine {
+  0%, 100% {
+    transform: scaleX(0.8) rotate(var(--rotation, 0deg));
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleX(1) rotate(var(--rotation, 0deg));
+    opacity: 0.7;
+  }
+}
+
+/* 標籤圍繞效果 */
+.traits-container {
+  perspective: 1000px;
+}
+
+/* 更強的脈動效果 */
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px var(--line-color, currentColor);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--line-color, currentColor);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px var(--line-color, currentColor);
+  }
 }
 
   background-color: rgba(0, 0, 0, 0.6);

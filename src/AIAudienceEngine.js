@@ -1,4 +1,3 @@
-
 // AIAudienceEngine.js
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/main.css";
@@ -116,7 +115,7 @@ const AIAudienceEngine = () => {
     matchingComplete: false,
     reportComplete: false
   });
-  
+
   // 檢查動畫完成
   const checkAnimationComplete = (animationType, value = true) => {
     setAnimationStates(prev => {
@@ -134,7 +133,7 @@ const AIAudienceEngine = () => {
       // 當球體動畫完成，更新進度並移動到下一階段
       advanceTimeline();
     };
-    
+
     const handleCubeComplete = () => {
       checkAnimationComplete('cubeComplete', true);
       console.log("立方體動畫完成事件觸發");
@@ -159,13 +158,13 @@ const AIAudienceEngine = () => {
       console.log("報告動畫完成事件觸發");
       advanceTimeline();
     };
-    
+
     window.addEventListener('sphereAnimationComplete', handleSphereComplete);
     window.addEventListener('cubeAnimationComplete', handleCubeComplete);
     window.addEventListener('dataFusionComplete', handleDataFusionComplete);
     window.addEventListener('matchingComplete', handleMatchingComplete);
     window.addEventListener('reportComplete', handleReportComplete);
-    
+
     return () => {
       window.removeEventListener('sphereAnimationComplete', handleSphereComplete);
       window.removeEventListener('cubeAnimationComplete', handleCubeComplete);
@@ -178,18 +177,18 @@ const AIAudienceEngine = () => {
   // 推進時間線到下一個階段
   const advanceTimeline = () => {
     if (isPaused) return;
-    
+
     // 確保不會超出時間線範圍
     if (currentTimelineIndex >= config.timeline.length - 1) {
       return;
     }
-    
+
     const nextIndex = currentTimelineIndex + 1;
     setCurrentTimelineIndex(nextIndex);
-    
+
     // 根據當前階段更新進度條
     setProgress(calculateProgressFromStage(nextIndex, config.timeline.length - 1));
-    
+
     // 執行相應的動畫階段
     executeTimelineAction(config.timeline[nextIndex].action);
   };
@@ -197,7 +196,7 @@ const AIAudienceEngine = () => {
   // 執行時間線動作
   const executeTimelineAction = (action) => {
     console.log(`執行動作: ${action}`);
-    
+
     switch (action) {
       case "startSphere":
         const newParticles = generateSphereParticles();
@@ -211,21 +210,9 @@ const AIAudienceEngine = () => {
         setStageDescription(config.stageDescriptions[0]);
         checkAnimationComplete('sphereComplete', false); // 重置動畫完成狀態
         console.log("啟動球體階段，更新後粒子數:", newParticles.length);
-        break;
-      case "showSphereTraits":
-        // 發送事件通知ConsumerDatabase組件顯示特性標籤
-        console.log("發出顯示特性標籤事件");
-        window.dispatchEvent(new CustomEvent('stageChange', { 
-          detail: { action: "showSphereTraits" } 
-        }));
-        // 同時更新現有粒子（如果有的話）
-        setAudienceParticles((prev) =>
-          prev.map((p) => ({
-            ...p,
-            opacity: 0.6 + Math.random() * 0.4,
-            showTrait: Math.random() < 0.2,
-          }))
-        );
+        // Add code to display sphere traits here.  This will depend on your ConsumerDatabase component.
+        // Example:  You might call a function within ConsumerDatabase to display the traits.
+        //  e.g.,  ConsumerDatabase.showTraits(newParticles);  (Assuming such a function exists)
         break;
       case "startStage1":
         setStage(1);
@@ -355,9 +342,9 @@ const AIAudienceEngine = () => {
   // 更新粒子和動畫狀態
   useEffect(() => {
     if (isPaused) return;
-    
+
     const { particleUpdateInterval } = getAnimationParams();
-    
+
     intervalRef.current = setInterval(() => {
       if (showSphere && audienceParticles.length > 0) {
         setAudienceParticles((prev) =>
@@ -372,7 +359,7 @@ const AIAudienceEngine = () => {
       if (showDataFusion && clientDataParticles.length > 0) {
         setClientDataParticles((prev) => updateClientDataParticles(prev));
       }
-      
+
       // 確保消費者數據顯示完整
       if (showSphere) {
         const maxCount = config.audienceData.maxAudienceCount;
@@ -380,7 +367,7 @@ const AIAudienceEngine = () => {
         const animationProgress = currentTimelineIndex / (config.timeline.length - 1) * 100;
         setDataCount(Math.min(maxCount, Math.floor((animationProgress / 100) * maxCount)));
       }
-      
+
     }, particleUpdateInterval);
 
     return () => {
@@ -513,7 +500,7 @@ const AIAudienceEngine = () => {
                 {/* 左側區域不再顯示知識擷取面板 */}
               </div>
             </div>
-            
+
             {/* 中間區域 - 球體和立方體 */}
             <div className="center-zone">
               {/* 中央上方的RAG標籤 */}
@@ -542,14 +529,14 @@ const AIAudienceEngine = () => {
                 <DocumentCube showCube={showCube} documentParticles={documentParticles} progress={progress} cubeRotation={cubeRotation} />
               </div>
             </div>
-            
+
             {/* 右區域 - 已清空 */}
             <div className="right-zone">
               <div className="zone-content">
                 {/* 右側區域元件已移除 */}
               </div>
             </div>
-            
+
             {/* 報告層 - 當啟用時覆蓋在中間區域上 */}
             <div className="report-layer" style={{ 
               position: "absolute", 
@@ -561,7 +548,7 @@ const AIAudienceEngine = () => {
             }}>
               <AnalysisReport showReport={showReport} progress={progress} />
             </div>
-            
+
             {/* 技術標籤 - 顯示在右上角 */}
             <TechLabel label={techLabel} />
           </div>
