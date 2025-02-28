@@ -2,15 +2,23 @@
 // WebSocketClient.js
 export default class WebSocketClient {
   constructor(url = null) {
-    this.url = url || `ws://${window.location.hostname}:3000/ws`;
+    // Use HTTP/HTTPS for development, not WSS
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const host = window.location.hostname;
+    const port = '3000';
+    this.url = url || `${protocol}//${host}:${port}/ws`;
     this.socket = null;
     this.listeners = [];
     this.reconnectAttempts = 0;
     this.maxReconnectAttempts = 5;
+    this.isConnecting = false;
     this.connect();
   }
 
   connect() {
+    if (this.isConnecting) return;
+    
+    this.isConnecting = true;
     try {
       console.log(`Connecting to WebSocket at ${this.url}`);
       this.socket = new WebSocket(this.url);
@@ -18,6 +26,7 @@ export default class WebSocketClient {
       this.socket.onopen = () => {
         console.log('WebSocket connection established');
         this.reconnectAttempts = 0;
+        this.isConnecting = false;
         this.notifyListeners('connected', null);
       };
       
@@ -34,15 +43,18 @@ export default class WebSocketClient {
       this.socket.onclose = () => {
         console.log('WebSocket connection closed');
         this.notifyListeners('disconnected', null);
+        this.isConnecting = false;
         this.attemptReconnect();
       };
       
       this.socket.onerror = (error) => {
         console.error('WebSocket error:', error);
         this.notifyListeners('error', error);
+        this.isConnecting = false;
       };
     } catch (error) {
       console.error('Error creating WebSocket:', error);
+      this.isConnecting = false;
       this.attemptReconnect();
     }
   }
@@ -50,10 +62,12 @@ export default class WebSocketClient {
   attemptReconnect() {
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnectAttempts++;
-      console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts})...`);
-      setTimeout(() => this.connect(), 3000);
+      const delay = Math.min(3000 * this.reconnectAttempts, 10000);
+      console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts}) in ${delay/1000}s...`);
+      setTimeout(() => this.connect(), delay);
     } else {
-      console.error('Max reconnect attempts reached. Giving up.');
+      console.log('Max reconnect attempts reached. WebSocket unavailable.');
+      this.notifyListeners('unavailable', null);
     }
   }
 
@@ -62,7 +76,6 @@ export default class WebSocketClient {
       this.socket.send(JSON.stringify(data));
       return true;
     }
-    console.error('Cannot send message - WebSocket is not connected');
     return false;
   }
 

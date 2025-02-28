@@ -304,22 +304,16 @@ const AIAudienceEngine = () => {
     return particles;
   };
 
-  // Changed to normal functions instead of arrow functions
-  function renderTechLabel() {
-    if (!techLabel) return null;
-    return (
-      <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
-        {techLabel}
-      </div>
-    );
-  }
+  // Use proper conditional rendering instead of functions
+  const techLabelElement = techLabel ? (
+    <div className="tech-label" style={{ top: "15%", bottom: "auto", right: "3%" }}>
+      {techLabel}
+    </div>
+  ) : null;
 
-  function renderStageDescription() {
-    if (!stageDescription) return null;
-    return (
-      <div className="stage-description-bottom fade-in">{stageDescription}</div>
-    );
-  }
+  const stageDescriptionElement = stageDescription ? (
+    <div className="stage-description-bottom fade-in">{stageDescription}</div>
+  ) : null;
 
   return (
     <div className="engine-container">
@@ -358,9 +352,9 @@ const AIAudienceEngine = () => {
             <ProductMatching showMatching={showMatching} progress={progress} />
           </div>
           <AnalysisReport showReport={showReport} progress={progress} />
-          {renderTechLabel()}
+          {techLabelElement}
         </div>
-        {renderStageDescription()}
+        {stageDescriptionElement}
         <div className="controls-container">
           <button onClick={togglePause} className={`control-button ${isPaused ? "pause-button" : "play-button"}`}>
             {isPaused ? "繼續" : "暫停"}

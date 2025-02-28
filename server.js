@@ -52,7 +52,10 @@ const server = http.createServer((req, res) => {
 });
 
 // Create WebSocket server
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ 
+  server,
+  path: '/ws'  // Specify the path explicitly
+});
 
 // Store connected clients
 const clients = new Set();
