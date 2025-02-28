@@ -76,7 +76,6 @@ export const ConsumerDatabase = ({
       setDisplayCount(0);
       setAnimationComplete(false);
       setInternalProgress(0);
-      setShowTraits(false);
       return;
     }
 
