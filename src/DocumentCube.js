@@ -6,6 +6,7 @@ import { config, clampPercentage, getColorArray } from "./config";
 
 // 生成文檔立方體的粒子
 export const generateDocumentParticles = () => {
+  console.log("生成立方體粒子開始");
   const particles = [];
   const colors = getColorArray();
   const { documentTypes, particleCount, cubeSize } = config.documentData;
@@ -66,7 +67,7 @@ export const generateDocumentParticles = () => {
 
     // 基本粒子屬性
     const particle = {
-      id: `doc-${Date.now()}-${i}`,
+      id: `doc-${i}-${Date.now()}`, // 確保ID唯一
       x: clampPercentage(x),
       y: clampPercentage(y),
       z,
@@ -89,6 +90,7 @@ export const generateDocumentParticles = () => {
     particles.push(particle);
   }
 
+  console.log(`生成的粒子數量: ${particles.length}`);
   return particles;
 };
 
@@ -119,72 +121,61 @@ const getRandomContent = (docType) => {
 // 更新文檔粒子 - 立方體旋轉和飛行效果
 export const updateDocumentParticles = (particles, cubeRotation) => {
   if (!particles || particles.length === 0) {
+    console.warn("沒有粒子可更新");
     return [];
   }
 
+  // 只處理可見區域的粒子或飛行中的粒子
   return particles.map((particle) => {
     // 文檔飛行效果
     if (particle.isFlying) {
-      // 更新飛行進度
+      // 更新飛行進度 - 保持原邏輯但考慮優化計算
       const newProgress = Math.min(1, particle.flyProgress + 0.01);
 
-      // 如果完成飛行，重新設置飛行起點
       if (newProgress >= 1) {
         return {
           ...particle,
           flyProgress: 0,
           flyStartX: Math.random() * 100,
           flyStartY: Math.random() * 100,
-          hasContent: Math.random() < 0.4, // 增加飛行粒子顯示內容的機率
+          hasContent: Math.random() < 0.3, // 減少到30%
         };
       }
 
-      // 飛行的貝茲曲線軌跡
+      // 簡化貝茲曲線計算，使用直線插值代替
       const t = newProgress;
       const startX = particle.flyStartX;
       const startY = particle.flyStartY;
-      const endX = 50 + (particle.x - 50) * 0.2; // 向立方體中心飛行
+      const endX = 50 + (particle.x - 50) * 0.2;
       const endY = 50 + (particle.y - 50) * 0.2;
-      const controlX = (startX + endX) / 2 + (Math.random() - 0.5) * 20;
-      const controlY = (startY + endY) / 2 + (Math.random() - 0.5) * 20;
-
-      const flyX =
-        (1 - t) * (1 - t) * startX + 2 * (1 - t) * t * controlX + t * t * endX;
-      const flyY =
-        (1 - t) * (1 - t) * startY + 2 * (1 - t) * t * controlY + t * t * endY;
 
       return {
         ...particle,
-        displayX: clampPercentage(flyX),
-        displayY: clampPercentage(flyY),
+        displayX: clampPercentage(startX + (endX - startX) * t),
+        displayY: clampPercentage(startY + (endY - startY) * t),
         flyProgress: newProgress,
       };
     }
 
-    // 立方體旋轉效果
+    // 立方體旋轉效果 - 只在必要時計算
+    // 以立方體中心為原點旋轉計算
     const angle = cubeRotation * (Math.PI / 180);
     const sinAngle = Math.sin(angle);
     const cosAngle = Math.cos(angle);
 
-    // 以立方體中心為原點
     const relX = particle.x - 50;
-    const relY = particle.y - 50;
     const relZ = particle.z - 50;
 
     // 繞Y軸旋轉
     const rotatedX = relX * cosAngle - relZ * sinAngle;
     const rotatedZ = relX * sinAngle + relZ * cosAngle;
 
-    // 轉回世界坐標
-    const displayX = rotatedX + 50;
-    const displayZ = rotatedZ + 50;
-
     return {
       ...particle,
-      displayX: clampPercentage(displayX),
+      displayX: clampPercentage(rotatedX + 50),
       displayY: particle.y,
-      displayZ,
-      opacity: ((displayZ + 50) / 100) * 0.8 + 0.2, // 根據z深度調整透明度
+      displayZ: rotatedZ + 50,
+      opacity: ((rotatedZ + 50) / 100) * 0.8 + 0.2,
     };
   });
 };
@@ -303,41 +294,35 @@ const KnowledgeBaseVisualization = ({ progress }) => {
 };
 
 // 文檔立方體組件
-export const DocumentCube = ({ showCube, documentParticles, progress }) => {
-  // 調試日誌
-  console.log("DocumentCube渲染:", {
-    showCube,
-    particles: documentParticles?.length || 0,
-    progress,
-  });
-
-  // 如果為false仍然返回一些基本內容，但要確保樣式正確
+export const DocumentCube = ({
+  showCube,
+  documentParticles,
+  progress,
+  cubeRotation,
+}) => {
+  // 嚴格檢查showCube狀態，若為false則完全不渲染
   if (!showCube) {
-    console.log("DocumentCube未顯示");
-    return (
-      <div
-        className="cube-container"
-        style={{ opacity: 0, visibility: "hidden" }}
-      >
-        {/* 即使不顯示也保持DOM結構 */}
-      </div>
-    );
+    return null; // 當階段切換時完全不渲染，避免任何內容殘留
   }
 
   // 增加一個跟踪選中的文檔的狀態
   const [selectedDoc, setSelectedDoc] = useState(null);
 
-  // 自動循環選擇文檔，用於演示
+  // 自動循環選擇文檔，用於演示 - 降低頻率
   useEffect(() => {
     if (!showCube || progress < 25) return;
 
     const interval = setInterval(() => {
-      const staticParticles = documentParticles.filter((p) => !p.isFlying);
-      if (staticParticles && staticParticles.length > 0) {
-        const randomIndex = Math.floor(Math.random() * staticParticles.length);
-        setSelectedDoc(staticParticles[randomIndex]);
+      if (documentParticles && documentParticles.length > 0) {
+        const staticParticles = documentParticles.filter((p) => !p.isFlying);
+        if (staticParticles.length > 0) {
+          const randomIndex = Math.floor(
+            Math.random() * staticParticles.length
+          );
+          setSelectedDoc(staticParticles[randomIndex]);
+        }
       }
-    }, 3000);
+    }, 5000); // 5秒選擇一次，而非原來的3秒
 
     return () => clearInterval(interval);
   }, [showCube, documentParticles, progress]);
@@ -345,24 +330,26 @@ export const DocumentCube = ({ showCube, documentParticles, progress }) => {
   // 確保文檔粒子存在
   const hasParticles = documentParticles && documentParticles.length > 0;
 
+  // 為了效能，限制顯示的粒子數量
+  const visibleParticles = hasParticles
+    ? documentParticles.filter((p) => p.isFlying || Math.random() < 0.7)
+    : [];
+
   return (
     <div
       className="cube-container"
-      style={{ opacity: 1, visibility: "visible" }}
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        zIndex: 30,
+      }}
     >
-      {/* 知識庫視覺化 */}
+      {/* 基本元素保持不變 */}
       <KnowledgeBaseVisualization progress={progress} />
-
-      {/* RAG連接線效果 */}
       <RAGConnectionLines progress={progress} />
-
-      {/* RAG內容抽取效果 */}
       <RAGContentExtraction progress={progress} />
-
-      {/* 立方體中心光暈 - 確保即使沒有粒子也顯示 */}
       <div className="cube-glow" />
-
-      {/* 資料庫標籤 - 確保即使沒有粒子也顯示 */}
       <div className="database-label fade-in">提案與結案數據庫</div>
 
       {/* 選中的文檔預覽 */}
@@ -374,6 +361,7 @@ export const DocumentCube = ({ showCube, documentParticles, progress }) => {
             top: `${(selectedDoc.displayY || selectedDoc.y) - 15}%`,
             borderColor: selectedDoc.color,
             zIndex: 200,
+            position: "absolute",
           }}
         >
           <div
@@ -388,87 +376,91 @@ export const DocumentCube = ({ showCube, documentParticles, progress }) => {
         </div>
       )}
 
-      {/* 標示RAG的技術標籤 */}
+      {/* RAG技術標籤 */}
       <div className="rag-tech-badge">
         <div className="rag-tech-pulse"></div>
         <span>RAG 知識檢索進行中</span>
       </div>
 
-      {/* 文檔粒子 - 僅在有粒子時渲染 */}
-      {hasParticles &&
-        documentParticles.map((particle) => {
-          // 計算顯示位置和樣式
-          const displayX = particle.isFlying
-            ? particle.displayX
-            : particle.displayX || particle.x;
-          const displayY = particle.isFlying
-            ? particle.displayY
-            : particle.displayY || particle.y;
-          const displayZ = particle.isFlying
-            ? 0
-            : particle.displayZ || particle.z;
+      {/* 文檔粒子 - 只渲染一部分，減少DOM負擔 */}
+      {visibleParticles.map((particle) => {
+        // 計算顯示位置和樣式
+        const displayX = particle.isFlying
+          ? particle.displayX || particle.x
+          : particle.displayX || particle.x;
+        const displayY = particle.isFlying
+          ? particle.displayY || particle.y
+          : particle.displayY || particle.y;
+        const displayZ = particle.isFlying
+          ? 0
+          : particle.displayZ || particle.z;
 
-          // 檢查是否為選中的文檔
-          const isSelected = selectedDoc && selectedDoc.id === particle.id;
+        // 檢查是否為選中的文檔
+        const isSelected = selectedDoc && selectedDoc.id === particle.id;
 
-          return (
-            <div key={particle.id} className="particle-wrapper">
-              {/* 文檔圖標 */}
+        return (
+          <div
+            key={particle.id}
+            className="particle-wrapper"
+            style={{ zIndex: Math.floor(displayZ + 100) }}
+          >
+            {/* 文檔圖標 */}
+            <div
+              className={`document-particle ${
+                isSelected ? "selected-document" : ""
+              }`}
+              style={{
+                left: `${displayX}%`,
+                top: `${displayY}%`,
+                width: `${particle.size}px`,
+                height: `${particle.size * 1.3}px`,
+                backgroundColor: particle.color,
+                opacity: particle.opacity,
+                boxShadow: isSelected
+                  ? `0 0 15px ${particle.color}, 0 0 10px ${particle.color}`
+                  : particle.showType
+                  ? `0 0 8px ${particle.color}`
+                  : "none",
+                position: "absolute",
+              }}
+            />
+
+            {/* 飛行中的文檔顯示內容 */}
+            {particle.isFlying && particle.hasContent && (
               <div
-                className={`document-particle ${
-                  isSelected ? "selected-document" : ""
-                }`}
+                className="flying-content-label"
                 style={{
-                  left: `${displayX}%`,
-                  top: `${displayY}%`,
-                  width: `${particle.size}px`,
-                  height: `${particle.size * 1.3}px`,
-                  backgroundColor: particle.color,
-                  opacity: particle.opacity,
-                  zIndex: Math.floor(displayZ + 100),
-                  boxShadow: isSelected
-                    ? `0 0 15px ${particle.color}, 0 0 10px ${particle.color}`
-                    : particle.showType
-                    ? `0 0 8px ${particle.color}`
-                    : "none",
+                  left: `${displayX + particle.size / 2}%`,
+                  top: `${displayY - 10}%`,
+                  color: particle.color,
+                  borderColor: particle.color,
+                  position: "absolute",
                 }}
-              />
+              >
+                {particle.contentPreview}
+              </div>
+            )}
 
-              {/* 飛行中的文檔顯示內容 */}
-              {particle.isFlying && particle.hasContent && (
-                <div
-                  className="flying-content-label"
-                  style={{
-                    left: `${displayX + particle.size / 2}%`,
-                    top: `${displayY - 10}%`,
-                    color: particle.color,
-                    borderColor: particle.color,
-                  }}
-                >
-                  {particle.contentPreview}
-                </div>
-              )}
+            {/* 文檔類型標籤 */}
+            {particle.showType && !particle.isFlying && !isSelected && (
+              <div
+                className="particle-label"
+                style={{
+                  left: `${displayX + particle.size / 2}%`,
+                  top: `${displayY - 10}%`,
+                  color: particle.color,
+                  opacity: particle.opacity * 1.2,
+                  position: "absolute",
+                }}
+              >
+                {particle.docType}
+              </div>
+            )}
+          </div>
+        );
+      })}
 
-              {/* 文檔類型標籤 */}
-              {particle.showType && !particle.isFlying && !isSelected && (
-                <div
-                  className="particle-label"
-                  style={{
-                    left: `${displayX + particle.size / 2}%`,
-                    top: `${displayY - 10}%`,
-                    color: particle.color,
-                    zIndex: Math.floor(displayZ + 101),
-                    opacity: particle.opacity * 1.2,
-                  }}
-                >
-                  {particle.docType}
-                </div>
-              )}
-            </div>
-          );
-        })}
-
-      {/* RAG處理步驟說明 */}
+      {/* RAG處理步驟 */}
       <div className="rag-steps">
         <div className={`rag-step ${progress >= 25 ? "active" : ""}`}>
           <div className="rag-step-number">1</div>

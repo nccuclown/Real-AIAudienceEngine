@@ -59,6 +59,7 @@ const AIAudienceEngine = () => {
   // 引用計時器，用於清理
   const animationRef = useRef(null);
   const intervalRef = useRef(null);
+  const rotationIntervalRef = useRef(null);
 
   // 初始化
   useEffect(() => {
@@ -71,6 +72,8 @@ const AIAudienceEngine = () => {
       // 清理所有動畫定時器
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (rotationIntervalRef.current)
+        clearInterval(rotationIntervalRef.current);
     };
   }, []);
 
@@ -79,6 +82,7 @@ const AIAudienceEngine = () => {
     // 清理所有動畫定時器
     if (intervalRef.current) clearInterval(intervalRef.current);
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    if (rotationIntervalRef.current) clearInterval(rotationIntervalRef.current);
 
     // 重置所有狀態
     setProgress(0);
@@ -105,6 +109,25 @@ const AIAudienceEngine = () => {
     setIsPaused(!isPaused);
   };
 
+  // 分離旋轉更新邏輯，使用較低頻率
+  useEffect(() => {
+    if (isPaused) return;
+
+    rotationIntervalRef.current = setInterval(() => {
+      if (showSphere) {
+        setSphereRotation((prev) => (prev + 0.1) % 360);
+      }
+      if (showCube) {
+        setCubeRotation((prev) => (prev + 0.2) % 360);
+      }
+    }, 150); // 更慢的旋轉更新頻率
+
+    return () => {
+      if (rotationIntervalRef.current)
+        clearInterval(rotationIntervalRef.current);
+    };
+  }, [isPaused, showSphere, showCube]);
+
   // 主要動畫控制
   useEffect(() => {
     if (isPaused) return;
@@ -127,6 +150,10 @@ const AIAudienceEngine = () => {
                 // 開始生成球體粒子
                 setAudienceParticles(generateSphereParticles());
                 setShowSphere(true);
+                setShowCube(false); // 確保其他階段是關閉的
+                setShowDataFusion(false);
+                setShowMatching(false);
+                setShowReport(false);
                 setTechLabel(config.techLabels[0]);
                 setStageDescription(config.stageDescriptions[0]);
                 break;
@@ -149,11 +176,16 @@ const AIAudienceEngine = () => {
 
               case "startCube":
                 // 開始生成文檔立方體
-                setDocumentParticles(generateDocumentParticles());
-                setShowCube(true); // 重要：確保這個狀態被正確設置
+                const newParticles = generateDocumentParticles();
+                console.log("生成文檔粒子:", newParticles.length);
+                setDocumentParticles(newParticles);
+                setShowSphere(false); // 關閉前一階段
+                setShowCube(true);
+                setShowDataFusion(false);
+                setShowMatching(false);
+                setShowReport(false);
                 setTechLabel(config.techLabels[1]);
                 setStageDescription(config.stageDescriptions[1]);
-                console.log("啟動立方體階段", showCube); // 添加日誌以便調試
                 break;
 
               case "showCubeDocuments":
@@ -175,7 +207,11 @@ const AIAudienceEngine = () => {
               case "startDataFusion":
                 // 開始數據融合
                 setClientDataParticles(generateClientDataParticles());
+                setShowSphere(false);
+                setShowCube(false); // 關閉前一階段
                 setShowDataFusion(true);
+                setShowMatching(false);
+                setShowReport(false);
                 setTechLabel(config.techLabels[2]);
                 setStageDescription(config.stageDescriptions[2]);
                 break;
@@ -197,7 +233,11 @@ const AIAudienceEngine = () => {
 
               case "startMatching":
                 // 開始受眾匹配
+                setShowSphere(false);
+                setShowCube(false);
+                setShowDataFusion(false); // 關閉前一階段
                 setShowMatching(true);
+                setShowReport(false);
                 setTechLabel(config.techLabels[3]);
                 setStageDescription(config.stageDescriptions[3]);
 
@@ -229,6 +269,10 @@ const AIAudienceEngine = () => {
 
               case "startReport":
                 // 開始生成報告
+                setShowSphere(false);
+                setShowCube(false);
+                setShowDataFusion(false);
+                setShowMatching(false); // 關閉前一階段
                 setShowReport(true);
                 setTechLabel(config.techLabels[4]);
                 setStageDescription(config.stageDescriptions[4]);
@@ -260,14 +304,6 @@ const AIAudienceEngine = () => {
           );
         }
 
-        // 更新球體旋轉
-        if (showSphere) {
-          setSphereRotation((prev) => (prev + 0.1) % 360);
-        }
-
-        // 更新立方體旋轉 - 無論是否顯示立方體，都確保這部分代碼執行
-        setCubeRotation((prev) => (prev + 0.2) % 360);
-
         // 超過100%後重置
         if (newProgress >= 100) {
           return 99.9;
@@ -276,23 +312,23 @@ const AIAudienceEngine = () => {
         return newProgress;
       });
 
-      // 更新球體粒子 - 呼吸效果
-      if (showSphere) {
+      // 優化：只在需要時才更新粒子
+      // 1. 球體粒子更新
+      if (showSphere && audienceParticles.length > 0) {
         setAudienceParticles((prev) =>
           updateSphereParticles(prev, sphereRotation, showMatching)
         );
       }
 
-      // 更新文檔粒子 - 立方體旋轉和飛行效果
-      // 確保即使不在顯示階段也更新文檔粒子
-      if (documentParticles.length > 0) {
+      // 2. 文檔粒子更新 - 只在顯示立方體時更新
+      if (showCube && documentParticles.length > 0) {
         setDocumentParticles((prev) =>
           updateDocumentParticles(prev, cubeRotation)
         );
       }
 
-      // 更新客戶數據粒子 - 融合效果
-      if (showDataFusion) {
+      // 3. 客戶數據粒子更新
+      if (showDataFusion && clientDataParticles.length > 0) {
         setClientDataParticles((prev) => updateClientDataParticles(prev));
       }
     }, config.animation.particleUpdateInterval);
@@ -308,7 +344,9 @@ const AIAudienceEngine = () => {
     showMatching,
     sphereRotation,
     cubeRotation,
-    documentParticles.length, // 添加這個依賴
+    audienceParticles.length,
+    documentParticles.length,
+    clientDataParticles.length,
   ]);
 
   // 創建彩色粒子背景效果
@@ -346,11 +384,18 @@ const AIAudienceEngine = () => {
     return particles;
   };
 
-  // 渲染技術標籤
+  // 渲染技術標籤 - 修改為右上角顯示
   const renderTechLabel = () => {
     if (!techLabel) return null;
 
-    return <div className="tech-label">{techLabel}</div>;
+    return (
+      <div
+        className="tech-label"
+        style={{ top: "15%", bottom: "auto", right: "3%" }}
+      >
+        {techLabel}
+      </div>
+    );
   };
 
   // 渲染階段描述 - 移到底部位置
@@ -417,8 +462,8 @@ const AIAudienceEngine = () => {
           </div>
         </div>
 
-        {/* 主視覺區域 */}
-        <div className="visualization-container">
+        {/* 主視覺區域 - 添加限制區域的樣式 */}
+        <div className="visualization-container animation-boundary">
           <div className="left-zone">
             {/* 客戶數據框 */}
             <ClientDataFusion
@@ -430,19 +475,38 @@ const AIAudienceEngine = () => {
 
           <div className="center-zone">
             {/* 3D球體粒子 */}
-            <ConsumerDatabase
-              progress={progress}
-              showSphere={showSphere}
-              audienceParticles={audienceParticles}
-              dataCount={dataCount}
-            />
+            <div
+              className="sphere-layer"
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: showSphere ? 25 : 10,
+              }}
+            >
+              <ConsumerDatabase
+                progress={progress}
+                showSphere={showSphere}
+                audienceParticles={audienceParticles}
+                dataCount={dataCount}
+              />
+            </div>
 
             {/* 文檔立方體 */}
-            <DocumentCube
-              showCube={showCube}
-              documentParticles={documentParticles}
-              progress={progress}
-            />
+            <div
+              className="cube-layer"
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: showCube ? 25 : 10,
+              }}
+            >
+              <DocumentCube
+                showCube={showCube}
+                documentParticles={documentParticles}
+                progress={progress}
+                cubeRotation={cubeRotation}
+              />
+            </div>
           </div>
 
           <div className="right-zone">

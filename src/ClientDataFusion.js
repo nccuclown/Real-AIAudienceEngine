@@ -97,6 +97,7 @@ export const ClientDataFusion = ({
   clientDataParticles,
   progress,
 }) => {
+  // 確保只在對應階段顯示
   if (!showDataFusion) return null;
 
   return (
