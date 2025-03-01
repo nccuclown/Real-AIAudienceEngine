@@ -587,13 +587,7 @@ const AIAudienceEngine = () => {
                   <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
                 </div>
                 <div className="sphere-layer" style={{ zIndex: showSphere ? 100 : 10 }}>
-                  <ConsumerDatabase 
-                    progress={progress} 
-                    showSphere={showSphere} 
-                    audienceParticles={audienceParticles} 
-                    dataCount={dataCount}
-                    showTagsInLeftZone={false} // 不在左區域顯示標籤
-                  />
+                  <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
                 </div>
               </div>
             </div>
@@ -601,32 +595,6 @@ const AIAudienceEngine = () => {
             {/* 右區域 - 可根據需要放置元件 */}
             <div className="right-zone">
               <div className="zone-content">
-                {/* 消費者特性標籤區塊 - 僅在球體顯示時顯示 */}
-                {showSphere && (
-                  <div className="consumer-traits-container" style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    zIndex: 150,
-                    width: '85%',
-                    maxWidth: '400px',
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                    borderRadius: '8px',
-                    padding: '15px',
-                    border: '1px solid rgba(255, 187, 0, 0.3)',
-                    boxShadow: '0 0 20px rgba(255, 187, 0, 0.4)'
-                  }}>
-                    <ConsumerDatabase 
-                      progress={progress}
-                      showSphere={showSphere} 
-                      audienceParticles={[]} // 不需要粒子
-                      dataCount={0} // 不需要計數
-                      showOnlyTags={true} // 只顯示標籤
-                    />
-                  </div>
-                )}
-                
                 {/* RAG標籤 */}
                 {showCube && progress > 25 && (
                   <div style={{ 
