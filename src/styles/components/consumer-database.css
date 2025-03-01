@@ -1,3 +1,4 @@
+
 /* consumer-database.css */
 .sphere-container {
   position: relative;
@@ -97,13 +98,13 @@
   color: #ffbb00;
   text-shadow: 0 0 15px rgba(255, 187, 0, 0.7);
   margin-bottom: 10px;
-  transition: color 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .counter-label {
-  font-size: 1.3rem;
-  color: white;
-  font-weight: 500;
+  font-size: 1.2rem;
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 .number-tick {
@@ -112,20 +113,55 @@
 
 @keyframes numberTick {
   0% { transform: scale(1); }
-  50% { transform: scale(1.2); color: #ffdd00; }
+  50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
+/* 標籤類別更加緊湊 */
+.tag-category {
+  margin-bottom: 2px !important;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+/* 確保標籤容器總是顯示所有內容 */
+.traits-block-container .traits-content {
+  flex-wrap: wrap !important;
+  overflow: visible !important;
+  height: auto !important;
 }
 
-/* 標籤相關樣式更新 */
+/* 優化標籤類別的布局 */
+.tag-category {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  overflow: visible !important; /* 確保不會出現滾動條 */
+}
+
+/* 容器樣式 */
+.container {
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+  min-height: 380px;
+  max-height: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 187, 0, 0.3);
+}
+
+.container .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow: visible;
+  align-content: flex-start;
+  justify-content: flex-start;
+  padding: 8px 12px;
+  width: 100%;
+  height: auto;
+}
+
+/* 特性標籤容器 */
 .trait-tag-container {
   width: 100%;
   display: flex;
@@ -149,58 +185,4 @@
   text-overflow: ellipsis;
   overflow: hidden;
   max-width: 100%;
-}
-
-/* 修正消費者特性塊樣式 */
-.consumer-traits-block {
-  width: 100%;
-  max-width: 580px;
-  height: auto !important;
-  min-height: 380px;
-  overflow: visible !important;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 12px;
-  border: 2px solid rgba(255, 187, 0, 0.3);
-}
-
-/* 確保標籤區域內容正常顯示，不被截斷 */
-.traits-container {
-  width: 100%;
-  height: auto !important;
-  overflow: visible !important;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* 修正在不同屏幕尺寸下的顯示問題 */
-@media (max-width: 768px) {
-  .consumer-traits-block {
-    max-width: 100%;
-    min-height: 300px;
-  }
-
-  .trait-tag {
-    font-size: 0.65rem;
-    padding: 1px 4px;
-  }
-}
-
-.fade-out {
-  animation: fadeOut 1s forwards;
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-@media (max-width: 1000px) {
-  .counter-value { font-size: 2.5rem; }
-  .counter-label { font-size: 1rem; }
-  .particle-label { font-size: 0.65rem; padding: 2px 6px; }
 }

@@ -2,6 +2,7 @@
 // ConsumerDatabase.js
 import React, { useEffect, useState } from 'react';
 import './styles/components/consumer-database.css';
+import { config } from './config';
 
 export const generateSphereParticles = () => {
   const particles = [];
