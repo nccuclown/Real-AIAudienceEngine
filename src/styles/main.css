@@ -106,12 +106,20 @@
 /* 標籤類別淡入動畫 */
 .tag-category {
   animation: fadeInRight 0.6s ease-out;
-  margin-bottom: 6px !important; /* 確保類別間有適當間距 */
+  margin-bottom: 4px !important; /* 減少類別間距以節省空間 */
 }
 
 /* 標籤間隔自動計算 - 更緊湊 */
 .traits-content {
-  gap: calc(6px + 0.3vw);
+  gap: 4px !important; /* 固定較小的間距 */
+}
+
+/* 優化標籤尺寸，使其更緊湊 */
+.trait-tag-animated {
+  padding: 3px 5px !important;
+  font-size: 0.7rem !important;
+  margin: 1px !important;
+  max-width: 150px !important;
 }
 
 /* 改進標籤容器佈局 */
@@ -119,25 +127,28 @@
   display: flex !important;
   flex-direction: column !important;
   justify-content: flex-start !important;
+  max-width: 580px !important; /* 確保跨組件一致的最大寬度 */
 }
 
-/* 滾動條美化 */
-.traits-content::-webkit-scrollbar {
-  width: 6px;
+/* 移除滾動條，改用水平擴展 */
+.traits-content {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  overflow: visible !important; /* 確保不會出現滾動條 */
 }
 
-.traits-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
+/* 優化標籤類別的布局 */
+.tag-category {
+  width: 100% !important;
+  margin-bottom: 4px !important; /* 減少底部邊距 */
 }
 
-.traits-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 187, 0, 0.4);
-  border-radius: 3px;
-}
-
-.traits-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 187, 0, 0.6);
+/* 標籤容器內的標籤橫向排列 */
+.tag-category > div {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 4px !important; /* 使標籤間間距更緊湊 */
 }
 
 /* 添加標籤連接線動畫 */

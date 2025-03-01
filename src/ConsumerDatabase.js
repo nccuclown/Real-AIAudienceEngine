@@ -7,7 +7,7 @@ export const generateSphereParticles = () => {
   const particles = [];
   const count = 80; // 設定適當的粒子數量
   const colors = ["#ffbb00", "#ff8a00", "#ff5500", "#26c6da", "#00bcd4"];
-  
+
   for (let i = 0; i < count; i++) {
     const size = 3 + Math.random() * 4;
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -15,7 +15,7 @@ export const generateSphereParticles = () => {
     const radius = 80 + Math.random() * 40;
     const x = Math.cos(angle) * radius;
     const y = Math.sin(angle) * radius;
-    
+
     particles.push({
       id: `sphere-particle-${i}`,
       x,
@@ -31,7 +31,7 @@ export const generateSphereParticles = () => {
       highlighted: false,
     });
   }
-  
+
   console.log("生成球體粒子數量:", particles.length);
   return particles;
 };
@@ -46,13 +46,13 @@ export const updateSphereParticles = (
     const newAngle = p.angle + p.rotationSpeed;
     const x = Math.cos(newAngle) * p.radius;
     const y = Math.sin(newAngle) * p.radius;
-    
+
     // 如果在匹配階段，移動匹配的粒子
     let z = p.z;
     if (showMatching && p.matched) {
       z = Math.min(p.z + 0.5, 30);
     }
-    
+
     return {
       ...p,
       angle: newAngle,
@@ -217,7 +217,7 @@ export const ConsumerDatabase = ({
         {/* 球體光暈效果 */}
         <div className="sphere-glow"></div>
       </div>
-      
+
       {/* 左側計數器 */}
       <div
         className="database-counter fade-in"
@@ -311,11 +311,11 @@ export const ConsumerDatabase = ({
         style={{
           position: 'relative',
           right: '5%',
-          width: '45%', // 調整寬度比例
-          maxWidth: '420px',
+          width: '52%', // 增加寬度比例
+          maxWidth: '580px', // 增加最大寬度
           height: 'auto', // 自適應高度
           minHeight: '380px',
-          maxHeight: '450px',
+          maxHeight: '420px', // 稍微限制最大高度
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           borderRadius: '12px',
           border: '2px solid rgba(255, 187, 0, 0.3)',
@@ -387,8 +387,8 @@ export const ConsumerDatabase = ({
                       backgroundColor: "rgba(10, 10, 10, 0.8)",
                       color: "#fff",
                       borderRadius: "4px",
-                      padding: "4px 6px",  // 進一步縮小內部填充
-                      fontSize: "0.75rem",  // 進一步縮小字體
+                      padding: "3px 6px",  // 更小的內部填充
+                      fontSize: "0.7rem",  // 更小的字體大小
                       border: `1px solid ${trait.color}`,
                       boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                       animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
@@ -397,7 +397,7 @@ export const ConsumerDatabase = ({
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
+                      maxWidth: "150px",   // 縮小最大寬度，確保能放更多標籤
                       transition: "all 0.3s ease-in-out",
                       transform: "translateY(0)", // 初始位置
                     }}
@@ -434,8 +434,8 @@ export const ConsumerDatabase = ({
                       backgroundColor: "rgba(10, 10, 10, 0.8)",
                       color: "#fff",
                       borderRadius: "4px",
-                      padding: "4px 6px",  // 進一步縮小內部填充
-                      fontSize: "0.75rem",  // 進一步縮小字體
+                      padding: "3px 6px",  // 更小的內部填充
+                      fontSize: "0.7rem",  // 更小的字體大小
                       border: `1px solid ${trait.color}`,
                       boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                       animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
@@ -444,7 +444,7 @@ export const ConsumerDatabase = ({
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
+                      maxWidth: "150px",   // 縮小最大寬度，確保能放更多標籤
                       transition: "all 0.3s ease-in-out",
                       transform: "translateY(0)", // 初始位置
                     }}
@@ -484,8 +484,8 @@ export const ConsumerDatabase = ({
                           backgroundColor: "rgba(10, 10, 10, 0.8)",
                           color: "#fff",
                           borderRadius: "4px",
-                          padding: "4px 6px",  // 進一步縮小內部填充
-                          fontSize: "0.75rem",  // 進一步縮小字體
+                          padding: "3px 6px",  // 更小的內部填充
+                          fontSize: "0.7rem",  // 更小的字體大小
                           border: `1px solid ${trait.color}`,
                           boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                           animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
@@ -494,7 +494,7 @@ export const ConsumerDatabase = ({
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
+                          maxWidth: "150px",   // 縮小最大寬度，確保能放更多標籤
                           transition: "all 0.3s ease-in-out",
                           transform: "translateY(0)", // 初始位置
                         }}
@@ -531,8 +531,8 @@ export const ConsumerDatabase = ({
                           backgroundColor: "rgba(10, 10, 10, 0.8)",
                           color: "#fff",
                           borderRadius: "4px",
-                          padding: "4px 6px",  // 進一步縮小內部填充
-                          fontSize: "0.75rem",  // 進一步縮小字體
+                          padding: "3px 6px",  // 更小的內部填充
+                          fontSize: "0.7rem",  // 更小的字體大小
                           border: `1px solid ${trait.color}`,
                           boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                           animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
@@ -541,7 +541,7 @@ export const ConsumerDatabase = ({
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
+                          maxWidth: "150px",   // 縮小最大寬度，確保能放更多標籤
                           transition: "all 0.3s ease-in-out",
                           transform: "translateY(0)", // 初始位置
                         }}
