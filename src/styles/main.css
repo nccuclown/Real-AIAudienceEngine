@@ -8,23 +8,94 @@
   justify-content: center;
   padding: 4px 10px;
 
-/* 特性標籤動畫 */
+/* 增強的特性標籤動畫 */
 @keyframes pulse {
   0% {
-    transform: scale(1);
+    transform: scale(0.98);
+    box-shadow: 0 0 5px var(--tag-color, currentColor);
   }
   50% {
     transform: scale(1.05);
+    box-shadow: 0 0 15px var(--tag-color, currentColor);
   }
   100% {
-    transform: scale(1);
+    transform: scale(0.98);
+    box-shadow: 0 0 5px var(--tag-color, currentColor);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 .trait-tag-animated {
-  animation: pulse 2s infinite ease-in-out;
-  will-change: transform;
+  animation: pulse 2.5s infinite ease-in-out, fadeInUp 0.5s ease-out;
+  will-change: transform, box-shadow;
   position: relative;
+  --tag-color: currentColor;
+}
+
+/* 連接線動畫 */
+@keyframes glowLine {
+  0% {
+    opacity: 0.6;
+    box-shadow: 0 0 3px var(--line-color, #ffbb00);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 10px var(--line-color, #ffbb00);
+  }
+  100% {
+    opacity: 0.6;
+    box-shadow: 0 0 3px var(--line-color, #ffbb00);
+  }
+}
+
+/* 標籤類別淡入動畫 */
+.tag-category {
+  animation: fadeInRight 0.6s ease-out;
+}
+
+/* 標籤間隔自動計算 */
+.traits-content {
+  gap: calc(8px + 0.5vw);
+}
+
+/* 滾動條美化 */
+.traits-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.traits-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.traits-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 187, 0, 0.4);
+  border-radius: 3px;
+}
+
+.traits-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 187, 0, 0.6);
 }
 
 /* 添加標籤連接線動畫 */

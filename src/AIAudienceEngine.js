@@ -446,10 +446,31 @@ const AIAudienceEngine = () => {
     );
   };
 
-  // 顯示目前執行的階段名稱
+  // 顯示目前執行的階段名稱，將其以更友好的方式展示
   const getCurrentStageAction = () => {
     if (currentTimelineIndex < config.timeline.length) {
-      return config.timeline[currentTimelineIndex].action;
+      const action = config.timeline[currentTimelineIndex].action;
+      
+      // 將階段名轉換為更友好的中文名稱
+      const stageNameMap = {
+        "startSphere": "消費者數據收集",
+        "showSphereTraits": "特性標籤分析",
+        "startStage1": "第一階段",
+        "startCube": "建立知識庫",
+        "showCubeDocuments": "文檔分析",
+        "startStage2": "第二階段",
+        "startDataFusion": "數據融合",
+        "showDataMerging": "數據合併",
+        "startStage3": "第三階段",
+        "startMatching": "精準匹配",
+        "showMatchedAudience": "受眾匹配",
+        "startStage4": "第四階段",
+        "startReport": "產生報告",
+        "showFullReport": "完整報告",
+        "complete": "完成"
+      };
+      
+      return stageNameMap[action] || action;
     }
     return "完成";
   };
@@ -472,14 +493,62 @@ const AIAudienceEngine = () => {
             <div className="title-stage-row">
               <MainTitle />
               <StageIndicator currentStage={config.stages[stage]} />
-              {/* 新增：顯示目前的動畫階段 */}
-              <div className="animation-stage-indicator">
-                目前動畫階段: {getCurrentStageAction()}
+              {/* 改進的動畫階段指示器 */}
+              <div className="animation-stage-indicator" style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "6px 12px",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                border: "1px solid rgba(255, 187, 0, 0.4)",
+                borderRadius: "4px",
+                fontSize: "0.9rem",
+                color: "#ffdd77",
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)"
+              }}>
+                目前階段: <span style={{ 
+                  marginLeft: "5px", 
+                  fontWeight: "bold",
+                  color: "#ffbb00"
+                }}>{getCurrentStageAction()}</span>
               </div>
             </div>
             <div className="progress-container">
-              <div className="progress-bar-container">
-                <div className="progress-bar" style={{ width: `${progress}%` }} />
+              <div className="progress-bar-container" style={{
+                height: "8px",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                border: "1px solid rgba(255, 187, 0, 0.3)",
+                borderRadius: "4px",
+                overflow: "hidden"
+              }}>
+                <div className="progress-bar" style={{ 
+                  width: `${progress}%`,
+                  background: "linear-gradient(90deg, #ffbb00, #ff8a00)",
+                  boxShadow: "0 0 8px rgba(255, 187, 0, 0.7)",
+                  height: "100%"
+                }} />
+                {/* 進度指示標記 */}
+                <div style={{
+                  position: "absolute",
+                  left: `${progress}%`,
+                  top: "0",
+                  width: "3px",
+                  height: "8px",
+                  backgroundColor: "#ffffff",
+                  transform: "translateX(-50%)",
+                  borderRadius: "1px",
+                  boxShadow: "0 0 5px rgba(255, 255, 255, 0.8)",
+                  transition: "left 0.3s ease-out"
+                }}></div>
+              </div>
+              {/* 進度百分比指示 */}
+              <div style={{
+                textAlign: "right",
+                fontSize: "0.8rem",
+                color: "#ffdd77",
+                marginTop: "4px"
+              }}>
+                完成進度: {Math.floor(progress)}%
               </div>
             </div>
           </div>

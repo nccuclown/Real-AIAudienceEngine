@@ -18,7 +18,20 @@ export const updateSphereParticles = (
   return particles;
 };
 
-const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// 增強的數字格式化函數，可以處理不同格式的數字
+const formatNumber = (num) => {
+  // 如果數字大於1百萬，顯示為百萬格式，否則使用千分位逗號
+  if (num >= 1000000) {
+    // 顯示百萬，保留一位小數
+    return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+  } else if (num >= 1000) {
+    // 顯示千，保留一位小數
+    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  } else {
+    // 小數字直接添加千分位逗號
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+};
 
 export const ConsumerDatabase = ({
   progress,
@@ -138,35 +151,80 @@ export const ConsumerDatabase = ({
           position: 'relative',
           left: '5%',
           animation: fadeOut ? "fadeOut 1s forwards" : "none",
-          padding: "15px 25px",
+          padding: "20px 25px",
           backdropFilter: "blur(5px)",
-          boxShadow: "0 0 20px rgba(255, 187, 0, 0.5)",
-          backgroundColor: "rgba(0, 0, 0, 0.7)",
-          borderRadius: "8px",
-          border: "1px solid rgba(255, 187, 0, 0.3)",
-          width: "35%",
-          maxWidth: "300px"
+          boxShadow: "0 0 30px rgba(255, 187, 0, 0.6)",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          borderRadius: "10px",
+          border: "2px solid rgba(255, 187, 0, 0.4)",
+          width: "40%",
+          maxWidth: "320px"
         }}
       >
-        <div className="counter-value">{formatNumber(displayCount)}</div>
-        <div className="counter-label">消費者輪廓資料庫</div>
-        <div className="counter-sublabel" style={{ marginTop: "5px", fontSize: "0.9rem", color: "#ffdd77" }}>
-          收集標籤數: {Math.floor(displayCount * 0.35 / 1000)}K+ 種
+        <div className="counter-value" style={{ 
+          fontSize: "2.2rem", 
+          textShadow: "0 0 10px rgba(255, 187, 0, 0.7)" 
+        }}>{formatNumber(displayCount)}</div>
+        <div className="counter-label" style={{ 
+          fontSize: "1.1rem",
+          fontWeight: "600",
+          color: "#ffdd77"
+        }}>消費者輪廓資料庫</div>
+        <div className="counter-sublabel" style={{ 
+          marginTop: "8px", 
+          fontSize: "0.95rem", 
+          color: "#ffdd77" 
+        }}>
+          收集標籤數: {formatNumber(Math.floor(displayCount * 0.35 / 1000))}K+ 種
         </div>
-        <div className="data-categories" style={{ marginTop: "10px", fontSize: "0.8rem", color: "#ffffff", display: "flex", flexDirection: "column", gap: "5px" }}>
-          <div style={{ opacity: showCategoryA ? 1 : 0.2, transition: "opacity 0.5s" }}>
-            <span style={{ color: "#ffbb00" }}>●</span> 廣告點擊行為: {showCategoryA ? Math.floor(displayCount * 0.15 / 1000) : 0}K+
+        <div className="data-categories" style={{ 
+          marginTop: "15px", 
+          fontSize: "0.9rem", 
+          color: "#ffffff", 
+          display: "flex", 
+          flexDirection: "column", 
+          gap: "8px" 
+        }}>
+          <div style={{ 
+            opacity: showCategoryA ? 1 : 0.2, 
+            transition: "opacity 0.8s ease, transform 0.5s ease",
+            transform: showCategoryA ? "translateX(0)" : "translateX(-10px)",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            background: showCategoryA ? "rgba(255, 187, 0, 0.1)" : "transparent",
+            border: showCategoryA ? "1px solid rgba(255, 187, 0, 0.3)" : "none"
+          }}>
+            <span style={{ color: "#ffbb00", marginRight: "6px", fontSize: "1.1rem" }}>●</span> 
+            <strong>廣告點擊行為:</strong> {showCategoryA ? formatNumber(Math.floor(displayCount * 0.15 / 1000)) : 0}K+
           </div>
-          <div style={{ opacity: showCategoryB ? 1 : 0.2, transition: "opacity 0.5s" }}>
-            <span style={{ color: "#ff8a00" }}>●</span> 閱覽興趣偏好: {showCategoryB ? Math.floor(displayCount * 0.22 / 1000) : 0}K+
+          <div style={{ 
+            opacity: showCategoryB ? 1 : 0.2, 
+            transition: "opacity 0.8s ease, transform 0.5s ease",
+            transform: showCategoryB ? "translateX(0)" : "translateX(-10px)",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            background: showCategoryB ? "rgba(255, 138, 0, 0.1)" : "transparent",
+            border: showCategoryB ? "1px solid rgba(255, 138, 0, 0.3)" : "none"
+          }}>
+            <span style={{ color: "#ff8a00", marginRight: "6px", fontSize: "1.1rem" }}>●</span> 
+            <strong>閱覽興趣偏好:</strong> {showCategoryB ? formatNumber(Math.floor(displayCount * 0.22 / 1000)) : 0}K+
           </div>
-          <div style={{ opacity: showCategoryC ? 1 : 0.2, transition: "opacity 0.5s" }}>
-            <span style={{ color: "#26c6da" }}>●</span> 零售消費行為: {showCategoryC ? Math.floor(displayCount * 0.18 / 1000) : 0}K+
+          <div style={{ 
+            opacity: showCategoryC ? 1 : 0.2, 
+            transition: "opacity 0.8s ease, transform 0.5s ease",
+            transform: showCategoryC ? "translateX(0)" : "translateX(-10px)",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            background: showCategoryC ? "rgba(38, 198, 218, 0.1)" : "transparent",
+            border: showCategoryC ? "1px solid rgba(38, 198, 218, 0.3)" : "none"
+          }}>
+            <span style={{ color: "#26c6da", marginRight: "6px", fontSize: "1.1rem" }}>●</span> 
+            <strong>零售消費行為:</strong> {showCategoryC ? formatNumber(Math.floor(displayCount * 0.18 / 1000)) : 0}K+
           </div>
         </div>
 
         {/* 動畫進度指示器 - 僅在開發模式顯示 */}
-        <div style={{ marginTop: "10px", fontSize: "0.7rem", color: "#aaaaaa" }}>
+        <div style={{ marginTop: "12px", fontSize: "0.7rem", color: "#aaaaaa" }}>
           動畫進度: {Math.floor(internalProgress)}%
           {animationComplete && <span style={{ color: "#26c6da" }}> (完成)</span>}
         </div>
@@ -178,26 +236,43 @@ export const ConsumerDatabase = ({
         style={{
           position: 'relative',
           right: '5%',
-          width: '50%',
-          maxWidth: '450px',
-          height: '400px',
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          borderRadius: '8px',
-          border: '1px solid rgba(255, 187, 0, 0.3)',
-          padding: '15px',
+          width: '45%', // 調整寬度比例
+          maxWidth: '420px',
+          height: 'auto', // 自適應高度
+          minHeight: '380px',
+          maxHeight: '450px',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          borderRadius: '12px',
+          border: '2px solid rgba(255, 187, 0, 0.3)',
+          padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
-          boxShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-          transition: 'all 0.5s ease',
+          boxShadow: '0 0 25px rgba(0, 0, 0, 0.6)',
+          transition: 'all 0.6s ease-in-out',
           opacity: showCategoryA || showCategoryB || showCategoryC ? 1 : 0,
           transform: `scale(${showCategoryA || showCategoryB || showCategoryC ? 1 : 0.9})`,
           zIndex: 100
         }}
       >
-        <div className="traits-header" style={{ marginBottom: '10px', textAlign: 'center' }}>
-          <h3 style={{ margin: 0, color: '#ffbb00', fontSize: '1.2rem' }}>消費者特性標籤</h3>
-          <div style={{ fontSize: '0.8rem', color: '#ffffff', marginTop: '5px' }}>
+        <div className="traits-header" style={{ 
+          marginBottom: '15px', 
+          textAlign: 'center',
+          padding: '5px',
+          borderBottom: '1px solid rgba(255, 187, 0, 0.3)'
+        }}>
+          <h3 style={{ 
+            margin: 0, 
+            color: '#ffbb00', 
+            fontSize: '1.3rem',
+            textShadow: '0 0 8px rgba(255, 187, 0, 0.5)' 
+          }}>消費者特性標籤</h3>
+          <div style={{ 
+            fontSize: '0.9rem', 
+            color: '#ffffff', 
+            marginTop: '5px',
+            opacity: 0.9 
+          }}>
             即時收集的用戶行為與偏好數據
           </div>
         </div>
@@ -206,131 +281,244 @@ export const ConsumerDatabase = ({
           flex: 1, 
           display: 'flex', 
           flexWrap: 'wrap', 
-          gap: '10px',
-          overflow: 'hidden',
+          gap: '12px',
+          overflowY: 'auto',
+          overflowX: 'hidden',
           alignContent: 'flex-start',
-          justifyContent: 'center'
+          justifyContent: 'flex-start',
+          padding: '5px 10px'
         }}>
-          {/* 廣告點擊行為標籤 */}
-          {visibleAdTraits.map((trait, index) => (
-            <div
-              key={`ad-trait-${index}`}
-              className="trait-tag-animated"
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                color: trait.color,
-                borderRadius: "4px",
-                padding: "4px 8px",
-                fontSize: "0.8rem",
-                border: `1px solid ${trait.color}`,
-                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
-                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
-                animationDelay: `${index * 0.1}s`,
-                margin: "2px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "180px"
-              }}
-            >
-              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
-              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
+          {/* 標籤分類 - 廣告點擊行為 */}
+          {showCategoryA && visibleAdTraits.length > 0 && (
+            <div className="tag-category" style={{
+              width: '100%',
+              marginBottom: '8px'
+            }}>
+              <div style={{
+                fontSize: '0.9rem',
+                color: '#ffbb00',
+                marginBottom: '6px',
+                paddingLeft: '4px',
+                borderLeft: '3px solid #ffbb00'
+              }}>
+                廣告點擊行為
+              </div>
+              <div style={{display: 'flex', flexWrap: 'wrap', gap: '8px'}}>
+                {visibleAdTraits.map((trait, index) => (
+                  <div
+                    key={`ad-trait-${index}`}
+                    className="trait-tag-animated"
+                    style={{
+                      backgroundColor: "rgba(10, 10, 10, 0.8)",
+                      color: "#fff",
+                      borderRadius: "4px",
+                      padding: "6px 10px",
+                      fontSize: "0.85rem",
+                      border: `1px solid ${trait.color}`,
+                      boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                      animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                      animationDelay: `${index * 0.15}s`,
+                      margin: "2px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: "180px",
+                      transition: "all 0.3s ease-in-out",
+                      transform: "translateY(0)", // 初始位置
+                    }}
+                  >
+                    <span style={{ fontWeight: "bold", color: trait.color }}>{trait.name}</span>
+                    <span style={{ marginLeft: "8px", fontSize: "0.85rem" }}>{trait.value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+          )}
 
-          {/* 閱覽興趣標籤 */}
-          {visibleInterestTraits.map((trait, index) => (
-            <div
-              key={`interest-trait-${index}`}
-              className="trait-tag-animated"
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                color: trait.color,
-                borderRadius: "4px",
-                padding: "4px 8px",
-                fontSize: "0.8rem",
-                border: `1px solid ${trait.color}`,
-                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
-                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
-                animationDelay: `${index * 0.1}s`,
-                margin: "2px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "180px"
-              }}
-            >
-              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
-              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
+          {/* 標籤分類 - 閱覽興趣 */}
+          {showCategoryB && visibleInterestTraits.length > 0 && (
+            <div className="tag-category" style={{
+              width: '100%',
+              marginBottom: '8px'
+            }}>
+              <div style={{
+                fontSize: '0.9rem',
+                color: '#ff8a00',
+                marginBottom: '6px',
+                paddingLeft: '4px',
+                borderLeft: '3px solid #ff8a00'
+              }}>
+                閱覽興趣偏好
+              </div>
+              <div style={{display: 'flex', flexWrap: 'wrap', gap: '8px'}}>
+                {visibleInterestTraits.map((trait, index) => (
+                  <div
+                    key={`interest-trait-${index}`}
+                    className="trait-tag-animated"
+                    style={{
+                      backgroundColor: "rgba(10, 10, 10, 0.8)",
+                      color: "#fff",
+                      borderRadius: "4px",
+                      padding: "6px 10px",
+                      fontSize: "0.85rem",
+                      border: `1px solid ${trait.color}`,
+                      boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                      animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                      animationDelay: `${index * 0.15}s`,
+                      margin: "2px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: "180px",
+                      transition: "all 0.3s ease-in-out",
+                      transform: "translateY(0)", // 初始位置
+                    }}
+                  >
+                    <span style={{ fontWeight: "bold", color: trait.color }}>{trait.name}</span>
+                    <span style={{ marginLeft: "8px", fontSize: "0.85rem" }}>{trait.value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+          )}
 
-          {/* 零售消費行為標籤 */}
-          {visibleRetailTraits.map((trait, index) => (
-            <div
-              key={`retail-trait-${index}`}
-              className="trait-tag-animated"
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                color: trait.color,
-                borderRadius: "4px",
-                padding: "4px 8px",
-                fontSize: "0.8rem",
-                border: `1px solid ${trait.color}`,
-                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
-                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
-                animationDelay: `${index * 0.1}s`,
-                margin: "2px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "180px"
-              }}
-            >
-              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
-              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
-            </div>
-          ))}
+          {/* 標籤分類 - 零售消費行為和用戶特性 */}
+          {showCategoryC && (
+            <>
+              {/* 零售消費行為 */}
+              {visibleRetailTraits.length > 0 && (
+                <div className="tag-category" style={{
+                  width: '100%',
+                  marginBottom: '8px'
+                }}>
+                  <div style={{
+                    fontSize: '0.9rem',
+                    color: '#26c6da',
+                    marginBottom: '6px',
+                    paddingLeft: '4px',
+                    borderLeft: '3px solid #26c6da'
+                  }}>
+                    零售消費行為
+                  </div>
+                  <div style={{display: 'flex', flexWrap: 'wrap', gap: '8px'}}>
+                    {visibleRetailTraits.map((trait, index) => (
+                      <div
+                        key={`retail-trait-${index}`}
+                        className="trait-tag-animated"
+                        style={{
+                          backgroundColor: "rgba(10, 10, 10, 0.8)",
+                          color: "#fff",
+                          borderRadius: "4px",
+                          padding: "6px 10px",
+                          fontSize: "0.85rem",
+                          border: `1px solid ${trait.color}`,
+                          boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                          animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                          animationDelay: `${index * 0.15}s`,
+                          margin: "2px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "180px",
+                          transition: "all 0.3s ease-in-out",
+                          transform: "translateY(0)", // 初始位置
+                        }}
+                      >
+                        <span style={{ fontWeight: "bold", color: trait.color }}>{trait.name}</span>
+                        <span style={{ marginLeft: "8px", fontSize: "0.85rem" }}>{trait.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* 用戶特性標籤 - 與零售消費同步出現 */}
-          {visibleUserTraits.map((trait, index) => (
-            <div
-              key={`user-trait-${index}`}
-              className="trait-tag-animated"
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                color: trait.color,
-                borderRadius: "4px",
-                padding: "4px 8px",
-                fontSize: "0.8rem",
-                border: `1px solid ${trait.color}`,
-                boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
-                animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
-                animationDelay: `${index * 0.1}s`,
-                margin: "2px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "180px"
-              }}
-            >
-              <span style={{ fontWeight: "bold" }}>{trait.name}</span>
-              <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
-            </div>
-          ))}
+              {/* 用戶特性標籤 */}
+              {visibleUserTraits.length > 0 && (
+                <div className="tag-category" style={{
+                  width: '100%',
+                  marginBottom: '8px' 
+                }}>
+                  <div style={{
+                    fontSize: '0.9rem',
+                    color: '#ff5500',
+                    marginBottom: '6px',
+                    paddingLeft: '4px',
+                    borderLeft: '3px solid #ff5500'
+                  }}>
+                    用戶特性
+                  </div>
+                  <div style={{display: 'flex', flexWrap: 'wrap', gap: '8px'}}>
+                    {visibleUserTraits.map((trait, index) => (
+                      <div
+                        key={`user-trait-${index}`}
+                        className="trait-tag-animated"
+                        style={{
+                          backgroundColor: "rgba(10, 10, 10, 0.8)",
+                          color: "#fff",
+                          borderRadius: "4px",
+                          padding: "6px 10px",
+                          fontSize: "0.85rem",
+                          border: `1px solid ${trait.color}`,
+                          boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                          animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
+                          animationDelay: `${index * 0.15}s`,
+                          margin: "2px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "180px",
+                          transition: "all 0.3s ease-in-out",
+                          transform: "translateY(0)", // 初始位置
+                        }}
+                      >
+                        <span style={{ fontWeight: "bold", color: trait.color }}>{trait.name}</span>
+                        <span style={{ marginLeft: "8px", fontSize: "0.85rem" }}>{trait.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
-        {/* 視覺連接線 */}
+        {/* 強化的視覺連接線 */}
         <div className="connection-line" style={{
           position: 'absolute',
-          left: '-50px',
+          left: '-80px',
           top: '50%',
-          width: '50px',
-          height: '2px',
-          backgroundColor: '#ffbb00',
+          width: '80px',
+          height: '3px',
+          background: 'linear-gradient(90deg, rgba(255, 187, 0, 0.2) 0%, rgba(255, 187, 0, 1) 100%)',
           transform: 'translateY(-50%)',
           opacity: showCategoryA || showCategoryB || showCategoryC ? 1 : 0,
-          transition: 'opacity 0.5s ease'
+          transition: 'opacity 0.8s ease, width 0.5s ease',
+          boxShadow: '0 0 8px rgba(255, 187, 0, 0.8)'
+        }}></div>
+        
+        {/* 額外的點綴連接線 */}
+        <div className="connection-dots" style={{
+          position: 'absolute',
+          left: '-80px',
+          top: '40%',
+          width: '60px',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255, 187, 0, 0.6) 100%)',
+          transform: 'translateY(-50%) rotate(-15deg)',
+          opacity: showCategoryA ? 0.7 : 0,
+          transition: 'opacity 0.8s ease',
+        }}></div>
+        
+        <div className="connection-dots" style={{
+          position: 'absolute',
+          left: '-80px',
+          top: '60%',
+          width: '60px',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255, 187, 0, 0.6) 100%)',
+          transform: 'translateY(-50%) rotate(15deg)',
+          opacity: showCategoryC ? 0.7 : 0,
+          transition: 'opacity 0.8s ease',
         }}></div>
       </div>
     </div>
