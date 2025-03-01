@@ -201,7 +201,7 @@ export const ConsumerDatabase = ({
             即時收集的用戶行為與偏好數據
           </div>
         </div>
-        
+
         <div className="traits-content" style={{ 
           flex: 1, 
           display: 'flex', 
@@ -220,19 +220,24 @@ export const ConsumerDatabase = ({
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
                 color: trait.color,
                 borderRadius: "4px",
-                padding: "5px 10px",
-                fontSize: "0.85rem",
+                padding: "4px 8px",
+                fontSize: "0.8rem",
                 border: `1px solid ${trait.color}`,
                 boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                 animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                 animationDelay: `${index * 0.1}s`,
+                margin: "2px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "180px"
               }}
             >
               <span style={{ fontWeight: "bold" }}>{trait.name}</span>
               <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
             </div>
           ))}
-          
+
           {/* 閱覽興趣標籤 */}
           {visibleInterestTraits.map((trait, index) => (
             <div
@@ -242,19 +247,24 @@ export const ConsumerDatabase = ({
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
                 color: trait.color,
                 borderRadius: "4px",
-                padding: "5px 10px",
-                fontSize: "0.85rem",
+                padding: "4px 8px",
+                fontSize: "0.8rem",
                 border: `1px solid ${trait.color}`,
                 boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                 animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                 animationDelay: `${index * 0.1}s`,
+                margin: "2px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "180px"
               }}
             >
               <span style={{ fontWeight: "bold" }}>{trait.name}</span>
               <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
             </div>
           ))}
-          
+
           {/* 零售消費行為標籤 */}
           {visibleRetailTraits.map((trait, index) => (
             <div
@@ -264,19 +274,24 @@ export const ConsumerDatabase = ({
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
                 color: trait.color,
                 borderRadius: "4px",
-                padding: "5px 10px",
-                fontSize: "0.85rem",
+                padding: "4px 8px",
+                fontSize: "0.8rem",
                 border: `1px solid ${trait.color}`,
                 boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                 animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                 animationDelay: `${index * 0.1}s`,
+                margin: "2px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "180px"
               }}
             >
               <span style={{ fontWeight: "bold" }}>{trait.name}</span>
               <span style={{ marginLeft: "8px", fontSize: "0.8rem" }}>{trait.value}</span>
             </div>
           ))}
-          
+
           {/* 用戶特性標籤 - 與零售消費同步出現 */}
           {visibleUserTraits.map((trait, index) => (
             <div
@@ -286,12 +301,17 @@ export const ConsumerDatabase = ({
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
                 color: trait.color,
                 borderRadius: "4px",
-                padding: "5px 10px",
-                fontSize: "0.85rem",
+                padding: "4px 8px",
+                fontSize: "0.8rem",
                 border: `1px solid ${trait.color}`,
                 boxShadow: `0 0 15px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                 animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                 animationDelay: `${index * 0.1}s`,
+                margin: "2px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "180px"
               }}
             >
               <span style={{ fontWeight: "bold" }}>{trait.name}</span>
@@ -299,7 +319,7 @@ export const ConsumerDatabase = ({
             </div>
           ))}
         </div>
-        
+
         {/* 視覺連接線 */}
         <div className="connection-line" style={{
           position: 'absolute',
