@@ -84,6 +84,8 @@ export const ConsumerDatabase = ({
   showSphere,
   audienceParticles,
   dataCount,
+  showOnlyTags, // 新增showOnlyTags prop
+  showTagsInLeftZone = false, // 新增showTagsInLeftZone prop, 預設為false
 }) => {
   const [displayCount, setDisplayCount] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
@@ -163,32 +165,22 @@ export const ConsumerDatabase = ({
     return () => clearInterval(timer);
   }, [showSphere]); // 簡化依賴
 
-  if (!showSphere) return null;
+  const fadeOut = animationComplete && !showSphere;
 
-  // 計算內部階段
-  const showCategoryA = internalProgress > 20;
-  const showCategoryB = internalProgress > 40;
-  const showCategoryC = internalProgress > 60;
-  const fadeOut = internalProgress > 85;
-
-  // 根據類別過濾標籤
-  const getVisibleTraits = (category) => {
-    if ((category === 'ad' && !showCategoryA) || 
-        (category === 'interest' && !showCategoryB) || 
-        (category === 'retail' && !showCategoryC)) {
-      return [];
-    }
-    return traits.filter(t => t.category === category);
-  };
-
-  // 獲取所有可見標籤
-  const visibleAdTraits = getVisibleTraits('ad');
-  const visibleInterestTraits = getVisibleTraits('interest');
-  const visibleRetailTraits = getVisibleTraits('retail');
-  const visibleUserTraits = getVisibleTraits('user'); // 用戶特性標籤與零售消費同時顯示
+  // 如果只顯示標籤，則不顯示球體和計數器
+  if (showOnlyTags) {
+    return (
+      <div className="traits-block-container" style={{ opacity: 1 }}>
+        {/* ConsumerTraits component is assumed to exist */}
+        <div>
+          {/* Placeholder for ConsumerTraits component */}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="sphere-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="sphere-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
       {/* 渲染球體粒子 */}
       <div className="sphere-particles-container" style={{
         position: 'absolute',
@@ -224,7 +216,8 @@ export const ConsumerDatabase = ({
         style={{
           zIndex: 200,
           position: 'relative',
-          left: '5%',
+          left: '50%',
+          transform: 'translateX(-50%)',
           animation: fadeOut ? "fadeOut 1s forwards" : "none",
           padding: "20px 25px",
           backdropFilter: "blur(5px)",
@@ -310,7 +303,8 @@ export const ConsumerDatabase = ({
         className="traits-block-container"
         style={{
           position: 'relative',
-          right: '5%',
+          left: '50%',
+          transform: 'translateX(50%)',
           width: '52%', // 增加寬度比例
           maxWidth: '580px', // 增加最大寬度
           height: 'auto', // 自適應高度
