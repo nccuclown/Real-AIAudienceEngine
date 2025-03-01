@@ -456,7 +456,6 @@ const AIAudienceEngine = () => {
       // 將階段名轉換為更友好的中文名稱
       const stageNameMap = {
         "startSphere": "消費者數據收集",
-        "showSphereTraits": "特性標籤分析",
         "startStage1": "第一階段",
         "startCube": "建立知識庫",
         "showCubeDocuments": "文檔分析",

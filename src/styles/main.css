@@ -9,6 +9,40 @@
   padding: 4px 10px;
 
 /* 增強的特性標籤動畫 */
+/* 添加消費者資料庫元素的樣式 */
+.database-counter {
+  opacity: 1;
+  transition: opacity 0.8s ease, transform 0.5s ease;
+}
+
+.traits-block-container {
+  opacity: 1;
+  transition: opacity 0.8s ease, transform 0.5s ease;
+}
+
+.database-counter.fade-out,
+.traits-block-container.fade-out {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* 連接線動畫 */
+.connection-line {
+  animation: glowLine 3s infinite ease-in-out;
+}
+
+@keyframes glowLine {
+  0%, 100% {
+    opacity: 0.6;
+    box-shadow: 0 0 3px #ffbb00;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 10px #ffbb00;
+  }
+}
+
+/* 標籤脈動動畫 */
 @keyframes pulse {
   0% {
     transform: scale(0.98);

@@ -281,7 +281,7 @@ export const ConsumerDatabase = ({
           flex: 1, 
           display: 'flex', 
           flexWrap: 'wrap', 
-          gap: '12px',
+          gap: '8px',
           overflowY: 'auto',
           overflowX: 'hidden',
           alignContent: 'flex-start',
@@ -312,17 +312,17 @@ export const ConsumerDatabase = ({
                       backgroundColor: "rgba(10, 10, 10, 0.8)",
                       color: "#fff",
                       borderRadius: "4px",
-                      padding: "5px 8px",  // 縮小內部填充
-                      fontSize: "0.8rem",  // 稍微縮小字體
+                      padding: "4px 6px",  // 進一步縮小內部填充
+                      fontSize: "0.75rem",  // 進一步縮小字體
                       border: `1px solid ${trait.color}`,
-                      boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                      boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                       animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                       animationDelay: `${index * 0.15}s`,
                       margin: "1px",      // 縮小外部邊距
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      maxWidth: "210px",   // 增加最大寬度
+                      maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
                       transition: "all 0.3s ease-in-out",
                       transform: "translateY(0)", // 初始位置
                     }}
@@ -359,17 +359,17 @@ export const ConsumerDatabase = ({
                       backgroundColor: "rgba(10, 10, 10, 0.8)",
                       color: "#fff",
                       borderRadius: "4px",
-                      padding: "5px 8px",  // 縮小內部填充
-                      fontSize: "0.8rem",  // 稍微縮小字體
+                      padding: "4px 6px",  // 進一步縮小內部填充
+                      fontSize: "0.75rem",  // 進一步縮小字體
                       border: `1px solid ${trait.color}`,
-                      boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                      boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                       animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                       animationDelay: `${index * 0.15}s`,
                       margin: "1px",      // 縮小外部邊距
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      maxWidth: "210px",   // 增加最大寬度
+                      maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
                       transition: "all 0.3s ease-in-out",
                       transform: "translateY(0)", // 初始位置
                     }}
@@ -409,17 +409,17 @@ export const ConsumerDatabase = ({
                           backgroundColor: "rgba(10, 10, 10, 0.8)",
                           color: "#fff",
                           borderRadius: "4px",
-                          padding: "5px 8px",  // 縮小內部填充
-                          fontSize: "0.8rem",  // 稍微縮小字體
+                          padding: "4px 6px",  // 進一步縮小內部填充
+                          fontSize: "0.75rem",  // 進一步縮小字體
                           border: `1px solid ${trait.color}`,
-                          boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                          boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                           animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                           animationDelay: `${index * 0.15}s`,
                           margin: "1px",      // 縮小外部邊距
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "210px",   // 增加最大寬度
+                          maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
                           transition: "all 0.3s ease-in-out",
                           transform: "translateY(0)", // 初始位置
                         }}
@@ -456,17 +456,17 @@ export const ConsumerDatabase = ({
                           backgroundColor: "rgba(10, 10, 10, 0.8)",
                           color: "#fff",
                           borderRadius: "4px",
-                          padding: "5px 8px",  // 縮小內部填充
-                          fontSize: "0.8rem",  // 稍微縮小字體
+                          padding: "4px 6px",  // 進一步縮小內部填充
+                          fontSize: "0.75rem",  // 進一步縮小字體
                           border: `1px solid ${trait.color}`,
-                          boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
+                          boxShadow: `0 0 10px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.5)`,
                           animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                           animationDelay: `${index * 0.15}s`,
                           margin: "1px",      // 縮小外部邊距
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "210px",   // 增加最大寬度
+                          maxWidth: "180px",   // 縮小最大寬度，確保能放更多標籤
                           transition: "all 0.3s ease-in-out",
                           transform: "translateY(0)", // 初始位置
                         }}
