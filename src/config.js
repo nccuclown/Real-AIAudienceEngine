@@ -26,7 +26,6 @@ export const config = {
   // 時間軸現在只標記階段轉換點，不再控制具體時間
   timeline: [
     { milestone: "sphere", action: "startSphere" },      // 開始球體動畫
-    { milestone: "sphereTraits", action: "showSphereTraits" }, // 顯示特徵
     { milestone: "stage1", action: "startStage1" },     // 第一階段標記
     { milestone: "cube", action: "startCube" },       // 等待球體動畫完成後開始立方體
     { milestone: "cubeDocuments", action: "showCubeDocuments" },

@@ -130,8 +130,10 @@ const AIAudienceEngine = () => {
     const handleSphereComplete = () => {
       checkAnimationComplete('sphereComplete', true);
       console.log("球體動畫完成事件觸發");
-      // 當球體動畫完成，更新進度並移動到下一階段
-      advanceTimeline();
+      // 當球體動畫完成，直接跳到第一階段
+      setStage(1);
+      setProgress(calculateProgressFromStage(2, config.timeline.length - 1));
+      // 不需要調用 advanceTimeline()，因為我們已經手動設置了階段和進度
     };
 
     const handleCubeComplete = () => {

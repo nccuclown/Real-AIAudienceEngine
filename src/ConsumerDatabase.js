@@ -107,7 +107,7 @@ export const ConsumerDatabase = ({
         setTimeout(() => {
           const event = new CustomEvent('sphereAnimationComplete');
           window.dispatchEvent(event);
-          console.log("發送球體動畫完成事件");
+          console.log("發送球體動畫完成事件 - 直接進入第一階段");
         }, 1000); // 給一些緩衝時間確保UI更新
       }
 
