@@ -72,11 +72,19 @@
 /* 標籤類別淡入動畫 */
 .tag-category {
   animation: fadeInRight 0.6s ease-out;
+  margin-bottom: 6px !important; /* 確保類別間有適當間距 */
 }
 
-/* 標籤間隔自動計算 */
+/* 標籤間隔自動計算 - 更緊湊 */
 .traits-content {
-  gap: calc(8px + 0.5vw);
+  gap: calc(6px + 0.3vw);
+}
+
+/* 改進標籤容器佈局 */
+.traits-block-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
 }
 
 /* 滾動條美化 */

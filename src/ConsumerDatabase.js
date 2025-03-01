@@ -250,8 +250,8 @@ export const ConsumerDatabase = ({
           overflow: 'hidden',
           boxShadow: '0 0 25px rgba(0, 0, 0, 0.6)',
           transition: 'all 0.6s ease-in-out',
-          opacity: showCategoryA || showCategoryB || showCategoryC ? 1 : 0,
-          transform: `scale(${showCategoryA || showCategoryB || showCategoryC ? 1 : 0.9})`,
+          opacity: 1, // 保持可見
+          transform: `scale(1)`, // 保持可見
           zIndex: 100
         }}
       >
@@ -312,17 +312,17 @@ export const ConsumerDatabase = ({
                       backgroundColor: "rgba(10, 10, 10, 0.8)",
                       color: "#fff",
                       borderRadius: "4px",
-                      padding: "6px 10px",
-                      fontSize: "0.85rem",
+                      padding: "5px 8px",  // 縮小內部填充
+                      fontSize: "0.8rem",  // 稍微縮小字體
                       border: `1px solid ${trait.color}`,
                       boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
                       animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                       animationDelay: `${index * 0.15}s`,
-                      margin: "2px",
+                      margin: "1px",      // 縮小外部邊距
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      maxWidth: "180px",
+                      maxWidth: "210px",   // 增加最大寬度
                       transition: "all 0.3s ease-in-out",
                       transform: "translateY(0)", // 初始位置
                     }}
@@ -359,17 +359,17 @@ export const ConsumerDatabase = ({
                       backgroundColor: "rgba(10, 10, 10, 0.8)",
                       color: "#fff",
                       borderRadius: "4px",
-                      padding: "6px 10px",
-                      fontSize: "0.85rem",
+                      padding: "5px 8px",  // 縮小內部填充
+                      fontSize: "0.8rem",  // 稍微縮小字體
                       border: `1px solid ${trait.color}`,
                       boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
                       animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                       animationDelay: `${index * 0.15}s`,
-                      margin: "2px",
+                      margin: "1px",      // 縮小外部邊距
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      maxWidth: "180px",
+                      maxWidth: "210px",   // 增加最大寬度
                       transition: "all 0.3s ease-in-out",
                       transform: "translateY(0)", // 初始位置
                     }}
@@ -409,17 +409,17 @@ export const ConsumerDatabase = ({
                           backgroundColor: "rgba(10, 10, 10, 0.8)",
                           color: "#fff",
                           borderRadius: "4px",
-                          padding: "6px 10px",
-                          fontSize: "0.85rem",
+                          padding: "5px 8px",  // 縮小內部填充
+                          fontSize: "0.8rem",  // 稍微縮小字體
                           border: `1px solid ${trait.color}`,
                           boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
                           animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                           animationDelay: `${index * 0.15}s`,
-                          margin: "2px",
+                          margin: "1px",      // 縮小外部邊距
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "180px",
+                          maxWidth: "210px",   // 增加最大寬度
                           transition: "all 0.3s ease-in-out",
                           transform: "translateY(0)", // 初始位置
                         }}
@@ -456,17 +456,17 @@ export const ConsumerDatabase = ({
                           backgroundColor: "rgba(10, 10, 10, 0.8)",
                           color: "#fff",
                           borderRadius: "4px",
-                          padding: "6px 10px",
-                          fontSize: "0.85rem",
+                          padding: "5px 8px",  // 縮小內部填充
+                          fontSize: "0.8rem",  // 稍微縮小字體
                           border: `1px solid ${trait.color}`,
                           boxShadow: `0 0 12px rgba(${trait.color.replace(/^#/, '').match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.6)`,
                           animation: `pulse ${2 + index % 3}s infinite ease-in-out`,
                           animationDelay: `${index * 0.15}s`,
-                          margin: "2px",
+                          margin: "1px",      // 縮小外部邊距
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "180px",
+                          maxWidth: "210px",   // 增加最大寬度
                           transition: "all 0.3s ease-in-out",
                           transform: "translateY(0)", // 初始位置
                         }}
@@ -491,11 +491,11 @@ export const ConsumerDatabase = ({
           height: '3px',
           background: 'linear-gradient(90deg, rgba(255, 187, 0, 0.2) 0%, rgba(255, 187, 0, 1) 100%)',
           transform: 'translateY(-50%)',
-          opacity: showCategoryA || showCategoryB || showCategoryC ? 1 : 0,
+          opacity: 1, // 保持可見
           transition: 'opacity 0.8s ease, width 0.5s ease',
           boxShadow: '0 0 8px rgba(255, 187, 0, 0.8)'
         }}></div>
-        
+
         {/* 額外的點綴連接線 */}
         <div className="connection-dots" style={{
           position: 'absolute',
@@ -508,7 +508,7 @@ export const ConsumerDatabase = ({
           opacity: showCategoryA ? 0.7 : 0,
           transition: 'opacity 0.8s ease',
         }}></div>
-        
+
         <div className="connection-dots" style={{
           position: 'absolute',
           left: '-80px',
