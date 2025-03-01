@@ -75,18 +75,17 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 中間區塊的三列布局 */
+/* 中間區塊的兩列布局 */
 .visualization-container {
   position: relative;
   display: grid;
-  grid-template-columns: 30% 40% 30%;
+  grid-template-columns: 50% 50%;
   height: 100%;
   width: 100%;
 }
 
-/* 左中右三個區域 */
+/* 左右兩個區域 */
 .left-zone,
-.center-zone,
 .right-zone {
   position: relative;
   height: 100%;

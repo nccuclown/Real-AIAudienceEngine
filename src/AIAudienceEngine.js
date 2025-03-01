@@ -577,52 +577,46 @@ const AIAudienceEngine = () => {
           </div>
         </div>
 
-        {/* 中區塊：視覺化內容 - 分為左中右三區域 */}
+        {/* 中區塊：視覺化內容 - 分為左右兩區域 */}
         <div className="middle-section">
           <div className="visualization-container animation-boundary">
-            {/* 左區域 - 資料融合和知識擷取 */}
+            {/* 左區域 - 可根據需要放置元件 */}
             <div className="left-zone">
               <div className="zone-content">
                 <div className="data-fusion-layer" style={{ zIndex: showDataFusion ? 100 : 10 }}>
                   <ClientDataFusion showDataFusion={showDataFusion} clientDataParticles={clientDataParticles} progress={progress} />
                 </div>
-                {/* 左側區域不再顯示知識擷取面板 */}
-              </div>
-            </div>
-
-            {/* 中間區域 - 球體和立方體 */}
-            <div className="center-zone">
-              {/* 中央上方的RAG標籤 */}
-              {showCube && progress > 25 && (
-                <div style={{ 
-                  position: "absolute", 
-                  top: "10%", 
-                  left: "50%", 
-                  transform: "translateX(-50%)",
-                  zIndex: 150,
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
-                  border: "1px solid #ffbb00",
-                  borderRadius: "4px",
-                  padding: "8px 15px",
-                  color: "#ffbb00",
-                  fontWeight: "bold",
-                  textAlign: "center"
-                }}>
-                  RAG - Retrieval-Augmented Generation
+                <div className="sphere-layer" style={{ zIndex: showSphere ? 100 : 10 }}>
+                  <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
                 </div>
-              )}
-              <div className="sphere-layer" style={{ zIndex: showSphere ? 100 : 10 }}>
-                <ConsumerDatabase progress={progress} showSphere={showSphere} audienceParticles={audienceParticles} dataCount={dataCount} />
-              </div>
-              <div className="cube-layer" style={{ zIndex: showCube ? 100 : 10 }}>
-                <DocumentCube showCube={showCube} documentParticles={documentParticles} progress={progress} cubeRotation={cubeRotation} />
               </div>
             </div>
 
-            {/* 右區域 - 已清空 */}
+            {/* 右區域 - 可根據需要放置元件 */}
             <div className="right-zone">
               <div className="zone-content">
-                {/* 右側區域元件已移除 */}
+                {/* RAG標籤 */}
+                {showCube && progress > 25 && (
+                  <div style={{ 
+                    position: "absolute", 
+                    top: "10%", 
+                    left: "50%", 
+                    transform: "translateX(-50%)",
+                    zIndex: 150,
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    border: "1px solid #ffbb00",
+                    borderRadius: "4px",
+                    padding: "8px 15px",
+                    color: "#ffbb00",
+                    fontWeight: "bold",
+                    textAlign: "center"
+                  }}>
+                    RAG - Retrieval-Augmented Generation
+                  </div>
+                )}
+                <div className="cube-layer" style={{ zIndex: showCube ? 100 : 10 }}>
+                  <DocumentCube showCube={showCube} documentParticles={documentParticles} progress={progress} cubeRotation={cubeRotation} />
+                </div>
               </div>
             </div>
 
