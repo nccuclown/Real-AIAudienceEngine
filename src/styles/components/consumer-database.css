@@ -27,6 +27,73 @@
 .particle {
   position: absolute;
   border-radius: 50%;
+
+/* 標籤相關樣式更新 */
+.trait-tag-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  overflow: visible !important;
+  padding: 5px;
+  height: auto !important;
+}
+
+.trait-tag {
+  background-color: rgba(255, 187, 0, 0.2);
+  border: 1px solid rgba(255, 187, 0, 0.4);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  color: #ffbb00;
+  display: inline-block;
+  margin: 2px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* 修正消費者特性塊樣式 */
+.consumer-traits-block {
+  width: 100%;
+  max-width: 580px;
+  height: auto !important;
+  min-height: 380px;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 187, 0, 0.3);
+}
+
+/* 確保標籤區域內容正常顯示，不被截斷 */
+.traits-container {
+  width: 100%;
+  height: auto !important;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 修正在不同屏幕尺寸下的顯示問題 */
+@media (max-width: 768px) {
+  .consumer-traits-block {
+    max-width: 100%;
+    min-height: 300px;
+  }
+  
+  .trait-tag {
+    font-size: 0.65rem;
+    padding: 1px 4px;
+  }
+}
+
+
   transition: all 100ms;
   pointer-events: none;
   will-change: transform, opacity;
