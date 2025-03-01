@@ -1,0 +1,30 @@
+Download the React DevTools for a better development experience: https://react.dev/link/react-devtools
+4react-jsx-dev-runtime.development.js:479 React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+jsxDEVImpl @ react-jsx-dev-runtime.development.js:479Understand this errorAI
+react-dom-client.development.js:13350 Uncaught Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check the render method of `AIAudienceEngine`.
+    at createFiberFromTypeAndProps (react-dom-client.development.js:13350:1)
+    at createFiberFromElement (react-dom-client.development.js:13364:1)
+    at reconcileChildFibersImpl (react-dom-client.development.js:5226:1)
+    at react-dom-client.development.js:5415:1
+    at reconcileChildren (react-dom-client.development.js:7736:1)
+    at beginWork (react-dom-client.development.js:9890:1)
+    at runWithFiberInDEV (react-dom-client.development.js:543:1)
+    at performUnitOfWork (react-dom-client.development.js:15042:1)
+    at workLoopSync (react-dom-client.development.js:14870:1)
+    at renderRootSync (react-dom-client.development.js:14850:1)Understand this errorAI
+react-dom-client.development.js:7409 An error occurred in the <div> component.
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+defaultOnUncaughtError @ react-dom-client.development.js:7409Understand this warningAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13Understand this errorAI
+WebSocketClient.js:13 WebSocket connection to 'wss://dee9c7fb-ee7f-476f-b10c-3cdd39e4b6d6-00-17ctoboao0li3.pike.replit.dev:3000/ws' failed: 
+WebSocketClient @ WebSocketClient.js:13
+initSocket @ socket.js:27
+(anonymous) @ socket.js:51Understand this errorAI
