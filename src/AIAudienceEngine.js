@@ -6,6 +6,7 @@ import ConsumerDatabase, {
   generateSphereParticles,
   updateSphereParticles,
 } from "./ConsumerDatabase";
+import { config } from "./config";
 import DocumentCube, {
   generateDocumentParticles,
   updateDocumentParticles,
