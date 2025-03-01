@@ -245,7 +245,7 @@
 @import "./animations.css";
 @import "./components/header.css";
 @import "./components/consumer-database.css";
-@import "./components/document-cube.css"; /* 確保這一行正確 */
+@import "./components/document-cube.css";
 @import "./components/client-data.css";
 @import "./components/product-matching.css";
 @import "./components/analysis-report.css";

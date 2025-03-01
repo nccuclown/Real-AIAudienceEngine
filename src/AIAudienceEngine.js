@@ -128,37 +128,48 @@ const AIAudienceEngine = () => {
   // 監聽動畫完成事件
   useEffect(() => {
     const handleSphereComplete = () => {
-      checkAnimationComplete('sphereComplete', true);
-      console.log("球體動畫完成事件觸發");
-      // 當球體動畫完成，直接跳到第一階段
-      setStage(1);
-      setProgress(calculateProgressFromStage(2, config.timeline.length - 1));
-      // 不需要調用 advanceTimeline()，因為我們已經手動設置了階段和進度
+      // 檢查是否已完成，避免重複觸發
+      if (!animationStates.sphereComplete) {
+        checkAnimationComplete('sphereComplete', true);
+        console.log("球體動畫完成事件觸發");
+        // 當球體動畫完成，直接跳到第一階段
+        setStage(1);
+        setProgress(calculateProgressFromStage(2, config.timeline.length - 1));
+        // 不需要調用 advanceTimeline()，因為我們已經手動設置了階段和進度
+      }
     };
 
     const handleCubeComplete = () => {
-      checkAnimationComplete('cubeComplete', true);
-      console.log("立方體動畫完成事件觸發");
-      // 當立方體動畫完成，更新進度並移動到下一階段
-      advanceTimeline();
+      if (!animationStates.cubeComplete) {
+        checkAnimationComplete('cubeComplete', true);
+        console.log("立方體動畫完成事件觸發");
+        // 當立方體動畫完成，更新進度並移動到下一階段
+        advanceTimeline();
+      }
     };
 
     const handleDataFusionComplete = () => {
-      checkAnimationComplete('dataFusionComplete', true);
-      console.log("數據融合動畫完成事件觸發");
-      advanceTimeline();
+      if (!animationStates.dataFusionComplete) {
+        checkAnimationComplete('dataFusionComplete', true);
+        console.log("數據融合動畫完成事件觸發");
+        advanceTimeline();
+      }
     };
 
     const handleMatchingComplete = () => {
-      checkAnimationComplete('matchingComplete', true);
-      console.log("匹配動畫完成事件觸發");
-      advanceTimeline();
+      if (!animationStates.matchingComplete) {
+        checkAnimationComplete('matchingComplete', true);
+        console.log("匹配動畫完成事件觸發");
+        advanceTimeline();
+      }
     };
 
     const handleReportComplete = () => {
-      checkAnimationComplete('reportComplete', true);
-      console.log("報告動畫完成事件觸發");
-      advanceTimeline();
+      if (!animationStates.reportComplete) {
+        checkAnimationComplete('reportComplete', true);
+        console.log("報告動畫完成事件觸發");
+        advanceTimeline();
+      }
     };
 
     window.addEventListener('sphereAnimationComplete', handleSphereComplete);
@@ -174,7 +185,7 @@ const AIAudienceEngine = () => {
       window.removeEventListener('matchingComplete', handleMatchingComplete);
       window.removeEventListener('reportComplete', handleReportComplete);
     };
-  }, []);
+  }, [animationStates]);
 
   // 推進時間線到下一個階段
   const advanceTimeline = () => {
@@ -212,6 +223,17 @@ const AIAudienceEngine = () => {
         setStageDescription(config.stageDescriptions[0]);
         checkAnimationComplete('sphereComplete', false); // 重置動畫完成狀態
         console.log("啟動球體階段，更新後粒子數:", newParticles.length);
+        break;
+      case "showSphereTraits":
+        // 強調一些粒子以顯示特性
+        setAudienceParticles(prev => 
+          prev.map(p => ({
+            ...p,
+            highlighted: Math.random() < 0.3, // 隨機高亮約30%的粒子
+            opacity: Math.random() < 0.3 ? 0.9 : 0.5 // 高亮粒子更亮
+          }))
+        );
+        console.log("顯示球體特性");
         break;
       case "startStage1":
         setStage(1);

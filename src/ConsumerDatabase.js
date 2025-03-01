@@ -3,8 +3,35 @@ import React, { useState, useEffect } from "react";
 import { config, clampPercentage, getColorArray } from "./config";
 
 export const generateSphereParticles = () => {
-  // 仍然返回粒子數組，但我們不會呈現它們
+  // 生成一些粒子，這些粒子會被用於視覺效果
   const particles = [];
+  const count = 80; // 設定適當的粒子數量
+  const colors = ["#ffbb00", "#ff8a00", "#ff5500", "#26c6da", "#00bcd4"];
+  
+  for (let i = 0; i < count; i++) {
+    const size = 3 + Math.random() * 4;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 80 + Math.random() * 40;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
+    
+    particles.push({
+      id: `sphere-particle-${i}`,
+      x,
+      y,
+      z: Math.random() * 50 - 25,
+      size,
+      color,
+      opacity: 0.3 + Math.random() * 0.7,
+      angle,
+      radius,
+      rotationSpeed: 0.001 + Math.random() * 0.003,
+      matched: false,
+      highlighted: false,
+    });
+  }
+  
   console.log("生成球體粒子數量:", particles.length);
   return particles;
 };
@@ -14,8 +41,27 @@ export const updateSphereParticles = (
   sphereRotation,
   showMatching
 ) => {
-  // 直接返回粒子，但不會被渲染
-  return particles;
+  return particles.map(p => {
+    // 更新角度
+    const newAngle = p.angle + p.rotationSpeed;
+    const x = Math.cos(newAngle) * p.radius;
+    const y = Math.sin(newAngle) * p.radius;
+    
+    // 如果在匹配階段，移動匹配的粒子
+    let z = p.z;
+    if (showMatching && p.matched) {
+      z = Math.min(p.z + 0.5, 30);
+    }
+    
+    return {
+      ...p,
+      angle: newAngle,
+      x,
+      y,
+      z,
+      opacity: showMatching ? (p.matched ? 0.9 : 0.3) : p.opacity
+    };
+  });
 };
 
 // 增強的數字格式化函數，可以處理不同格式的數字
@@ -143,6 +189,35 @@ export const ConsumerDatabase = ({
 
   return (
     <div className="sphere-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* 渲染球體粒子 */}
+      <div className="sphere-particles-container" style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '300px',
+        height: '300px',
+        perspective: '1000px',
+        zIndex: 50
+      }}>
+        {audienceParticles.map((particle) => (
+          <div
+            key={particle.id}
+            className={`particle ${particle.highlighted ? "glowing" : ""}`}
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              backgroundColor: particle.color,
+              opacity: particle.opacity,
+              transform: `translate3d(${particle.x}px, ${particle.y}px, ${particle.z}px)`,
+              boxShadow: particle.highlighted ? `0 0 10px ${particle.color}` : 'none'
+            }}
+          />
+        ))}
+        {/* 球體光暈效果 */}
+        <div className="sphere-glow"></div>
+      </div>
+      
       {/* 左側計數器 */}
       <div
         className="database-counter fade-in"
