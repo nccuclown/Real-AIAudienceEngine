@@ -1,7 +1,7 @@
 // AIAudienceEngine.js
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/main.css";
-import { getAnimationParams, calculateProgressFromStage } from "./config";
+import { config, getAnimationParams, calculateProgressFromStage } from "./config";
 import ConsumerDatabase, {
   generateSphereParticles,
   updateSphereParticles,
@@ -134,7 +134,7 @@ const AIAudienceEngine = () => {
         console.log("球體動畫完成事件觸發");
         // 當球體動畫完成，直接跳到第一階段
         setStage(1);
-        setProgress(calculateProgressFromStage(2, getAnimationParams().timeline.length - 1));
+        setProgress(calculateProgressFromStage(2, config.timeline.length - 1));
         // 不需要調用 advanceTimeline()，因為我們已經手動設置了階段和進度
       }
     };
@@ -192,7 +192,7 @@ const AIAudienceEngine = () => {
     if (isPaused) return;
 
     // 確保不會超出時間線範圍
-    if (currentTimelineIndex >= getAnimationParams().timeline.length - 1) {
+    if (currentTimelineIndex >= config.timeline.length - 1) {
       return;
     }
 
@@ -200,10 +200,10 @@ const AIAudienceEngine = () => {
     setCurrentTimelineIndex(nextIndex);
 
     // 根據當前階段更新進度條
-    setProgress(calculateProgressFromStage(nextIndex, getAnimationParams().timeline.length - 1));
+    setProgress(calculateProgressFromStage(nextIndex, config.timeline.length - 1));
 
     // 執行相應的動畫階段
-    executeTimelineAction(getAnimationParams().timeline[nextIndex].action);
+    executeTimelineAction(config.timeline[nextIndex].action);
   };
 
   // 執行時間線動作
@@ -219,8 +219,8 @@ const AIAudienceEngine = () => {
         setShowDataFusion(false);
         setShowMatching(false);
         setShowReport(false);
-        setTechLabel(getAnimationParams().techLabels[0]);
-        setStageDescription(getAnimationParams().stageDescriptions[0]);
+        setTechLabel(config.techLabels[0]);
+        setStageDescription(config.stageDescriptions[0]);
         checkAnimationComplete('sphereComplete', false); // 重置動畫完成狀態
         console.log("啟動球體階段，更新後粒子數:", newParticles.length);
         break;
@@ -251,8 +251,8 @@ const AIAudienceEngine = () => {
         setShowDataFusion(false);
         setShowMatching(false);
         setShowReport(false);
-        setTechLabel(getAnimationParams().techLabels[1]);
-        setStageDescription(getAnimationParams().stageDescriptions[1]);
+        setTechLabel(config.techLabels[1]);
+        setStageDescription(config.stageDescriptions[1]);
         setAudienceParticles([]);
         checkAnimationComplete('cubeComplete', false); // 重置立方體動畫完成狀態
         break;
@@ -279,8 +279,8 @@ const AIAudienceEngine = () => {
         setShowDataFusion(true);
         setShowMatching(false);
         setShowReport(false);
-        setTechLabel(getAnimationParams().techLabels[2]);
-        setStageDescription(getAnimationParams().stageDescriptions[2]);
+        setTechLabel(config.techLabels[2]);
+        setStageDescription(config.stageDescriptions[2]);
         checkAnimationComplete('dataFusionComplete', false); // 重置數據融合動畫完成狀態
         break;
       case "showDataMerging":
@@ -304,8 +304,8 @@ const AIAudienceEngine = () => {
         setShowDataFusion(false);
         setShowMatching(true);
         setShowReport(false);
-        setTechLabel(getAnimationParams().techLabels[3]);
-        setStageDescription(getAnimationParams().stageDescriptions[3]);
+        setTechLabel(config.techLabels[3]);
+        setStageDescription(config.stageDescriptions[3]);
         setAudienceParticles((prev) =>
           prev.map((p) => ({
             ...p,
@@ -337,8 +337,8 @@ const AIAudienceEngine = () => {
         setShowDataFusion(false);
         setShowMatching(false);
         setShowReport(true);
-        setTechLabel(getAnimationParams().techLabels[4]);
-        setStageDescription(getAnimationParams().stageDescriptions[4]);
+        setTechLabel(config.techLabels[4]);
+        setStageDescription(config.stageDescriptions[4]);
         checkAnimationComplete('reportComplete', false); // 重置報告動畫完成狀態
         break;
       case "showFullReport":
@@ -355,7 +355,7 @@ const AIAudienceEngine = () => {
   // 初始化時啟動第一個階段
   useEffect(() => {
     if (!isPaused && currentTimelineIndex === 0) {
-      executeTimelineAction(getAnimationParams().timeline[0].action);
+      executeTimelineAction(config.timeline[0].action);
       setCurrentTimelineIndex(0);
     }
   }, [isPaused]);
@@ -374,7 +374,7 @@ const AIAudienceEngine = () => {
       }
       if (showCube && documentParticles.length > 0) {
         setDocumentParticles((prev) =>
-          updateDocumentParticles(prev, currentTimelineIndex / getAnimationParams().timeline.length * 100)
+          updateDocumentParticles(prev, currentTimelineIndex / config.timeline.length * 100)
         );
       }
       if (showDataFusion && clientDataParticles.length > 0) {
@@ -383,9 +383,9 @@ const AIAudienceEngine = () => {
 
       // 確保消費者數據顯示完整
       if (showSphere) {
-        const maxCount = getAnimationParams().audienceData.maxAudienceCount;
+        const maxCount = config.audienceData.maxAudienceCount;
         // 基於動畫進度來設置數據計數
-        const animationProgress = currentTimelineIndex / (getAnimationParams().timeline.length - 1) * 100;
+        const animationProgress = currentTimelineIndex / (config.timeline.length - 1) * 100;
         setDataCount(Math.min(maxCount, Math.floor((animationProgress / 100) * maxCount)));
       }
 
@@ -411,11 +411,11 @@ const AIAudienceEngine = () => {
   const generateColorParticles = () => {
     const particles = [];
     const colors = [
-      getAnimationParams().colors.primary,
-      getAnimationParams().colors.secondary,
-      getAnimationParams().colors.accent,
-      getAnimationParams().colors.blue,
-      getAnimationParams().colors.lightBlue,
+      config.colors.primary,
+      config.colors.secondary,
+      config.colors.accent,
+      config.colors.blue,
+      config.colors.lightBlue,
     ];
     for (let i = 0; i < 30; i++) {
       const size = 2 + Math.random() * 4;
@@ -472,9 +472,9 @@ const AIAudienceEngine = () => {
 
   // 顯示目前執行的階段名稱，將其以更友好的方式展示
   const getCurrentStageAction = () => {
-    if (currentTimelineIndex < getAnimationParams().timeline.length) {
-      const action = getAnimationParams().timeline[currentTimelineIndex].action;
-
+    if (currentTimelineIndex < config.timeline.length) {
+      const action = config.timeline[currentTimelineIndex].action;
+      
       // 將階段名轉換為更友好的中文名稱
       const stageNameMap = {
         "startSphere": "消費者數據收集",
@@ -492,7 +492,7 @@ const AIAudienceEngine = () => {
         "showFullReport": "完整報告",
         "complete": "完成"
       };
-
+      
       return stageNameMap[action] || action;
     }
     return "完成";
@@ -504,9 +504,9 @@ const AIAudienceEngine = () => {
       {generateColorParticles()}
       <div className="flow-lines">
         <svg width="100%" height="100%" viewBox="0 0 500 300" preserveAspectRatio="none">
-          <path d="M0,150 C100,100 200,200 300,100 S400,150 500,120" stroke={getAnimationParams().colors.primary} strokeWidth="1" fill="none" className="wave" />
-          <path d="M0,100 C150,180 250,80 350,150 S450,120 500,150" stroke={getAnimationParams().colors.secondary} strokeWidth="1" fill="none" className="wave" style={{ animationDelay: "0.5s" }} />
-          <path d="M0,200 C100,150 200,220 300,150 S450,180 500,170" stroke={getAnimationParams().colors.blue} strokeWidth="1" fill="none" className="wave" style={{ animationDelay: "1s" }} />
+          <path d="M0,150 C100,100 200,200 300,100 S400,150 500,120" stroke={config.colors.primary} strokeWidth="1" fill="none" className="wave" />
+          <path d="M0,100 C150,180 250,80 350,150 S450,120 500,150" stroke={config.colors.secondary} strokeWidth="1" fill="none" className="wave" style={{ animationDelay: "0.5s" }} />
+          <path d="M0,200 C100,150 200,220 300,150 S450,180 500,170" stroke={config.colors.blue} strokeWidth="1" fill="none" className="wave" style={{ animationDelay: "1s" }} />
         </svg>
       </div>
       <div className="app-layout">
@@ -515,7 +515,7 @@ const AIAudienceEngine = () => {
           <div className="header-container">
             <div className="title-stage-row">
               <MainTitle />
-              <StageIndicator currentStage={getAnimationParams().stages[stage]} />
+              <StageIndicator currentStage={config.stages[stage]} />
               {/* 改進的動畫階段指示器 */}
               <div className="animation-stage-indicator" style={{
                 display: "flex",
@@ -658,7 +658,7 @@ const AIAudienceEngine = () => {
               <button 
                 onClick={() => !isPaused && advanceTimeline()} 
                 className="control-button advance-button"
-                disabled={isPaused || currentTimelineIndex >= getAnimationParams().timeline.length - 1}
+                disabled={isPaused || currentTimelineIndex >= config.timeline.length - 1}
               >
                 推進到下一階段
               </button>
